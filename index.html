@@ -74,12 +74,13 @@ button{font-family:inherit;border:none;background:none;color:inherit;cursor:poin
 .heatbar>div{height:100%;border-radius:6px;transition:width .3s;}
 .powerwidget{position:absolute;z-index:3;right:10px;bottom:8px;padding:4px 8px;border-radius:10px;background:rgba(7,17,31,.74);border:1px solid rgba(251,191,36,.2);color:var(--gold);font-size:9.5px;font-weight:800;backdrop-filter:blur(6px)}
 .rig-status{position:absolute;z-index:3;right:10px;top:42px;padding:3px 8px;border-radius:9px;background:rgba(7,17,31,.68);color:var(--scene-accent);border:1px solid rgba(var(--scene-accent-rgb),.24);font-size:9px;font-weight:800;letter-spacing:.3px}
-.hardware-visuals{position:absolute;inset:0;z-index:2;pointer-events:none}.hardware-node{position:absolute;width:8px;height:18px;border-radius:3px;background:#101e31;border:1px solid var(--scene-accent);box-shadow:0 0 8px var(--scene-accent);opacity:0;transition:opacity .35s}.hardware-node::after{content:'';position:absolute;left:2px;top:3px;width:3px;height:3px;border-radius:50%;background:var(--scene-secondary);box-shadow:0 6px 0 var(--scene-accent)}.hardware-node:nth-child(1){right:13%;bottom:25%}.hardware-node:nth-child(2){right:9%;bottom:25%}.hardware-node:nth-child(3){right:13%;bottom:31%}.hardware-node:nth-child(4){right:9%;bottom:31%}.hardware-node:nth-child(5){left:9%;bottom:25%}.hardware-node:nth-child(6){left:13%;bottom:25%}.hardware-node:nth-child(7){left:9%;bottom:31%}.hardware-node:nth-child(8){left:13%;bottom:31%}#scene-wrap[data-tier="2"] .hardware-node:nth-child(-n+2),#scene-wrap[data-tier="3"] .hardware-node:nth-child(-n+4),#scene-wrap[data-tier="4"] .hardware-node:nth-child(-n+6),#scene-wrap[data-tier="5"] .hardware-node{opacity:.88}
+.hardware-visuals{display:none!important}
 .room-tier-glow{position:absolute;inset:0;z-index:1;pointer-events:none;opacity:var(--tier-glow,.08);background:radial-gradient(circle at 78% 57%,rgba(var(--scene-accent-rgb),.5),transparent 31%);mix-blend-mode:screen;transition:opacity .5s ease}
 #scene-wrap[data-tier="3"]{box-shadow:0 8px 24px rgba(0,0,0,.45),inset 0 0 0 1px rgba(var(--scene-accent-rgb),.25),0 0 20px rgba(var(--scene-accent-rgb),.14)}
 
 /* ---------- AMBIENT ROOM ANIMATION LAYER ---------- */
 .room-animations{position:absolute;inset:0;z-index:2;overflow:hidden;pointer-events:none;}
+.room-animations.no-lamp .lamp-glow,.room-animations.no-fans .pc-fan,.room-animations.no-steam .steam{display:none}
 .lamp-glow{position:absolute;left:var(--lamp-x);top:var(--lamp-y);width:var(--lamp-w);height:var(--lamp-h);transform:translate(-50%,-16%);border-radius:50%;background:radial-gradient(ellipse at 50% 0,rgba(255,216,124,.42),rgba(255,184,77,.13) 45%,transparent 74%);filter:blur(3px);mix-blend-mode:screen;animation:lampBreathe 5.8s ease-in-out infinite, lampFlicker 9.7s linear infinite;}
 @keyframes lampBreathe{0%,100%{opacity:.52;transform:translate(-50%,-16%) scale(.96)}50%{opacity:.78;transform:translate(-50%,-16%) scale(1.04)}}
 @keyframes lampFlicker{0%,70%,73%,100%{filter:blur(3px) brightness(1)}71%{filter:blur(3px) brightness(.88)}72%{filter:blur(3px) brightness(1.08)}}
@@ -97,7 +98,7 @@ button{font-family:inherit;border:none;background:none;color:inherit;cursor:poin
 .monitor-graph{position:absolute;left:5%;right:5%;bottom:10%;height:42%;z-index:2}.monitor-graph polyline{fill:none;stroke:var(--scene-accent);stroke-width:2;stroke-dasharray:140;animation:graphFlow 5.4s linear infinite}
 .data-blocks{position:absolute;right:6%;top:10%;z-index:3;display:grid;grid-template-columns:repeat(2,12px);gap:4px}.data-blocks i{height:5px;border-radius:4px;background:var(--scene-accent);opacity:.25;animation:blockBlink 2.2s ease-in-out infinite}.data-blocks i:nth-child(2){animation-delay:-.5s}.data-blocks i:nth-child(3){animation-delay:-1.1s}.data-blocks i:nth-child(4){animation-delay:-1.6s}
 @keyframes scannerSpin{to{transform:rotate(360deg)}}@keyframes dataScroll{to{background-position:0 72px}}@keyframes graphFlow{to{stroke-dashoffset:-280}}@keyframes blockBlink{50%{opacity:.82;transform:scaleX(1.25)}}@keyframes screenPulse{50%{filter:brightness(1.16);box-shadow:0 0 20px rgba(var(--scene-accent-rgb),.38)}}
-.blue-particle{position:absolute;left:var(--particle-x);top:var(--particle-y);width:3px;height:3px;border-radius:50%;background:var(--scene-accent);box-shadow:0 0 7px var(--scene-accent);opacity:0;animation:particleFloat var(--particle-duration) ease-in-out var(--particle-delay) infinite}
+.blue-particle{display:none}
 @keyframes particleFloat{0%{opacity:0;transform:translateY(5px)}25%{opacity:.45}100%{opacity:0;transform:translate(5px,-25px)}}
 .animations-paused .room-animations *{animation-play-state:paused!important}
 @media (prefers-reduced-motion:reduce){.room-animations *{animation:none!important}.lamp-glow{opacity:.55}.monitor-loop{opacity:.5}}
@@ -106,6 +107,8 @@ button{font-family:inherit;border:none;background:none;color:inherit;cursor:poin
 .floattxt{position:absolute;font-weight:800;pointer-events:none;color:var(--cyan);text-shadow:0 2px 8px rgba(0,0,0,.5);animation:floatup 0.9s ease-out forwards;z-index:50;}
 @keyframes floatup{0%{transform:translateY(0) scale(.8);opacity:0;}15%{opacity:1;transform:translateY(-6px) scale(1.1);}100%{transform:translateY(-60px) scale(1);opacity:0;}}
 .floattxt.crit{color:var(--gold);font-size:22px;}
+#mineFxLayer{position:absolute;inset:0;z-index:4;overflow:hidden;pointer-events:none}
+#mineFxLayer .floattxt{z-index:2}
 .critflash{position:absolute;inset:0;background:radial-gradient(circle,rgba(251,191,36,.35),transparent 65%);opacity:0;pointer-events:none;animation:critflash .4s ease-out;}
 @keyframes critflash{0%{opacity:1;}100%{opacity:0;}}
 
@@ -124,9 +127,12 @@ button{font-family:inherit;border:none;background:none;color:inherit;cursor:poin
 .goalclaim{padding:5px 9px;border-radius:9px;background:linear-gradient(145deg,var(--green),#16a34a);color:#03210d;font-size:9px;font-weight:900;box-shadow:0 3px 0 #0f7a35}.goalclaim:active{transform:translateY(2px);box-shadow:0 1px 0 #0f7a35}.goalclaim:disabled{background:var(--card2);color:var(--sub);box-shadow:none}
 .quicktools{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;padding:0 4px}.quicktool{height:28px;border-radius:9px;background:var(--card);border:1px solid rgba(255,255,255,.06);font-size:9px;font-weight:800;color:var(--sub)}.quicktool b{color:var(--text);font-size:11px;margin-right:3px}.quicktool:active{transform:scale(.96);background:var(--card2)}.marketlive{color:var(--green)!important}.feedline{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;padding:2px 0;border-bottom:1px solid rgba(255,255,255,.04)}
 .turbo-ready #minebtn{animation:turboReady 1s ease-in-out infinite;box-shadow:0 6px 0 #1866c9,0 0 25px rgba(251,191,36,.55)}@keyframes turboReady{50%{filter:brightness(1.16)}}
-.scene-upgrade{position:absolute;z-index:2;pointer-events:none;opacity:0;transition:opacity .45s,filter .45s}.extra-monitor{left:58%;top:49%;width:11%;height:11%;border-radius:4px;background:linear-gradient(160deg,#07111f,rgba(var(--scene-secondary-rgb),.25));border:1px solid rgba(var(--scene-accent-rgb),.72);box-shadow:0 0 12px rgba(var(--scene-accent-rgb),.45)}.extra-monitor::after{content:'';position:absolute;inset:20%;background:linear-gradient(90deg,transparent 0 15%,var(--scene-accent) 16% 22%,transparent 23% 42%,var(--scene-secondary) 43% 52%,transparent 53%);opacity:.7}
+.scene-upgrade{display:none!important}.extra-monitor{left:58%;top:49%;width:11%;height:11%;border-radius:4px;background:linear-gradient(160deg,#07111f,rgba(var(--scene-secondary-rgb),.25));border:1px solid rgba(var(--scene-accent-rgb),.72);box-shadow:0 0 12px rgba(var(--scene-accent-rgb),.45)}.extra-monitor::after{content:'';position:absolute;inset:20%;background:linear-gradient(90deg,transparent 0 15%,var(--scene-accent) 16% 22%,transparent 23% 42%,var(--scene-secondary) 43% 52%,transparent 53%);opacity:.7}
 .desk-led{left:30%;right:18%;bottom:18%;height:2px;border-radius:4px;background:linear-gradient(90deg,var(--scene-accent),var(--scene-secondary),var(--scene-accent));box-shadow:0 0 8px var(--scene-accent)}.server-stack{right:4%;bottom:22%;width:8px;height:42px;border-radius:3px;background:repeating-linear-gradient(180deg,#172940 0 7px,var(--scene-accent) 8px 9px);box-shadow:0 0 10px rgba(var(--scene-accent-rgb),.45)}
 #scene-wrap[data-tier="2"] .extra-monitor,#scene-wrap[data-tier="2"] .desk-led,#scene-wrap[data-tier="3"] .scene-upgrade{opacity:.88}#scene-wrap[data-tier="3"] .scene-upgrade{filter:brightness(1.2)}
+#scene-wrap.upgrade-pulse{animation:sceneUpgradePulse .6s ease-out}@keyframes sceneUpgradePulse{0%{filter:brightness(1)}35%{filter:brightness(1.2);box-shadow:0 0 28px rgba(var(--scene-accent-rgb),.45)}100%{filter:brightness(1)}}
+.guide-action{margin-top:6px;padding:5px 9px;border-radius:8px;background:rgba(var(--scene-accent-rgb),.16);border:1px solid rgba(var(--scene-accent-rgb),.35);color:var(--scene-accent);font-size:9px;font-weight:900}
+.strategy-grid{display:grid;gap:9px}.strategy-card{border:1px solid rgba(255,255,255,.07);border-radius:15px;padding:12px;background:linear-gradient(150deg,var(--card),var(--card2))}.strategy-card.active{border-color:var(--cyan);box-shadow:0 0 18px rgba(34,211,238,.16)}.strategy-head{display:flex;justify-content:space-between;gap:8px;align-items:center}.strategy-bonuses{font-size:11px;color:var(--sub);line-height:1.55;margin:7px 0}.return-contract{display:grid;grid-template-columns:1fr auto;gap:8px;align-items:center}.return-contract .pbar{grid-column:1/-1}
 
 /* ---------- BOTTOM NAV ---------- */
 #nav{display:flex;flex-shrink:0;background:var(--card);border-top:1px solid rgba(255,255,255,.06);padding:6px 4px calc(6px + var(--safe-bottom));}
@@ -354,6 +360,8 @@ button{font-family:inherit;border:none;background:none;color:inherit;cursor:poin
     <div class="controlcenter" id="controlCenter">
       <div class="controltop"><b id="turboLabel">TURBO ŞARJI %0</b><div class="turbotrack"><div id="turboChargeFill"></div></div></div>
       <div class="controlrail">
+        <div class="controlcard compact"><div class="ctitle"><span>🧭 İLK OTURUM</span><span id="sessionStageTime"></span></div><div class="cvalue" id="sessionStageTitle"></div><div class="csub" id="sessionStageCopy"></div><div class="pbar"><div id="sessionStageFill"></div></div></div>
+        <div class="controlcard compact" id="smartGuideCard"><div class="ctitle"><span>🤖 AKILLI REHBER</span><span id="smartGuideTag"></span></div><div class="cvalue" id="smartGuideTitle"></div><div class="csub" id="smartGuideCopy"></div><button class="guide-action" id="smartGuideAction">GÖSTER</button></div>
         <div class="controlcard nextgoal" id="nextGoalPanel"><div class="goalhead"><span id="goalTitle">SONRAKİ HEDEF</span><span class="goalreward" id="goalReward"></span></div><div class="goalcopy" id="goalCopy"></div><div class="pbar"><div id="goalFill" style="width:0%"></div></div><div class="goalfoot"><span id="goalProgress"></span><button class="goalclaim" id="goalClaim" disabled>ÖDÜLÜ AL</button></div></div>
         <div class="controlcard compact"><div class="ctitle"><span>📋 GÜNLÜK GÖREV</span><span id="dailyMiniReward"></span></div><div class="cvalue" id="dailyMiniTitle"></div><div class="csub" id="dailyMiniProgress"></div><div class="pbar"><div id="dailyMiniFill"></div></div></div>
         <div class="controlcard compact"><div class="ctitle"><span>🖥️ SONRAKİ DONANIM</span></div><div class="cvalue" id="nextHardwareName"></div><div class="csub" id="nextHardwareCost"></div><div class="pbar"><div id="nextHardwareFill"></div></div></div>
@@ -389,7 +397,7 @@ button{font-family:inherit;border:none;background:none;color:inherit;cursor:poin
       <div class="screentitle">Görevler</div>
       <div class="screensub" id="dailyResetLabel">Daily reset in 24:00:00</div>
       <div class="subtabs" id="missionTabs">
-        <button class="subtab active" data-tab="daily">Günlük</button><button class="subtab" data-tab="weekly">Haftalık</button><button class="subtab" data-tab="event">Etkinlik</button><button class="subtab" data-tab="season">Sezon</button><button class="subtab" data-tab="story">Hikâye</button><button class="subtab" data-tab="boss">Boss</button><button class="subtab" data-tab="active">Aktif Kazım</button><button class="subtab" data-tab="progress">İlerleme</button><button class="subtab" data-tab="hardware">Donanım</button><button class="subtab" data-tab="staff">Ekip</button><button class="subtab" data-tab="empire">İmparatorluk</button>
+        <button class="subtab active" data-tab="daily">Günlük</button><button class="subtab" data-tab="return">Dönüş</button><button class="subtab" data-tab="weekly">Haftalık</button><button class="subtab" data-tab="event">Etkinlik</button><button class="subtab" data-tab="season">Sezon</button><button class="subtab" data-tab="story">Hikâye</button><button class="subtab" data-tab="boss">Boss</button><button class="subtab" data-tab="active">Aktif Kazım</button><button class="subtab" data-tab="progress">İlerleme</button><button class="subtab" data-tab="hardware">Donanım</button><button class="subtab" data-tab="staff">Ekip</button><button class="subtab" data-tab="empire">İmparatorluk</button>
       </div>
       <div id="missionList"></div>
     </div>
@@ -397,7 +405,7 @@ button{font-family:inherit;border:none;background:none;color:inherit;cursor:poin
     <div class="screen" id="screen-empire">
       <div class="screentitle">İmparatorluk</div>
       <div class="subtabs" id="empireTabs">
-        <button class="subtab active" data-tab="locations">Mekânlar</button><button class="subtab" data-tab="rigbuilder">Rig Kur</button><button class="subtab" data-tab="contracts">Kontrat</button><button class="subtab" data-tab="operations">Operasyon</button><button class="subtab" data-tab="chests">Kasalar</button><button class="subtab" data-tab="cards">Kartlar</button><button class="subtab" data-tab="cosmetics">Kozmetik</button><button class="subtab" data-tab="boosts">Boost</button><button class="subtab" data-tab="research">Araştırma</button><button class="subtab" data-tab="prestige">Prestij</button><button class="subtab" data-tab="achievements">Başarımlar</button><button class="subtab" data-tab="store">Mağaza</button><button class="subtab" data-tab="stats">İstatistik</button><button class="subtab" data-tab="balance">Denge</button>
+        <button class="subtab active" data-tab="locations">Mekânlar</button><button class="subtab" data-tab="strategy">Strateji</button><button class="subtab" data-tab="rigbuilder">Rig Kur</button><button class="subtab" data-tab="contracts">Kontrat</button><button class="subtab" data-tab="operations">Operasyon</button><button class="subtab" data-tab="chests">Kasalar</button><button class="subtab" data-tab="cards">Kartlar</button><button class="subtab" data-tab="cosmetics">Kozmetik</button><button class="subtab" data-tab="boosts">Boost</button><button class="subtab" data-tab="research">Araştırma</button><button class="subtab" data-tab="prestige">Prestij</button><button class="subtab" data-tab="achievements">Başarımlar</button><button class="subtab" data-tab="store">Mağaza</button><button class="subtab" data-tab="stats">İstatistik</button><button class="subtab" data-tab="balance">Denge</button>
       </div>
       <div id="empireContent"></div>
     </div>
@@ -430,6 +438,7 @@ button{font-family:inherit;border:none;background:none;color:inherit;cursor:poin
   <div class="toast" id="toast"></div>
 </div>
 
+<script>window.__bootErrors=[];window.addEventListener('error',function(e){window.__bootErrors.push(String(e.message||e.error||'Başlangıç hatası'));var p=document.querySelector('#loading p');if(p)p.textContent='Başlatma hatası: '+window.__bootErrors.at(-1);});window.addEventListener('unhandledrejection',function(e){window.__bootErrors.push(String(e.reason&&e.reason.message||e.reason||'Modül yüklenemedi'));var p=document.querySelector('#loading p');if(p)p.textContent='Başlatma hatası: '+window.__bootErrors.at(-1);});</script>
 <script type="module">
 import { Capacitor } from '@capacitor/core';
 import { AdMob } from '@capacitor-community/admob';
@@ -446,11 +455,21 @@ const SCENE_ANIMATION_LAYOUT = {
     {offset:'7px',duration:'4.1s',delay:'-2.7s'}
   ],
   monitor:{x:466,y:470,width:485,height:250},
-  particles:[
-    {x:610,y:455,duration:'4.6s',delay:'-.8s'},
-    {x:780,y:545,duration:'5.4s',delay:'-2.4s'},
-    {x:900,y:430,duration:'6.1s',delay:'-4.2s'}
-  ]
+  particles:[]
+};
+const SCENE_ANIMATION_OVERRIDES={
+  bedroom:{lamp:{x:360,y:530,width:320,height:360},fans:[{x:1168,y:596},{x:1168,y:690}],fanSize:94,mug:{x:360,y:765},monitor:{x:466,y:470,width:485,height:250}},
+  garage:{lamp:{x:376,y:508,width:290,height:330},fans:[{x:1125,y:558},{x:1125,y:652}],fanSize:88,mug:{x:420,y:690},monitor:{x:518,y:418,width:430,height:225}},
+  office:{lamp:{x:386,y:500,width:285,height:330},fans:[{x:1118,y:538},{x:1118,y:630}],fanSize:88,mug:{x:424,y:653},monitor:{x:516,y:410,width:420,height:220}},
+  underground:{lamp:{x:404,y:475,width:280,height:320},fans:[{x:1116,y:548},{x:1116,y:640}],fanSize:88,mug:{x:420,y:658},monitor:{x:510,y:404,width:430,height:222}},
+  warehouse:{lamp:{x:420,y:492,width:285,height:330},fans:[{x:1075,y:530},{x:1075,y:620}],fanSize:85,mug:{x:445,y:650},monitor:{x:532,y:410,width:405,height:215}},
+  neondc:{lamp:null,fans:[{x:1122,y:506},{x:1122,y:596}],fanSize:84,mug:{x:418,y:650},monitor:{x:496,y:394,width:480,height:235}},
+  arctic:{lamp:{x:398,y:467,width:280,height:320},fans:[{x:1114,y:536},{x:1114,y:626}],fanSize:86,mug:{x:405,y:665},monitor:{x:510,y:410,width:430,height:220}},
+  desert:{lamp:{x:391,y:455,width:280,height:320},fans:[{x:1121,y:512},{x:1121,y:602}],fanSize:86,mug:{x:402,y:652},monitor:{x:530,y:391,width:420,height:218}},
+  floating:{lamp:{x:394,y:456,width:275,height:315},fans:[{x:1128,y:510},{x:1128,y:601}],fanSize:86,mug:{x:422,y:630},monitor:{x:528,y:390,width:420,height:220}},
+  lunar:{lamp:{x:392,y:452,width:278,height:318},fans:[{x:1115,y:520},{x:1115,y:610}],fanSize:86,mug:{x:405,y:648},monitor:{x:500,y:402,width:438,height:220}},
+  orbitaldc:{lamp:{x:386,y:498,width:290,height:330},fans:[{x:1128,y:575},{x:1128,y:665}],fanSize:86,mug:{x:398,y:735},monitor:{x:495,y:486,width:455,height:225}},
+  quantumdim:{lamp:{x:392,y:520,width:300,height:340},fans:[{x:1122,y:592},{x:1122,y:682}],fanSize:86,mug:{x:405,y:754},monitor:{x:505,y:505,width:445,height:222}}
 };
 const LOCATION_EFFECT_THEMES=[
  {accent:'#22d3ee',rgb:'34,211,238',secondary:'#8b5cf6',secondaryRgb:'139,92,246'},
@@ -466,19 +485,32 @@ const LOCATION_EFFECT_THEMES=[
  {accent:'#60a5fa',rgb:'96,165,250',secondary:'#c084fc',secondaryRgb:'192,132,252'},
  {accent:'#f472b6',rgb:'244,114,182',secondary:'#c084fc',secondaryRgb:'192,132,252'}
 ];
+function currentRoomAnimationLayout(){
+  const id=typeof state!=='undefined'&&state&&LOCATIONS[state.locationIndex]?LOCATIONS[state.locationIndex].id:'bedroom';
+  const o=SCENE_ANIMATION_OVERRIDES[id]||SCENE_ANIMATION_OVERRIDES.bedroom;
+  return {...SCENE_ANIMATION_LAYOUT,...o,source:SCENE_ANIMATION_LAYOUT.source,steam:SCENE_ANIMATION_LAYOUT.steam,particles:[]};
+}
+function roomCoverMetrics(rect,c=currentRoomAnimationLayout()){
+  const scale=Math.max(rect.width/c.source.width,rect.height/c.source.height);
+  return {scale,offsetX:(rect.width-c.source.width*scale)/2,offsetY:(rect.height-c.source.height*scale)/2};
+}
 function applyRoomAnimationLayout(){
   const layer=document.getElementById('roomAnimations');
   if(!layer) return;
-  const c=SCENE_ANIMATION_LAYOUT,rect=layer.getBoundingClientRect();
-  const scale=Math.max(rect.width/c.source.width,rect.height/c.source.height);
-  const offsetX=(rect.width-c.source.width*scale)/2,offsetY=(rect.height-c.source.height*scale)/2;
+  const c=currentRoomAnimationLayout(),rect=layer.getBoundingClientRect(),{scale,offsetX,offsetY}=roomCoverMetrics(rect,c);
   const x=v=>(offsetX+v*scale)+'px',y=v=>(offsetY+v*scale)+'px',size=v=>(v*scale)+'px';
-  layer.style.setProperty('--lamp-x',x(c.lamp.x));layer.style.setProperty('--lamp-y',y(c.lamp.y));layer.style.setProperty('--lamp-w',size(c.lamp.width));layer.style.setProperty('--lamp-h',size(c.lamp.height));
+  layer.classList.toggle('no-lamp',!c.lamp);layer.classList.toggle('no-fans',!c.fans);layer.classList.toggle('no-steam',!c.mug);
+  if(c.lamp){layer.style.setProperty('--lamp-x',x(c.lamp.x));layer.style.setProperty('--lamp-y',y(c.lamp.y));layer.style.setProperty('--lamp-w',size(c.lamp.width));layer.style.setProperty('--lamp-h',size(c.lamp.height));}
   layer.style.setProperty('--fan1-x',x(c.fans[0].x));layer.style.setProperty('--fan1-y',y(c.fans[0].y));layer.style.setProperty('--fan2-x',x(c.fans[1].x));layer.style.setProperty('--fan2-y',y(c.fans[1].y));layer.style.setProperty('--fan-size',size(c.fanSize));
   layer.style.setProperty('--mug-x',x(c.mug.x));layer.style.setProperty('--mug-y',y(c.mug.y));
   layer.style.setProperty('--monitor-x',x(c.monitor.x));layer.style.setProperty('--monitor-y',y(c.monitor.y));layer.style.setProperty('--monitor-w',size(c.monitor.width));layer.style.setProperty('--monitor-h',size(c.monitor.height));
   layer.querySelectorAll('.steam').forEach((el,i)=>{const v=c.steam[i];el.style.setProperty('--steam-offset',v.offset);el.style.setProperty('--steam-duration',v.duration);el.style.setProperty('--steam-delay',v.delay);});
-  layer.querySelectorAll('.blue-particle').forEach((el,i)=>{const v=c.particles[i];el.style.setProperty('--particle-x',x(v.x));el.style.setProperty('--particle-y',y(v.y));el.style.setProperty('--particle-duration',v.duration);el.style.setProperty('--particle-delay',v.delay);});
+}
+function sceneEffectHotspot(){
+  const wrap=document.getElementById('scene-wrap'),c=currentRoomAnimationLayout();
+  if(!wrap)return{x:195,y:150};
+  const rect=wrap.getBoundingClientRect(),{scale,offsetX,offsetY}=roomCoverMetrics(rect,c),m=c.monitor;
+  return{x:offsetX+(m.x+m.width*.56)*scale,y:offsetY+(m.y+m.height*.54)*scale};
 }
 let roomAnimationResizeObserver;
 function watchRoomAnimationLayout(){
@@ -966,6 +998,33 @@ const EARLY_GOALS = [
  {id:'garage',title:'Garaja Taşın',desc:'Garaj Madencilik Laboratuvarını aç',stat:'loc_garage_unlocked',target:1,reward:{coins:5000,chest:'rare'}},
  {id:'power25',title:'Gerçek Bir Rig',desc:'Toplam 25 donanım seviyesine ulaş',stat:'totalHardwareLevels',target:25,reward:{coins:12000,qc:1}},
 ];
+const FIRST_SESSION_STAGES=[
+ {id:'spark',minute:1,title:'İlk Kıvılcım',copy:'20 hızlı kazım yap',value:()=>state.stats.totalTaps,target:20,reward:{coins:250}},
+ {id:'rig',minute:5,title:'Rig Temeli',copy:'Toplam 8 donanım seviyesine ulaş',value:()=>totalHardwareLevels(),target:8,reward:{coins:600}},
+ {id:'crew',minute:10,title:'Ekip Kur',copy:'İlk uzmanını işe al',value:()=>state.stats.staffHired,target:1,reward:{keys:2}},
+ {id:'room',minute:20,title:'Alanı Büyüt',copy:'Garage Mining Lab mekânını aç',value:()=>state.unlockedLocations.length,target:2,reward:{coins:1800}},
+ {id:'cards',minute:30,title:'Şifreli Veri',copy:'3 kasa aç',value:()=>state.stats.chestsOpened,target:3,reward:{keys:4}},
+ {id:'reboot',minute:40,title:'Kuantum Eşiği',copy:'İlk ağ yeniden başlatmasına hazırlan',value:()=>Math.min(state.stats.lifetimeCoins,2000000000),target:2000000000,reward:{qc:1}}
+];
+const BUILD_PATHS={
+ active:{id:'active',icon:'⚡',name:'Aktif Operatör',tag:'20 dokunuş/sn',desc:'Ritim, combo ve kritik odaklı.',tap:1.25,passive:.90,heat:1.08,crit:.02,offline:1,electricity:1},
+ idle:{id:'idle',icon:'🌙',name:'Otonom Ağ',tag:'Idle',desc:'Pasif ve offline üretim odaklı.',tap:.90,passive:1.25,heat:.94,crit:0,offline:1.12,electricity:.95},
+ risk:{id:'risk',icon:'🔥',name:'Kırmızı Hat',tag:'Risk',desc:'Isı 35 üzerindeyken yüksek gelir, daha hızlı yıpranma.',tap:1.08,passive:1.08,heat:1.25,crit:.01,offline:.95,electricity:1.08}
+};
+const PRESTIGE_STARTS={
+ capital:{icon:'💰',name:'Tohum Sermaye',desc:'Yeni ağ 8K coin ile başlar.'},
+ laptop:{icon:'💻',name:'Hazır Rig',desc:'Eski Laptop CPU Lv.4 ile başlar.'},
+ scout:{icon:'🧑‍💻',name:'Öncü Ekip',desc:'Alex Lv.1 doğrudan ekibe katılır.'},
+ cipher:{icon:'🔑',name:'Şifre Paketi',desc:'+8 Şifre Anahtarı ile başlar.'}
+};
+const RETURN_CONTRACTS=[
+ {id:'tap',title:'Hash Vardiyası',stat:'sessionTaps',target:300,reward:{keys:2}},
+ {id:'upgrade',title:'Bakım Penceresi',stat:'sessionUpgrades',target:6,reward:{coins:1200}},
+ {id:'perfect',title:'Ritim Protokolü',stat:'sessionPerfectTaps',target:35,reward:{keys:2}},
+ {id:'cool',title:'Termal Disiplin',stat:'sessionCooling',target:2,reward:{coins:900}},
+ {id:'skills',title:'Operasyon Masası',stat:'sessionSkills',target:3,reward:{keys:2}},
+ {id:'contract',title:'Ağ Teslimatı',stat:'sessionContracts',target:1,reward:{coins:1600}}
+];
 
 /* =========================================================
    STATE
@@ -996,8 +1055,9 @@ function defaultState(){
     prestigeRoute:'active',routeSelectionPrestige:-1,routeUpgrades:{},routeCoreUnlocked:false,
     liveEventClaims:[],featureTipsSeen:[],cosmeticsOwned:['default'],equippedCosmetic:'default',
     entitlements:{noAds:false,starter:false,founder:false,seasonPass:false}, purchases:[],
-    prestigeMode:'balanced', prestigeSpecialization:'none',
-    goalsClaimed:[],
+    prestigeMode:'balanced', prestigeSpecialization:'none',buildPath:'active',buildPathChangedAt:0,
+    pendingPrestigeStart:false,lastPrestigeStart:null,prestigeStartsUsed:{},
+    goalsClaimed:[],firstSessionClaims:[],
     heat:0,
     combo:0, comboMax:0, lastTapTime:0,
     overdriveEndsAt:0, overdriveCooldownUntil:0,
@@ -1006,7 +1066,7 @@ function defaultState(){
     marketEventEndsAt:0, nextMarketEventAt:Date.now()+90000, marketScenario:null,
     riskOverclock:false, rigCondition:100, rigFault:null, nextFaultCheckAt:Date.now()+60000,
     seasonXP:0, seasonClaims:{free:[],premium:[]},
-    telemetry:{sessionStartedAt:Date.now(),lastUpgradeAt:Date.now(),samples:[],prestigeTimes:[],screenVisits:{mine:1},errors:[]},
+    telemetry:{sessionStartedAt:Date.now(),lastUpgradeAt:Date.now(),samples:[],prestigeTimes:[],screenVisits:{mine:1},errors:[],events:[],funnels:{}},
     quickCoolAt:0,
     operationSkillCooldowns:{},activeOperationSkills:[],tapRhythmAt:0,tapRhythmStreak:0,
     activeBoosts:[], // {id, endsAt}
@@ -1015,10 +1075,12 @@ function defaultState(){
     missions:{ dailyDate:null, daily:{}, weeklyDate:null, weekly:{}, event:{}, progress:{} }, // progress[id]={done:false, claimed:false}
     achievements:{}, // id -> {unlocked, claimed}
     dailyReward:{ streak:0, lastClaim:null, claimedDay:0 },
+    returnLoop:{date:'',contractIds:[],claimed:[],freeKeyClaimed:false,streakShields:1,weeklyBossId:null},
+    smartGuide:{enabled:true,lastTipId:null,shown:{}},
     tutorialDone:false, tutorialStep:0,onboardingCelebrations:[],
-    settings:{ music:true, sfx:true, vibration:true, notifications:true, graphics:'high', lang:'tr' },
+    settings:{ music:true, sfx:true, vibration:true, notifications:true, smartGuide:true, graphics:'high', lang:'tr' },
     localeMigratedV11:true,
-    appVersion:20,
+    appVersion:21,
     stats:{
       totalTaps:0, sessionTaps:0, totalCrits:0, sessionCrits:0,
       lifetimeCoins:0, sessionCoinsEarned:0,
@@ -1054,7 +1116,7 @@ function migrate(s){
   if(!s.missions.weekly)s.missions.weekly={};
   if(!s.missions.event)s.missions.event={};
   s.equippedCards=(s.equippedCards||[]).filter(id=>s.cardCollection[id]).slice(0,3);
-  s.appVersion=20;
+  s.appVersion=21;
   return s;
 }
 
@@ -1166,7 +1228,7 @@ function claimCrewQuest(id){const q=CREW_QUESTS.find(x=>x.id===id);if(!q||state.
 function bossProgress(){const b=state.bossContract;if(!b)return 0;const cfg=BOSS_CONTRACTS.find(x=>x.id===b.id);let value=0;if(cfg.kind==='taps')value=state.stats.totalTaps-b.startTaps;if(cfg.kind==='coins')value=state.stats.lifetimeCoins-b.startCoins;if(cfg.kind==='cool'||cfg.kind==='stable')value=Math.max(0,(Date.now()-b.startedAt)/1000);return value*(1+routeEffect('boss'));}
 function startBoss(id){const b=BOSS_CONTRACTS.find(x=>x.id===id),now=Date.now();if(!b||state.bossContract||!b.unlock()||now<(state.bossCooldowns[id]||0))return false;const target=b.kind==='coins'?Math.max(50000,totalPassiveIncome()*120):b.target;state.bossContract={id,startedAt:now,endsAt:now+b.duration*1000,target,startTaps:state.stats.totalTaps,startCoins:state.stats.lifetimeCoins,startFaults:state.stats.faultsTriggered,failed:false};state.stats.bossesStarted++;toast(b.icon+' Boss kontratı başladı');saveGame();return true;}
 function bossPhase(){const b=state.bossContract;if(!b)return 0;const pct=bossProgress()/Math.max(1,b.target);return pct>=.7?3:pct>=.35?2:1;}
-function finishBoss(){const active=state.bossContract;if(!active)return false;const cfg=BOSS_CONTRACTS.find(x=>x.id===active.id),success=!active.failed&&bossProgress()>=active.target;if(!success&&Date.now()<active.endsAt)return false;state.bossCooldowns[cfg.id]=Date.now()+600000;state.bossContract=null;if(success){state.stats.bossesCompleted++;state.stats.weekBosses++;grantReward(cfg.reward);state.seasonXP+=35;toast('🏆 Boss kontratı tamamlandı');playSfx('achievement');}else toast('Boss kontratı başarısız oldu');saveGame();return success;}
+function finishBoss(){const active=state.bossContract;if(!active)return false;const cfg=BOSS_CONTRACTS.find(x=>x.id===active.id),success=!active.failed&&bossProgress()>=active.target;if(!success&&Date.now()<active.endsAt)return false;state.bossCooldowns[cfg.id]=Date.now()+600000;state.bossContract=null;if(success){state.stats.bossesCompleted++;state.stats.weekBosses++;grantReward(cfg.reward);ensureReturnLoop();if(state.returnLoop.weeklyBossId===cfg.id){state.vaultKeys+=2;state.stats.keysEarned+=2;}state.seasonXP+=35;toast('🏆 Boss kontratı tamamlandı');playSfx('achievement');}else toast('Boss kontratı başarısız oldu');saveGame();return success;}
 function claimLiveEventStage(id){const s=LIVE_EVENT_STAGES.find(x=>x.id===id);if(!s||state.liveEventClaims.includes(id)||statValue(s.stat)<s.target)return false;state.liveEventClaims.push(id);grantReward(s.reward);state.seasonXP+=15;toast('⚡ Ağ katkısı ödülü alındı');saveGame();return true;}
 function cosmetic(id){return COSMETICS.find(c=>c.id===id);}
 function buyOrEquipCosmetic(id){const c=cosmetic(id);if(!c)return false;if(!state.cosmeticsOwned.includes(id)){if(state.cash<c.cost)return false;state.cash-=c.cost;state.cosmeticsOwned.push(id);state.stats.cosmeticsOwned=state.cosmeticsOwned.length;toast('🎨 Kozmetik açıldı: '+c.name);}state.equippedCosmetic=id;applyCosmetic();saveGame();return true;}
@@ -1177,7 +1239,13 @@ function conditionMultiplier(){if(state.rigFault)return .45;return .75+Math.max(
 function seasonRewardText(r){return r.coins?fmt(r.coins)+' coin':r.cash?r.cash+' Kristal':r.qc?r.qc+' Çip':r.keys?r.keys+' Anahtar':r.chest?r.chest+' kasa':r.card?'Özel kart':'Ödül';}
 function grantReward(r){if(r.coins)addCoins(r.coins);if(r.cash)state.cash+=r.cash;if(r.qc)state.quantumChips+=r.qc;if(r.keys){state.vaultKeys+=r.keys;state.stats.keysEarned+=r.keys;}if(r.dust)state.cardDust+=r.dust;if(r.chest)state.chests[r.chest]=(state.chests[r.chest]||0)+1;if(r.card){const rec=cardRecord(r.card);if(rec)rec.copies=(rec.copies||0)+1;else state.cardCollection[r.card]={level:1,copies:0,discoveredAt:Date.now()};}}
 function claimSeasonReward(track,index){const reward=SEASON_REWARDS[index];if(!reward||state.seasonXP<reward.xp)return false;if(track==='premium'&&!state.entitlements.seasonPass){toast('Premium sezon bileti gerekli');return false;}if(state.seasonClaims[track].includes(index))return false;state.seasonClaims[track].push(index);grantReward(reward[track]);state.stats.seasonRewardsClaimed++;toast('🎟️ Sezon ödülü alındı');playSfx('mission');saveGame();return true;}
-function recordTelemetry(reason){const t=state.telemetry;t.samples.push({at:Date.now(),reason,coins:state.coins,cps:totalPassiveIncome(),tap:tapPower(),heat:state.heat,location:state.locationIndex});t.samples=t.samples.slice(-120);}
+const PRODUCTION_SERVICES={analytics:'adapter',crashReporting:'adapter',remoteConfig:'adapter',cloudSave:'adapter',billing:Capacitor.isNativePlatform()?'native':'sandbox'};
+function trackEvent(name,params={}){if(!state?.telemetry)return;const event={name,at:Date.now(),...params};state.telemetry.events=state.telemetry.events||[];state.telemetry.events.push(event);state.telemetry.events=state.telemetry.events.slice(-250);try{window.FirebaseAnalytics?.logEvent?.({name,params});}catch(e){}}
+function captureError(error,context='runtime'){if(!state?.telemetry)return;state.telemetry.errors=state.telemetry.errors||[];state.telemetry.errors.push({at:Date.now(),context,message:String(error?.message||error)});state.telemetry.errors=state.telemetry.errors.slice(-40);try{window.CrashReporter?.recordException?.({message:String(error?.message||error),context});}catch(e){}}
+function recordTelemetry(reason){const t=state.telemetry;t.samples.push({at:Date.now(),reason,coins:state.coins,cps:totalPassiveIncome(),tap:tapPower(),heat:state.heat,location:state.locationIndex,build:state.buildPath});t.samples=t.samples.slice(-120);trackEvent('economy_sample',{reason});}
+function activeBuild(){return BUILD_PATHS[state.buildPath]||BUILD_PATHS.active;}
+function buildFactor(kind){const b=activeBuild();if(state.buildPath==='risk'&&(kind==='tap'||kind==='passive')&&state.heat>=35)return b[kind]*1.22;return b[kind]??1;}
+function selectBuildPath(id){if(!BUILD_PATHS[id]||Date.now()-(state.buildPathChangedAt||0)<600000&&state.buildPathChangedAt){toast('Strateji 10 dakikada bir değiştirilebilir');return false;}state.buildPath=id;state.buildPathChangedAt=Date.now();trackEvent('build_selected',{id});toast(BUILD_PATHS[id].icon+' '+BUILD_PATHS[id].name+' aktif');saveGame();return true;}
 function locationEffect(kind){
   const id=LOCATIONS[state.locationIndex].id,table={
     global:{office:1.05,neondc:1.1,quantumdim:1.25},passive:{warehouse:1.2,orbitaldc:1.15},tap:{garage:1.1,orbitaldc:1.15},
@@ -1242,6 +1310,7 @@ function researchFlat(kind){
 
 function globalMultiplier(){
   let mult = LOCATIONS[state.locationIndex].mult;
+  if(state.buildPath==='risk'&&state.heat>=35)mult*=1.22;
   mult *= prestigeMode().income;
   if(state.entitlements.starter)mult*=1.10;
   mult *= researchMultiplier('globalMult');
@@ -1287,7 +1356,7 @@ function passiveMultiplier(){
   mult*=conditionMultiplier();
   mult*=cardAbilityMultiplier('passive');
   if(state.prestigeSpecialization==='idle')mult*=1+.38*specializationPower();
-  if(state.prestigeSpecialization==='active')mult*=.88;
+  if(state.prestigeSpecialization==='active')mult*=.88;mult*=buildFactor('passive');
   return mult;
 }
 function grossPassiveIncome(){
@@ -1305,7 +1374,7 @@ function electricityRate(){
   rate*=Math.max(.35,1-qLevel('q_energy')*.04);
   rate*=Math.max(.55,1-rigEffects().electricity-storyEffect('electricity')-routeEffect('electricity'));
   rate*=prestigeMode().electricity;
-  rate*=marketFactor('electricity');
+  rate*=marketFactor('electricity');rate*=buildFactor('electricity');
   if(operationSkillActive('electricity'))rate*=OPERATION_SKILLS.find(s=>s.kind==='electricity').mult;
   const heatPenalty=state.heat>=80?.02:(state.heat>=50?.01:0);
   return Math.max(.015,rate+heatPenalty);
@@ -1323,7 +1392,7 @@ function critChance(){
   c += locationEffect('crit');
   c += cardEffect('crit');
   c += storyEffect('crit');
-  c += crewSynergy('crit');
+  c += crewSynergy('crit');c+=buildFactor('crit');
   if(state.prestigeSpecialization==='critical')c+=.08*specializationPower();
   if(cardAbilityActive('crit'))return 1;
   return Math.min(0.5, c);
@@ -1343,7 +1412,7 @@ function tapPower(){
   base *= 1+rigEffects().tap+storyEffect('tap')+routeEffect('tap');
   base *= cardAbilityMultiplier('tap');
   if(state.prestigeSpecialization==='active')base*=1+.45*specializationPower();
-  if(state.prestigeSpecialization==='idle')base*=.9;
+  if(state.prestigeSpecialization==='idle')base*=.9;base*=buildFactor('tap');
   for(const b of state.activeBoosts){ if(b.id==='lucky') base*=10; }
   return base;
 }
@@ -1363,7 +1432,7 @@ function offlineMultiplier(){
   m *= 1+cardEffect('offline');
   m *= 1+storyEffect('offline')+routeEffect('offline');
   if(state.entitlements.founder)m*=1.15;
-  if(state.prestigeSpecialization==='offline')m*=1+.45*specializationPower();
+  if(state.prestigeSpecialization==='offline')m*=1+.45*specializationPower();m*=buildFactor('offline');
   return Math.min(1, m);
 }
 function getHeatLevel(){
@@ -1381,7 +1450,7 @@ function heatGainMult(){
   m *= Math.max(.35,1-cardEffect('heat'));
   m *= Math.max(.55,1-rigEffects().heat-storyEffect('heat')-routeEffect('heat'));
   m *= prestigeMode().heat;
-  m *= marketFactor('heat');
+  m *= marketFactor('heat');m*=buildFactor('heat');
   if(state.riskOverclock)m*=1.45;
   if(operationSkillActive('cool'))m*=OPERATION_SKILLS.find(s=>s.kind==='cool').mult;
   return m;
@@ -1493,8 +1562,10 @@ function buyHardware(hwId, qty){
   state.stats.weekUpgrades += realQty;
   state.seasonXP+=realQty*2;
   state.telemetry.lastUpgradeAt=Date.now();
+  if(!state.telemetry.funnels.firstUpgradeAt){state.telemetry.funnels.firstUpgradeAt=Date.now();trackEvent('first_upgrade',{hwId});}
   addHeat(1.5*realQty);
   toast('⬆️ '+hw.name+' → Lv.'+state.hardware[hwId]);
+  pulseSceneUpgrade();
   addActivity(hw.name+' Lv.'+state.hardware[hwId]);
   playSfx('upgrade');
   vibrate(12);
@@ -1537,6 +1608,7 @@ function unlockLocation(idx){
   state.coins -= cost;
   state.locationIndex = idx;
   if(!state.unlockedLocations.includes(loc.id)) state.unlockedLocations.push(loc.id);
+  if(!state.telemetry.funnels.firstLocationAt){state.telemetry.funnels.firstLocationAt=Date.now();trackEvent('first_location_unlocked',{id:loc.id});}else trackEvent('location_unlocked',{id:loc.id});
   toast('🏙️ '+loc.name+' unlocked!');
   playSfx('unlock');
   vibrate([10,30,10]);
@@ -1602,6 +1674,7 @@ function buyChest(type){
 function productOwned(product){return product.once&&(state.purchases.includes(product.id)||state.entitlements[product.id]);}
 function requestPurchase(id){
   const p=IAP_PRODUCTS.find(x=>x.id===id);if(!p||productOwned(p))return false;
+  trackEvent('purchase_started',{id});
   openModal(`<div class="modaltitle">${p.icon} ${p.name}</div><div class="modalsub">${p.desc}</div><div class="modalrow"><span>Fiyat</span><b>${p.price}</b></div><div class="hwsub" style="text-align:center;margin:10px 0">${IAP_CONFIG.production?'Google Play güvenli ödeme':'GELİŞTİRİCİ TEST MODU · Gerçek ücret alınmaz'}</div><button class="modalbtn primary" data-confirm-iap="${p.id}">${IAP_CONFIG.production?'SATIN AL':'TEST SATIN AL'}</button><button class="modalbtn secondary" data-close>VAZGEÇ</button>`);return true;
 }
 function completePurchase(id){
@@ -1609,12 +1682,14 @@ function completePurchase(id){
   const g=p.grant;if(g.cash)state.cash+=g.cash;if(g.rare)state.chests.rare+=g.rare;if(g.epic)state.chests.epic+=g.epic;
   if(g.noAds)state.entitlements.noAds=true;if(g.starter)state.entitlements.starter=true;if(g.founder)state.entitlements.founder=true;if(g.seasonPass)state.entitlements.seasonPass=true;
   if(p.once&&!state.purchases.includes(p.id))state.purchases.push(p.id);
+  trackEvent('purchase_completed',{id,mode:IAP_CONFIG.production?'production':'test'});
   closeModal();toast('✅ '+p.name+' hesabına eklendi');playSfx('achievement');refreshHUD();saveGame();renderEmpire();return true;
 }
 function restorePurchases(){toast(IAP_CONFIG.production?'Satın alımlar geri yükleniyor':'Test satın alımları bu cihazdaki kayıtta aktif');}
 let rewardedAdTimer=null,pendingRewardedAd=null;
 async function initializeAds(){if(!Capacitor.isNativePlatform())return;try{await AdMob.initialize({initializeForTesting:ADMOB_CONFIG.testing});}catch(e){console.warn('AdMob init failed',e);}}
 async function startRewardedAd(kind,id){
+  trackEvent('rewarded_ad_started',{kind,id});
   ensureRewardedAdDay();
   if(rewardedAdRemaining(kind)<=0){toast('Bugünkü reklam hakkın doldu');return;}
   const remain=adCooldownRemaining(kind,id);
@@ -1640,6 +1715,7 @@ function claimRewardedAd(){
   completeRewardedAd(ad);
 }
 function completeRewardedAd(ad){
+  trackEvent('rewarded_ad_completed',{kind:ad.kind,id:ad.id});
   state.rewardedAdCooldowns[adCooldownKey(ad.kind,ad.id)]=Date.now()+(AD_COOLDOWNS[ad.kind]||0);
   ensureRewardedAdDay();state.rewardedAdUsage[ad.kind]=(state.rewardedAdUsage[ad.kind]||0)+1;
   pendingRewardedAd=null;clearInterval(rewardedAdTimer);closeModal();
@@ -1683,6 +1759,7 @@ function doPrestige(){
   const keepTutorial = state.tutorialDone;
   const keepAch = state.achievements;
   const keepDaily = state.dailyReward;
+  const keepReturn=state.returnLoop,keepBuild=state.buildPath,keepBuildChanged=state.buildPathChangedAt,keepPrestigeStarts=state.prestigeStartsUsed,keepSessionClaims=state.firstSessionClaims;
   state = defaultState();
   state.coins=100+prestigeStartCoins;
   state.quantumChips = keepQC;
@@ -1709,13 +1786,18 @@ function doPrestige(){
   state.tutorialDone = keepTutorial;
   state.achievements = keepAch;
   state.dailyReward = keepDaily;
+  state.returnLoop=keepReturn;state.buildPath=keepBuild;state.buildPathChangedAt=keepBuildChanged;state.prestigeStartsUsed=keepPrestigeStarts;state.firstSessionClaims=keepSessionClaims;state.pendingPrestigeStart=true;
+  trackEvent('prestige_completed',{gained,minutes:runMinutes});state.telemetry.funnels.firstPrestigeAt=state.telemetry.funnels.firstPrestigeAt||Date.now();
   toast('🔄 Network Rebooted! +'+gained+' Quantum Chips');
   playSfx('prestige');
   vibrate([20,40,20,40]);
   saveGame();
   buildScene();
   renderAll();
+  setTimeout(()=>openModal(prestigeStartModal()),250);
 }
+function prestigeStartModal(){return `<div class="modaltitle">🚀 Yeni Ağ Protokolü</div><div class="modalsub">Bu prestij koşusu için tek bir başlangıç avantajı seç. Seçim geri alınamaz.</div><div class="strategy-grid">${Object.entries(PRESTIGE_STARTS).map(([id,p])=>`<button class="strategy-card" data-prestige-start="${id}"><div class="strategy-head"><b>${p.icon} ${p.name}</b><span class="lvltag">TEK SEÇİM</span></div><div class="strategy-bonuses">${p.desc}</div></button>`).join('')}</div>`;}
+function choosePrestigeStart(id){if(!state.pendingPrestigeStart||!PRESTIGE_STARTS[id])return false;if(id==='capital')state.coins+=8000;if(id==='laptop')state.hardware.laptop=Math.max(4,hwLevel('laptop'));if(id==='scout'){state.staff.alex=Math.max(1,staffLevel('alex'));state.stats.staffHired=Math.max(1,state.stats.staffHired);}if(id==='cipher'){state.vaultKeys+=8;state.stats.keysEarned+=8;}state.pendingPrestigeStart=false;state.lastPrestigeStart=id;state.prestigeStartsUsed[id]=(state.prestigeStartsUsed[id]||0)+1;trackEvent('prestige_start_selected',{id});closeModal();toast(PRESTIGE_STARTS[id].icon+' '+PRESTIGE_STARTS[id].name+' hazır');saveGame();renderAll();return true;}
 
 /* =========================================================
    MISSIONS / ACHIEVEMENTS ENGINE
@@ -1742,6 +1824,10 @@ function ensureDailyMissions(){
   }
   for(const m of DAILY_MISSION_TEMPLATES){if(!state.missions.daily[m.id]) state.missions.daily[m.id]={done:false,claimed:false};}
 }
+function ensureReturnLoop(){const day=todayStr();if(state.returnLoop.date!==day){const seed=new Date().getDate()+new Date().getMonth()*31;state.returnLoop.date=day;state.returnLoop.contractIds=[0,1,2].map(i=>RETURN_CONTRACTS[(seed+i*2)%RETURN_CONTRACTS.length].id);state.returnLoop.claimed=[];state.returnLoop.freeKeyClaimed=false;}const week=weekStr(),boss=BOSS_CONTRACTS[Math.abs(week.split('').reduce((a,c)=>a+c.charCodeAt(0),0))%BOSS_CONTRACTS.length];state.returnLoop.weeklyBossId=boss.id;}
+function claimReturnContract(id){ensureReturnLoop();if(state.returnLoop.claimed.includes(id)||!state.returnLoop.contractIds.includes(id))return false;const c=RETURN_CONTRACTS.find(x=>x.id===id);if(statValue(c.stat)<c.target)return false;state.returnLoop.claimed.push(id);grantReward(c.reward);trackEvent('return_contract_claimed',{id});toast('📅 '+c.title+' tamamlandı');saveGame();return true;}
+function claimDailyKey(){ensureReturnLoop();if(state.returnLoop.freeKeyClaimed)return false;state.returnLoop.freeKeyClaimed=true;state.vaultKeys+=1;state.stats.keysEarned+=1;trackEvent('daily_key_claimed');toast('🔑 Günlük anahtar alındı');saveGame();return true;}
+function renderReturnLoop(el){ensureReturnLoop();const boss=BOSS_CONTRACTS.find(b=>b.id===state.returnLoop.weeklyBossId);el.innerHTML=`<div class="researchsummary"><div class="summaryrow"><span>GÜNLÜK DÖNÜŞ AĞI</span><span>${state.dailyReward.streak} GÜN</span></div><div class="screensub" style="margin-top:7px">Her gün üç kısa kontrat, bir ücretsiz anahtar ve haftalık hedef yenilenir. Streak kalkanı: ${state.returnLoop.streakShields}</div><button class="buybtn ${state.returnLoop.freeKeyClaimed?'cant':'can'}" data-daily-key ${state.returnLoop.freeKeyClaimed?'disabled':''}>${state.returnLoop.freeKeyClaimed?'✓ ANAHTAR ALINDI':'GÜNLÜK 1 🔑 AL'}</button></div>${state.returnLoop.contractIds.map(id=>{const c=RETURN_CONTRACTS.find(x=>x.id===id),v=Math.min(statValue(c.stat),c.target),done=v>=c.target,claimed=state.returnLoop.claimed.includes(id);return `<div class="card return-contract"><div><div class="hwname">${c.title}</div><div class="hwsub">${v} / ${c.target}</div></div><button class="claimbtn ${claimed?'done':done?'ready':'wait'}" data-return-claim="${id}" ${!done||claimed?'disabled':''}>${claimed?'ALINDI':done?'AL':'DEVAM'}</button><div class="pbar"><div style="width:${v/c.target*100}%"></div></div></div>`}).join('')}<div class="card"><div class="hwname">👑 Haftanın Boss'u: ${boss.name}</div><div class="hwsub">Bu hafta ${boss.name} zaferinde +2 Şifre Anahtarı ek ödül.</div></div>`;}
 function statValue(key){
   if(key.startsWith('hw_') && key.endsWith('_unlocked')){
     const id = key.slice(3,-9);
@@ -1981,7 +2067,8 @@ function refreshHUD(){
   document.getElementById('heatIcon').textContent = level==='Critical' ? '🔥' : (level==='Hot'?'🌡️':(level==='Warm'?'♨️':'🌡️'));
   document.getElementById('powerCost').textContent = '⚡ -'+fmt(electricityCostPerSec())+'/s';
   const tier=Math.min(5,1+Math.floor(totalHardwareLevels()/18));
-  document.getElementById('rigStatus').textContent='RIG TIER '+tier;
+  document.getElementById('rigStatus').textContent='RIG TIER '+tier+' · '+activeBuild().icon;
+  requestAnimationFrame(applyRoomAnimationLayout);
   document.getElementById('scene-wrap').dataset.tier=String(tier);
   document.getElementById('roomAnimations').style.setProperty('--tier-glow',String(.05+tier*.06));
 
@@ -1997,8 +2084,22 @@ function refreshHUD(){
   updateNavBadges();
 }
 
+function currentFirstSessionStage(){return FIRST_SESSION_STAGES.find(s=>!state.firstSessionClaims.includes(s.id))||FIRST_SESSION_STAGES.at(-1);}
+function updateFirstSessionStages(){for(const s of FIRST_SESSION_STAGES){if(state.firstSessionClaims.includes(s.id))continue;if(s.value()>=s.target){state.firstSessionClaims.push(s.id);grantReward(s.reward);trackEvent('first_session_stage',{id:s.id,minutes:(Date.now()-state.createdAt)/60000});toast('🧭 '+s.title+' tamamlandı');saveGame();}else break;}}
+function contextualGuide(){
+  if(state.rigFault)return{id:'fault',tag:'ACİL',title:'Rig arızasını gider',copy:'Üretim düşüyor. Operasyon ekranında onarım yap.',screen:'empire',tab:'operations'};
+  if(state.heat>65)return{id:'heat',tag:'ISI',title:'Hızlı soğutmayı kullan',copy:'Yüksek ısı elektrik giderini ve arıza riskini artırıyor.',control:'cool'};
+  if(prestigeReady())return{id:'prestige',tag:'HAZIR',title:'Kuantum sıçraması hazır',copy:'Prestij ekranında yeni ağı ve başlangıç protokolünü seç.',screen:'empire',tab:'prestige'};
+  const affordable=HARDWARE.find(h=>state.coins>=hwNextCost(h,hwLevel(h.id)));if(affordable)return{id:'upgrade',tag:'GÜÇ',title:affordable.name+' yükselt',copy:'Şu anda alabileceğin en net üretim artışı.',screen:'upgrades'};
+  if(state.chests.common+state.chests.rare+state.chests.epic>0)return{id:'chest',tag:'KASA',title:'Şifreli kasanı aç',copy:'Kart kopyaları build gücünü kalıcı artırır.',screen:'empire',tab:'chests'};
+  if(state.stats.staffHired===0&&state.coins>=1500)return{id:'crew',tag:'EKİP',title:'İlk uzmanı işe al',copy:'Ekip pasif bonus ve reklamla aktif yetenek sağlar.',screen:'staff'};
+  return{id:'rhythm',tag:activeBuild().tag,title:'Combo ritmini koru',copy:'20 dokunuş/sn dengesi ile turbo şarjını doldur.',screen:'mine'};
+}
+function executeGuide(g=contextualGuide()){if(g.control==='cool'){document.querySelector('[data-control="cool"]')?.click();return;}if(g.screen)switchScreen(g.screen);if(g.tab){empireTab=g.tab;document.querySelectorAll('#empireTabs .subtab').forEach(t=>t.classList.toggle('active',t.dataset.tab===g.tab));renderEmpire();}trackEvent('guide_action',{id:g.id});}
 function renderControlCenter(){
   const now=Date.now(),charge=turboMiningActive()?100:(state.turboCharge||0);
+  updateFirstSessionStages();const stage=currentFirstSessionStage(),stageValue=Math.min(stage.value(),stage.target),elapsed=(now-state.createdAt)/60000;document.getElementById('sessionStageTime').textContent=Math.floor(elapsed)+'dk';document.getElementById('sessionStageTitle').textContent=stage.title;document.getElementById('sessionStageCopy').textContent=stage.copy+' · '+fmt(stageValue)+' / '+fmt(stage.target);document.getElementById('sessionStageFill').style.width=Math.min(100,stageValue/stage.target*100)+'%';
+  const guide=contextualGuide();document.getElementById('smartGuideCard').style.display=state.settings.smartGuide===false?'none':'block';document.getElementById('smartGuideTag').textContent=guide.tag;document.getElementById('smartGuideTitle').textContent=guide.title;document.getElementById('smartGuideCopy').textContent=guide.copy;document.getElementById('smartGuideAction').dataset.guideId=guide.id;
   let roadmap=document.querySelector('.onboarding-roadmap');if(!roadmap){roadmap=document.createElement('div');roadmap.className='onboarding-roadmap';document.getElementById('nextGoalPanel').before(roadmap);}roadmap.innerHTML=EARLY_GOALS.map(g=>`<i class="onboarding-dot ${state.goalsClaimed.includes(g.id)?'done':''}" title="${g.title}"></i>`).join('');roadmap.style.display=currentEarlyGoal()?'flex':'none';
   document.getElementById('turboChargeFill').style.width=charge+'%';
   document.getElementById('turboLabel').textContent=turboMiningActive()?'TURBO AKTİF '+Math.ceil((state.turboEndsAt-now)/1000)+'sn':'TURBO ŞARJI %'+Math.floor(charge);
@@ -2077,7 +2178,7 @@ function setBadge(id, n){
    FLOATING TEXT / FX
 ========================================================= */
 function spawnFloatText(x,y,amount,isCrit){
-  const wrap = document.getElementById('scene-wrap');
+  const wrap = document.getElementById('mineFxLayer');
   const el = document.createElement('div');
   el.className = 'floattxt'+(isCrit?' crit':'');
   el.style.left = x+'px'; el.style.top = y+'px'; el.style.fontSize = isCrit?'':'15px';
@@ -2087,7 +2188,7 @@ function spawnFloatText(x,y,amount,isCrit){
 }
 function spawnMineImpact(x,y,isCrit){
   if(state.settings.graphics==='low')return;
-  const wrap=document.getElementById('scene-wrap'),impact=document.createElement('i');impact.className='mine-impact'+(isCrit?' crit':'');impact.style.left=(x-6)+'px';impact.style.top=(y-6)+'px';wrap.appendChild(impact);setTimeout(()=>impact.remove(),650);
+  const wrap=document.getElementById('mineFxLayer'),impact=document.createElement('i');impact.className='mine-impact'+(isCrit?' crit':'');impact.style.left=(x-6)+'px';impact.style.top=(y-6)+'px';wrap.appendChild(impact);setTimeout(()=>impact.remove(),650);
   const count=isCrit?8:4;for(let i=0;i<count;i++){const spark=document.createElement('i'),angle=Math.PI*2*i/count+(Math.random()-.5)*.35,dist=24+Math.random()*34;spark.className='hash-spark';spark.style.left=x+'px';spark.style.top=y+'px';spark.style.setProperty('--dx',Math.cos(angle)*dist+'px');spark.style.setProperty('--dy',Math.sin(angle)*dist+'px');spark.style.color=isCrit?'var(--gold)':'var(--cyan)';wrap.appendChild(spark);setTimeout(()=>spark.remove(),720);}
 }
 function flashCrit(){
@@ -2107,6 +2208,7 @@ function bumpMineBtn(){
   btn.style.transform = 'scale(0.94)';
   setTimeout(()=>{ btn.style.transform=''; }, 90);
 }
+function pulseSceneUpgrade(){const scene=document.getElementById('scene-wrap');scene.classList.remove('upgrade-pulse');void scene.offsetWidth;scene.classList.add('upgrade-pulse');setTimeout(()=>scene.classList.remove('upgrade-pulse'),650);}
 function vibrate(pattern){
   if(state && state.settings && !state.settings.vibration) return;
   if(navigator.vibrate) try{navigator.vibrate(pattern);}catch(e){}
@@ -2337,6 +2439,8 @@ function renderMissions(){
     items = DAILY_MISSION_TEMPLATES.map(m=>({m, rec:state.missions.daily[m.id], group:'daily'}));
   } else if(missionTab==='weekly'){
     items = WEEKLY_MISSIONS.map(m=>({m,rec:state.missions.weekly[m.id],group:'weekly'}));
+  } else if(missionTab==='return'){
+    renderReturnLoop(list);return;
   } else if(missionTab==='event'){
     const left=Math.max(0,new Date(SEASON_EVENT.endsAt)-Date.now());
     list.innerHTML=`<div class="eventbanner"><b>⚡ ${SEASON_EVENT.name}</b><small>${Math.ceil(left/86400000)} gün kaldı · Sınırlı etkinlik kontratlarını tamamla.</small></div><div class="hwsub" style="margin:8px 0 3px">Kişisel Ağ Katkısı</div><div class="event-chain">${LIVE_EVENT_STAGES.map(s=>{const done=statValue(s.stat)>=s.target,claimed=state.liveEventClaims.includes(s.id);return `<div class="event-stage ${done?'done':''}"><b>${claimed?'✓':'⚡'} ${s.title}</b><small>${fmt(Math.min(statValue(s.stat),s.target))} / ${fmt(s.target)}</small><button class="claimbtn ${claimed?'done':done?'ready':'wait'}" ${done&&!claimed?`data-live-stage="${s.id}"`:''}>${claimed?'ALINDI':done?'AL':'DEVAM'}</button></div>`}).join('')}</div>`;
@@ -2391,6 +2495,7 @@ function renderEmpire(){
   const el = document.getElementById('empireContent');
   el.innerHTML='';
   if(empireTab==='locations') return renderLocations(el);
+  if(empireTab==='strategy') return renderBuildStrategy(el);
   if(empireTab==='rigbuilder') return renderRigBuilder(el);
   if(empireTab==='contracts') return renderCoinContracts(el);
   if(empireTab==='operations') return renderOperations(el);
@@ -2405,6 +2510,7 @@ function renderEmpire(){
   if(empireTab==='stats') return renderStats(el);
   if(empireTab==='balance') return renderBalanceLab(el);
 }
+function renderBuildStrategy(el){const active=activeBuild(),cool=Math.max(0,600000-(Date.now()-(state.buildPathChangedAt||0)));el.innerHTML=`<div class="researchsummary"><div class="summaryrow"><span>MADENCİLİK STRATEJİSİ</span><span>${active.icon} ${active.name}</span></div><div class="screensub" style="margin-top:7px">Oynayış biçimini seç. Değişiklikler gelir, ısı ve offline verimini doğrudan etkiler.${cool?' Yeni seçim: '+shortTime(cool):''}</div></div><div class="strategy-grid">${Object.values(BUILD_PATHS).map(b=>`<div class="strategy-card ${state.buildPath===b.id?'active':''}"><div class="strategy-head"><div class="hwname">${b.icon} ${b.name}</div><span class="lvltag">${b.tag}</span></div><div class="strategy-bonuses">${b.desc}<br>Aktif x${b.tap} · Pasif x${b.passive} · Isı x${b.heat} · Offline x${b.offline}${b.id==='risk'?'<br><b style="color:var(--gold)">Isı 35+ iken tüm üretim ayrıca x1.22</b>':''}</div><button class="buybtn ${state.buildPath===b.id?'cant':'can'}" data-build-path="${b.id}" ${state.buildPath===b.id||cool?'disabled':''}>${state.buildPath===b.id?'AKTİF':'STRATEJİYİ SEÇ'}</button></div>`).join('')}</div>`;}
 function renderRigBuilder(el){
   if(state.stats.totalTaps<20){el.innerHTML='<div class="emptyhint">🔒 Rig Builder, İlk Hash Serisi tamamlandıktan sonra açılır.<br><b>'+state.stats.totalTaps+' / 20 kazım</b></div>';return;}
   const fx=rigEffects(),filled=RIG_SLOTS.filter(s=>state.rigLoadout[s.id]).length;
@@ -2428,10 +2534,10 @@ function renderBalanceLab(el){
   const t=state.telemetry,elapsed=(Date.now()-t.sessionStartedAt)/60000,samples=t.samples||[],avgCps=samples.length?samples.reduce((a,b)=>a+b.cps,0)/samples.length:totalPassiveIncome(),sinceUpgrade=(Date.now()-t.lastUpgradeAt)/60000,prestiges=t.prestigeTimes||[],avgPrestige=prestiges.length?prestiges.reduce((a,b)=>a+b,0)/prestiges.length:0,projected=state.stats.lifetimeCoins>0?elapsed*PRESTIGE_TARGET/state.stats.lifetimeCoins:0;
   const notes=[];if(projected>45)notes.push('İlk prestij tahmini uzun; erken donanım maliyetleri kontrol edilmeli.');if(projected&&projected<28)notes.push('Prestij hedefi fazla hızlı; gelir çarpanları incelenmeli.');if(sinceUpgrade>8)notes.push('Oyuncu uzun süredir yükseltme alamıyor: olası ilerleme duvarı.');if(state.heat>70)notes.push('Isı cezası aktif ilerlemeyi belirgin biçimde yavaşlatıyor.');if(!notes.length)notes.push('Ekonomi hedef aralıkta görünüyor; daha fazla oturum örneği topla.');
   const remaining=Math.max(0,PRESTIGE_TARGET-state.stats.lifetimeCoins),scenarios=[2,5,10,20].map(tps=>({tps,min:remaining/Math.max(1,totalPassiveIncome()+tapPower()*tps*.72)/60}));
-  el.innerHTML=`<div class="researchsummary"><div class="summaryrow"><span>GELİŞTİRİCİ DENGE LABORATUVARI</span><span>v2.0</span></div><div class="screensub">Tüm veriler yalnızca bu cihazda tutulur; kişisel veri veya finansal bilgi gönderilmez.</div></div><div class="telemetry-grid"><div class="telemetry-box"><strong>${elapsed.toFixed(1)} dk</strong><small>Mevcut koşu</small></div><div class="telemetry-box"><strong>${projected?projected.toFixed(1):'—'} dk</strong><small>Tahmini prestij</small></div><div class="telemetry-box"><strong>${fmt(avgCps)}</strong><small>Ortalama coin/sn</small></div><div class="telemetry-box"><strong>${sinceUpgrade.toFixed(1)} dk</strong><small>Son yükseltmeden beri</small></div><div class="telemetry-box"><strong>${avgPrestige?avgPrestige.toFixed(1):'—'} dk</strong><small>Gerçek prestij ort.</small></div><div class="telemetry-box"><strong>${samples.length}</strong><small>Telemetri örneği</small></div></div><div class="card"><div class="hwname">AKTİF OYUNCU SENARYOLARI</div><div class="screensub">Mevcut güç korunursa kalan hedef için tahmini süre. %72 sürdürülebilir dokunuş verimi kullanılır.</div><div class="telemetry-grid" style="margin-top:8px">${scenarios.map(s=>`<div class="telemetry-box"><strong>${s.min>999?'999+':s.min.toFixed(1)} dk</strong><small>${s.tps} dokunuş/sn</small></div>`).join('')}</div></div>${notes.map(n=>`<div class="balance-note">${n}</div>`).join('')}<button class="buybtn can" style="width:100%;margin-top:10px" data-export-balance>DENGE RAPORUNU DIŞA AKTAR</button>`;
+  const f=t.funnels||{},since=at=>at?((at-state.createdAt)/60000).toFixed(1)+' dk':'—';el.innerHTML=`<div class="researchsummary"><div class="summaryrow"><span>GELİŞTİRİCİ DENGE LABORATUVARI</span><span>v2.1</span></div><div class="screensub">Telemetri önce cihazda tutulur; yayın adaptörleri kimlik verildiğinde devreye girer.</div></div><div class="telemetry-grid"><div class="telemetry-box"><strong>${elapsed.toFixed(1)} dk</strong><small>Mevcut koşu</small></div><div class="telemetry-box"><strong>${projected?projected.toFixed(1):'—'} dk</strong><small>Tahmini prestij</small></div><div class="telemetry-box"><strong>${fmt(avgCps)}</strong><small>Ortalama coin/sn</small></div><div class="telemetry-box"><strong>${sinceUpgrade.toFixed(1)} dk</strong><small>Son yükseltmeden beri</small></div><div class="telemetry-box"><strong>${avgPrestige?avgPrestige.toFixed(1):'—'} dk</strong><small>Gerçek prestij ort.</small></div><div class="telemetry-box"><strong>${samples.length}</strong><small>Telemetri örneği</small></div></div><div class="card"><div class="hwname">İLK OTURUM HUNİSİ</div><div class="telemetry-grid" style="margin-top:8px"><div class="telemetry-box"><strong>${since(f.firstUpgradeAt)}</strong><small>İlk yükseltme</small></div><div class="telemetry-box"><strong>${since(f.firstLocationAt)}</strong><small>İlk mekân</small></div><div class="telemetry-box"><strong>${since(f.firstPrestigeAt)}</strong><small>İlk prestij</small></div></div></div><div class="card"><div class="hwname">AKTİF OYUNCU SENARYOLARI</div><div class="screensub">Mevcut güç korunursa kalan hedef için tahmini süre. %72 sürdürülebilir dokunuş verimi kullanılır.</div><div class="telemetry-grid" style="margin-top:8px">${scenarios.map(s=>`<div class="telemetry-box"><strong>${s.min>999?'999+':s.min.toFixed(1)} dk</strong><small>${s.tps} dokunuş/sn</small></div>`).join('')}</div></div>${notes.map(n=>`<div class="balance-note">${n}</div>`).join('')}<button class="buybtn can" style="width:100%;margin-top:10px" data-export-balance>DENGE RAPORUNU DIŞA AKTAR</button>`;
 }
 function exportBalanceReport(){
-  const report={exportedAt:new Date().toISOString(),version:'2.0.0',economy:{coins:state.coins,lifetimeCoins:state.stats.lifetimeCoins,cps:totalPassiveIncome(),tapPower:tapPower(),heat:state.heat,rigCondition:state.rigCondition,prestigeCount:state.stats.prestigeCount,vaultKeys:state.vaultKeys},hardware:state.hardware,location:LOCATIONS[state.locationIndex].id,contracts:{prices:state.coinPrices,history:state.contractHistory},telemetry:state.telemetry};
+  const report={exportedAt:new Date().toISOString(),version:'2.1.0',services:PRODUCTION_SERVICES,economy:{coins:state.coins,lifetimeCoins:state.stats.lifetimeCoins,cps:totalPassiveIncome(),tapPower:tapPower(),heat:state.heat,rigCondition:state.rigCondition,prestigeCount:state.stats.prestigeCount,vaultKeys:state.vaultKeys,build:state.buildPath},hardware:state.hardware,location:LOCATIONS[state.locationIndex].id,contracts:{prices:state.coinPrices,history:state.contractHistory},telemetry:state.telemetry};
   const blob=new Blob([JSON.stringify(report,null,2)],{type:'application/json'}),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download='idle-crypto-balance-'+Date.now()+'.json';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);toast('📊 Denge raporu hazırlandı');
 }
 function renderCards(el){
@@ -2681,10 +2787,10 @@ function settingsModal(){
   return `
     <button class="modalclose" data-close>✕</button>
     <div class="modaltitle">⚙️ Ayarlar</div>
-    ${toggle('music','Müzik')}${toggle('sfx','Ses Efektleri')}${toggle('vibration','Titreşim')}${toggle('notifications','Bildirimler')}
+    ${toggle('music','Müzik')}${toggle('sfx','Ses Efektleri')}${toggle('vibration','Titreşim')}${toggle('notifications','Bildirimler')}${toggle('smartGuide','Akıllı Rehber')}
     <div class="settingrow"><span>Grafik Kalitesi</span><b id="gfxVal" style="text-transform:capitalize">${s.graphics}</b></div>
     <div class="settingrow"><span>Dil</span><button class="buybtn can" data-lang-toggle>${s.lang==='tr'?'Türkçe':'English'}</button></div>
-    <div class="settingrow"><span>Sürüm</span><b>2.0.0</b></div>
+    <div class="settingrow"><span>Sürüm</span><b>2.1.0</b></div>
     <button class="modalbtn secondary" data-privacy>GİZLİLİK VE VERİ GÜVENLİĞİ</button>
     <button class="modalbtn secondary" data-production>YAYIN ENTEGRASYON DURUMU</button>
     <button class="modalbtn secondary" id="exportSave">KAYIT YEDEĞİNİ İNDİR</button>
@@ -2694,8 +2800,8 @@ function settingsModal(){
   `;
 }
 function privacyModal(){return `<button class="modalclose" data-close>✕</button><div class="modaltitle">🛡️ Gizlilik ve Veri Güvenliği</div><div class="modalsub">Oyun ilerlemesi ve denge telemetrisi cihazında tutulur. Oyun gerçek kripto üretmez ve finansal veri istemez.</div><div class="modalrow"><span>Yerel kayıt</span><b>AKTİF</b></div><div class="modalrow"><span>Kişisel veri toplama</span><b>YOK</b></div><div class="modalrow"><span>Ödüllü reklam</span><b>İSTEĞE BAĞLI</b></div><div class="modalrow"><span>Bulut kayıt</span><b>YAYIN KİMLİĞİ GEREKLİ</b></div><button class="modalbtn primary" data-close>ANLADIM</button>`;}
-function productionModal(){const native=Capacitor.isNativePlatform();return `<button class="modalclose" data-close>✕</button><div class="modaltitle">🚀 Yayın Hazırlığı</div><div class="modalsub">Kod tarafındaki köprüler hazırdır. Gerçek mağaza işlemleri için Play Console ürün ve imzalama kimlikleri gereklidir.</div><div class="modalrow"><span>Android çalışma ortamı</span><b>${native?'HAZIR':'WEB ÖN İZLEME'}</b></div><div class="modalrow"><span>Ödüllü reklam köprüsü</span><b>HAZIR</b></div><div class="modalrow"><span>Satın alma arayüzü</span><b>TEST MODU</b></div><div class="modalrow"><span>Kayıt yedeği</span><b>HAZIR</b></div><button class="modalbtn primary" data-close>KAPAT</button>`;}
-function exportSaveBackup(){saveGame();const payload={game:'Idle Crypto Miner',version:19,exportedAt:new Date().toISOString(),state},blob=new Blob([JSON.stringify(payload)],{type:'application/json'}),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download='idle-crypto-miner-save.json';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);toast('💾 Kayıt yedeği indirildi');}
+function productionModal(){const native=Capacitor.isNativePlatform();return `<button class="modalclose" data-close>✕</button><div class="modaltitle">🚀 Yayın Hazırlığı</div><div class="modalsub">Kod tarafındaki adaptörler hazırdır. Gerçek servisler için Play Console, Firebase ve imzalama kimlikleri gereklidir.</div><div class="modalrow"><span>Android çalışma ortamı</span><b>${native?'HAZIR':'WEB ÖN İZLEME'}</b></div><div class="modalrow"><span>Ödüllü reklam köprüsü</span><b>HAZIR</b></div><div class="modalrow"><span>Analytics / Crash</span><b>ADAPTÖR HAZIR</b></div><div class="modalrow"><span>Remote Config / Cloud Save</span><b>ADAPTÖR HAZIR</b></div><div class="modalrow"><span>Satın alma arayüzü</span><b>${PRODUCTION_SERVICES.billing==='native'?'NATIVE KÖPRÜ':'TEST MODU'}</b></div><button class="modalbtn primary" data-close>KAPAT</button>`;}
+function exportSaveBackup(){saveGame();const payload={game:'Idle Crypto Miner',version:21,exportedAt:new Date().toISOString(),state},blob=new Blob([JSON.stringify(payload)],{type:'application/json'}),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download='idle-crypto-miner-save.json';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);toast('💾 Kayıt yedeği indirildi');}
 function importSaveModal(){return `<button class="modalclose" data-close>✕</button><div class="modaltitle">💾 Kayıttan Geri Yükle</div><div class="modalsub">Yedek dosyasındaki JSON metnini aşağıya yapıştır.</div><textarea id="saveImportText" style="width:100%;height:130px;border-radius:12px;background:var(--bg);color:var(--text);border:1px solid rgba(255,255,255,.1);padding:10px;font-size:10px"></textarea><button class="modalbtn primary" id="importSave">YEDEĞİ DOĞRULA VE YÜKLE</button>`;}
 function importSaveBackup(){try{const raw=document.getElementById('saveImportText').value,parsed=JSON.parse(raw),incoming=parsed.state||parsed;if(!incoming||typeof incoming!=='object'||!('coins' in incoming))throw new Error('invalid');const paid={...state.entitlements,...incoming.entitlements},purchases=[...new Set([...(state.purchases||[]),...(incoming.purchases||[])])];state=migrate(incoming);state.entitlements=paid;state.purchases=purchases;saveGame();closeModal();buildScene();renderAll();toast('✅ Kayıt başarıyla geri yüklendi');}catch(e){toast('Geçersiz veya bozuk yedek');}}
 function applyLanguage(){
@@ -2785,7 +2891,7 @@ function checkDailyReward(){
   if(last){
     const lastDate = new Date(last);
     const diffDays = Math.round((now - lastDate)/86400000);
-    if(diffDays > 1){ state.dailyReward.streak = 0; state.dailyReward.claimedDay = 0; }
+    if(diffDays > 1){if(state.returnLoop?.streakShields>0){state.returnLoop.streakShields--;toast('🛡️ Streak kalkanı serini korudu');}else{state.dailyReward.streak = 0; state.dailyReward.claimedDay = 0;}}
   }
   openModal(dailyRewardModal());
 }
@@ -2803,6 +2909,7 @@ function switchScreen(name){
   }
   document.querySelectorAll('.navbtn').forEach(b=>b.classList.toggle('active', b.dataset.screen===name));
   state.telemetry.screenVisits[name]=(state.telemetry.screenVisits[name]||0)+1;
+  trackEvent('screen_view',{name});
   if(name==='upgrades') renderUpgrades();
   if(name==='staff') renderStaff();
   if(name==='missions') renderMissions();
@@ -2812,15 +2919,16 @@ function switchScreen(name){
 function wireEvents(){
   document.addEventListener('pointerdown',ensureAudio,{once:true,passive:true});
   document.getElementById('minebtn').addEventListener('pointerdown', (e)=>{
-    const rect = document.getElementById('scene-wrap').getBoundingClientRect();
-    const x = rect.width/2 + (Math.random()*60-30);
-    const y = rect.height*0.5 + (Math.random()*30-15);
+    const hot=sceneEffectHotspot();
+    const x = hot.x + (Math.random()*34-17);
+    const y = hot.y + (Math.random()*20-10);
     doTap(x,y);
   });
 
   document.getElementById('eventbtn').addEventListener('click', collectEvent);
   document.getElementById('goalClaim').addEventListener('click',claimEarlyGoal);
   document.getElementById('controlCenter').addEventListener('click',(e)=>{
+    if(e.target.closest('#smartGuideAction')){executeGuide();return;}
     const tool=e.target.closest('[data-control]');if(!tool)return;
     if(tool.dataset.control==='cool'){
       const now=Date.now();if(now<state.quickCoolAt){toast('❄️ Soğutma '+Math.ceil((state.quickCoolAt-now)/1000)+'sn sonra hazır');return;}
@@ -2868,6 +2976,8 @@ function wireEvents(){
     renderMissions();
   });
   document.getElementById('missionList').addEventListener('click', (e)=>{
+    const returnBtn=e.target.closest('[data-return-claim]');if(returnBtn){if(claimReturnContract(returnBtn.dataset.returnClaim)){renderMissions();refreshHUD();}return;}
+    if(e.target.closest('[data-daily-key]')){if(claimDailyKey()){renderMissions();refreshHUD();}return;}
     const storyBtn=e.target.closest('[data-story-choice]');if(storyBtn){const [id,index]=storyBtn.dataset.storyChoice.split(':');if(chooseStory(id,Number(index))){renderMissions();refreshHUD();}return;}
     const crewBtn=e.target.closest('[data-crew-quest]');if(crewBtn){if(claimCrewQuest(crewBtn.dataset.crewQuest)){renderMissions();refreshHUD();}return;}
     const bossBtn=e.target.closest('[data-boss]');if(bossBtn){if(startBoss(bossBtn.dataset.boss)){renderMissions();refreshHUD();}return;}
@@ -2891,6 +3001,7 @@ function wireEvents(){
   });
 
   document.getElementById('empireContent').addEventListener('click', (e)=>{
+    let strategy=e.target.closest('[data-build-path]');if(strategy){if(selectBuildPath(strategy.dataset.buildPath)){renderEmpire();refreshHUD();}return;}
     let action=e.target.closest('[data-rig-buy]');if(action){if(buyRigPart(action.dataset.rigBuy)){renderEmpire();refreshHUD();}return;}
     action=e.target.closest('[data-rig-equip]');if(action){if(equipRigPart(action.dataset.rigEquip)){renderEmpire();refreshHUD();}return;}
     action=e.target.closest('[data-contract-start]');if(action){if(startCoinContract(action.dataset.contractStart)){renderEmpire();refreshHUD();}return;}
@@ -2952,6 +3063,7 @@ function wireEvents(){
   });
 
   document.getElementById('modalRoot').addEventListener('click', (e)=>{
+    const prestigeStart=e.target.closest('[data-prestige-start]');if(prestigeStart){choosePrestigeStart(prestigeStart.dataset.prestigeStart);return;}
     if(e.target.id==='modalRoot'){if(pendingRewardedAd)cancelRewardedAd();else closeModal();}
     if(e.target.closest('[data-close]')){if(pendingRewardedAd)cancelRewardedAd();else closeModal();}
     if(e.target.closest('[data-cancel-ad]')){cancelRewardedAd();return;}
@@ -3041,10 +3153,11 @@ function autosaveLoop(){
 ========================================================= */
 function boot(){
   loadGame();
-  window.addEventListener('error',e=>{if(!state?.telemetry)return;state.telemetry.errors.push({at:Date.now(),message:String(e.message||'Bilinmeyen hata'),source:String(e.filename||'')});state.telemetry.errors=state.telemetry.errors.slice(-20);saveGame();});
+  window.addEventListener('error',e=>{captureError(e.error||e.message,'window');saveGame();});window.addEventListener('unhandledrejection',e=>{captureError(e.reason,'promise');saveGame();});
   initializeAds();
   applyLanguage();
   ensureDailyMissions();
+  ensureReturnLoop();
   checkMissionsAndAch();
   buildScene();
   watchRoomAnimationLayout();
@@ -3053,11 +3166,12 @@ function boot(){
   scheduleNextEvent();
   handleOfflineEarnings();
   if(!window._pendingOffline && state.tutorialDone) checkDailyReward();
+  if(state.pendingPrestigeStart)setTimeout(()=>openModal(prestigeStartModal()),500);
   if(!state.tutorialDone){ setTimeout(startTutorial, 400); }
   lastTickTime = Date.now();
   requestAnimationFrame(mainLoop);
   autosaveLoop();
-  window.addEventListener('visibilitychange', ()=>{ if(document.hidden) saveGame(); else { lastTickTime=Date.now(); } });
+  window.addEventListener('visibilitychange', ()=>{if(document.hidden){trackEvent('session_paused');saveGame();}else{trackEvent('session_resumed');lastTickTime=Date.now();}});
   window.addEventListener('beforeunload', saveGame);
 }
 

@@ -88,6 +88,15 @@ v1.9 ile kontrat erken çıkışı cezalıdır, kozmetikler hiçbir ekonomik bon
 
 v2.0 ile dört cooldown'lı operasyon becerisi, Perfect Tap ritmi, 21 yükseltme, 30 araştırma, genişletilmiş görev/başarım zincirleri, sekiz boss, yedi rig yuvası ve Şifre Anahtarı ekonomisi eklendi. Kasa fiyatları `8/24/60` anahtar olarak ayarlandı; her 500 kazım doğrudan kasa yerine 4 anahtar verir.
 
+## v2.1 oynanış katmanı
+
+- Tüm 12 oda için ayrı lamba, monitör, fan ve kahve buharı koordinatları kullanılır; kazım efektleri monitöre kilitlenir.
+- İlk 30-40 dakikayı yöneten altı aşamalı ilk oturum yolu ve bağlamsal Akıllı Rehber eklendi.
+- Aktif Operatör, Otonom Ağ ve Kırmızı Hat olmak üzere üç değiştirilebilir build stratejisi eklendi.
+- Her prestij sonrasında dört başlangıç protokolünden biri seçilir.
+- Günlük üç dönüş kontratı, ücretsiz anahtar, streak kalkanı ve haftanın boss hedefi eklendi.
+- Yerel olay telemetrisi, ilk oturum hunisi ve Analytics/Crash/Remote Config/Cloud Save adaptörleri yayın entegrasyonuna hazırlandı.
+
 Ekonomi katsayıları: donanım `x4.2`, çalışan `x2`, mekân `x1.8`, araştırma `x2.2`, boost maliyeti `x1.6`. Kuantum yetenek maliyetleri seviye başına `1.85` üslü eğriyle büyür ve prestij çipi kazancı azaltılmış `0.36` kuvvet eğrisini kullanır.
 
 ## Telefona Yükleme
