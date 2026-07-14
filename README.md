@@ -1,5 +1,15 @@
 # Idle Crypto Miner
 
+## v2.2 gameplay systems
+
+- Moving Perfect Hash timing zone, streaks, and Mega Hash
+- Hash routing between coins, cipher keys, and prestige energy
+- Permanent build mastery and prestige mutation badges
+- Location mastery goals and three-phase location bosses
+- Three-person crew shifts with roles, fatigue, and crew XP
+- Rig power, cooling, manufacturer, and CPU/GPU compatibility
+- Mid-contract delivery decisions and offline expedition plans
+
 Mobil portrait görünüm için hazırlanmış tek dosyalık idle/clicker oyun MVP'si. Oyuncu küçük bir neon odada mining yapan karakterle başlar, rigleri geliştirir, kurgusal `NeonCoin` kazanır ve yeni ekipmanlar açar.
 
 Bu oyun gerçek kripto yatırım simülasyonu değildir; tamamen arcade/idle oyun mantığıyla kurgulanmıştır.
