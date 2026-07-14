@@ -1,5 +1,18 @@
 # Idle Crypto Miner
 
+## v2.4 oynanış sistemleri
+
+- Hash Zinciri, başarılı zamanlamaları 50 adıma kadar biriktirir ve kısa süreli aktif güç bonusu açar.
+- Güç profilleri elektrik, ısı ve üretim arasında Eko, Dengeli ve Performans tercihleri sunar.
+- Ağ yoğunluğu düzenli olarak değişir; aktif ve pasif kazımın değerini farklılaştırır.
+- Süreli Operatör Emirleri kısa oturum hedefleri ve ölçülü ödüller verir.
+- Rig Kalibrasyonu koşu içinde tamamlanan görevlerle en fazla yüzde 6 verim sağlar.
+- Veri Önbelleği dolduğunda oyuncu gelir, anahtar veya prestij enerjisi arasında seçim yapar.
+- Risk Protokolü güvenli, standart ve yüksek riskli ekonomi stilleri sunar.
+- Acil Soğutucu optimum sıcaklıkta şarj olur ve kritik ısıda otomatik çalışır.
+- Günlük Mekân Hotspot'u her gün bir açık mekâna gelir bonusu verir.
+- Nadir Blok Avı belirli kazım aralıklarında süreli aktif hedef ve Şifre Anahtarı ödülü oluşturur.
+
 ## v2.3 gameplay systems
 
 - Unified every premium purchase under Data Kristali (`🔷`)
