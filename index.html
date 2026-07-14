@@ -824,12 +824,12 @@ const SEASON_REWARDS=[
 ];
 const IAP_CONFIG={production:false};
 const IAP_PRODUCTS=[
- {id:'starter',name:'Başlangıç Paketi',icon:'🚀',price:'₺39,99',once:true,desc:'120 Kristal · 1 Nadir Kasa · kalıcı +%10 gelir',grant:{cash:120,rare:1,starter:true}},
+ {id:'starter',name:'Başlangıç Paketi',icon:'🚀',price:'₺39,99',once:true,desc:'120 Data Kristali · 1 Nadir Kasa · kalıcı +%10 gelir',grant:{cash:120,rare:1,starter:true}},
  {id:'no_ads',name:'Reklam Kaldır',icon:'🚫',price:'₺79,99',once:true,desc:'Zorunlu reklamları kalıcı kaldırır. Ödüllü reklamlar isteğe bağlı kalır.',grant:{noAds:true}},
- {id:'crystal_80',name:'Kristal Kesesi',icon:'🔷',price:'₺24,99',desc:'80 Data Kristali',grant:{cash:80}},
- {id:'crystal_450',name:'Kristal Kasası',icon:'💎',price:'₺89,99',badge:'EN POPÜLER',desc:'450 Data Kristali · +%12 bonus',grant:{cash:450}},
- {id:'crystal_1000',name:'Kristal Hazinesi',icon:'🌌',price:'₺169,99',badge:'EN İYİ DEĞER',desc:'1.000 Data Kristali · +%25 bonus',grant:{cash:1000}},
- {id:'founder',name:'Kurucu Paketi',icon:'👑',price:'₺149,99',once:true,desc:'500 Kristal · 2 Epik Kasa · özel rozet · kalıcı +%15 offline',grant:{cash:500,epic:2,founder:true}},
+ {id:'crystal_80',name:'Data Kristali Kesesi',icon:'🔷',price:'₺24,99',desc:'80 Data Kristali',grant:{cash:80}},
+ {id:'crystal_450',name:'Data Kristali Kasası',icon:'🔷',price:'₺89,99',badge:'EN POPÜLER',desc:'450 Data Kristali · +%12 bonus',grant:{cash:450}},
+ {id:'crystal_1000',name:'Data Kristali Hazinesi',icon:'🔷',price:'₺169,99',badge:'EN İYİ DEĞER',desc:'1.000 Data Kristali · +%25 bonus',grant:{cash:1000}},
+ {id:'founder',name:'Kurucu Paketi',icon:'👑',price:'₺149,99',once:true,desc:'500 Data Kristali · 2 Epik Kasa · özel rozet · kalıcı +%15 offline',grant:{cash:500,epic:2,founder:true}},
  {id:'season_pass',name:'Hash Festivali Bileti',icon:'🎟️',price:'₺59,99',once:true,desc:'Sezonun premium ödül yolunu açar',grant:{seasonPass:true}}
 ];
 const QUANTUM_SKILLS = [
@@ -1046,6 +1046,23 @@ const BUILD_MASTERY_THRESHOLDS=[0,500,2200,7500,22000,60000];
 const LOCATION_MASTERY_THRESHOLDS=[0,600,2600,9500,30000];
 const LOCATION_BOSS_NAMES=['Termal Spike','Kablo Hayaleti','Ofis Botneti','Yeraltı Karartısı','Forklift Hydra','Neon Hacker','Kriyo Muhafız','Solar Fırtına','Bulut Korsanı','Ay Çekirdeği','Orbital Kilit','Kuantum Tekilliği'];
 const LOCATION_BOSS_ACTIONS=[['tap','cool','skill'],['tap','upgrade','cool'],['skill','tap','upgrade']];
+const PREMIUM_CURRENCY={name:'Data Kristali',icon:'🔷'};
+const PERFECT_HASH_MILESTONES=[
+ {id:'perfect_25',target:25,title:'Ritim Çırağı',reward:{keys:2}},
+ {id:'perfect_150',target:150,title:'Nonce Ustası',reward:{keys:5,dust:5}},
+ {id:'perfect_500',target:500,title:'Perfect Hash Efsanesi',reward:{cash:4,qc:1}}
+];
+const BOSS_PROTOCOLS={
+ balanced:{id:'balanced',icon:'⚖️',name:'Dengeli',desc:'Tüm fazlarda standart güç.',tap:1,cool:1,skill:1,upgrade:1,reward:1},
+ assault:{id:'assault',icon:'⚔️',name:'Saldırı',desc:'Kazım fazı +%45; ödül -%5.',tap:1.45,cool:.9,skill:.95,upgrade:1,reward:.95},
+ thermal:{id:'thermal',icon:'❄️',name:'Termal',desc:'Soğutma fazı +%55; süre baskısı azalır.',tap:.95,cool:1.55,skill:1,upgrade:1,reward:1},
+ secure:{id:'secure',icon:'🛡️',name:'Güvenlik',desc:'Beceri fazı +%40; ödül +%10.',tap:.95,cool:1,skill:1.4,upgrade:1,reward:1.1}
+};
+const OPERATION_INCIDENTS=[
+ {id:'grid_spike',icon:'⚡',title:'Şebeke Sıçraması',desc:'Ani voltaj artışı rigleri zorluyor.',choices:[['isolate','Hattı İzole Et','Kondisyon +12, coin maliyeti'],['push','Yükü Koru','35sn gelir x1.35, +18 ısı']]},
+ {id:'packet_storm',icon:'📡',title:'Paket Fırtınası',desc:'Ağ düğümleri sahte trafikle doldu.',choices:[['filter','Filtreyi Güçlendir','Coin harca, +2 ağ itibarı'],['trace','Kaynağı İzle','%65 ihtimalle +3 anahtar']]},
+ {id:'spare_parts',icon:'🧰',title:'Yedek Parça Teklifi',desc:'Bir tedarikçi sınırlı stok teklif ediyor.',choices:[['crystal','2 Data Kristali','Koruyucu bakım kalkanı'],['salvage','Hurdayı Ayır','+7 Veri Tozu, kondisyon -8']]}
+];
 const PRESTIGE_STARTS={
  capital:{icon:'💰',name:'Tohum Sermaye',desc:'Yeni ağ 8K coin ile başlar.'},
  laptop:{icon:'💻',name:'Hazır Rig',desc:'Eski Laptop CPU Lv.4 ile başlar.'},
@@ -1094,8 +1111,11 @@ function defaultState(){
     buildMastery:{active:{xp:0},idle:{xp:0},risk:{xp:0}},
     hashRoutingPreset:'balanced',hashRouting:{coins:60,keys:20,prestige:20},keyResearch:0,prestigeEnergy:0,
     hashTimingStartedAt:Date.now(),hashPerfectStreak:0,megaHashEndsAt:0,mistimedTaps:0,
-    locationMastery:{},locationStats:{},locationBossWins:{},
-    crewAssignments:{},crewFatigue:{},crewXP:{},crewShiftStartedAt:0,
+    locationMastery:{},locationStats:{},locationBossWins:{},locationLinks:[],
+    crewAssignments:{},crewFatigue:{},crewXP:{},crewMorale:{},crewShiftStartedAt:0,nextCrewShiftRewardAt:Date.now()+600000,
+    networkReputation:{neon:0,ethera:0,quantix:0},limitOrders:{},
+    perfectMilestoneClaims:[],maintenanceShield:false,bossProtocol:'balanced',
+    operationIncident:null,nextOperationIncidentAt:Date.now()+240000,
     offlineExpedition:'safe',offlineExpeditionStartedAt:Date.now(),
     prestigeMutation:'none',mutationMastery:{},mutationBadges:[],
     pendingPrestigeStart:false,lastPrestigeStart:null,prestigeStartsUsed:{},
@@ -1122,7 +1142,7 @@ function defaultState(){
     tutorialDone:false, tutorialStep:0,onboardingCelebrations:[],
     settings:{ music:true, sfx:true, vibration:true, notifications:true, smartGuide:true, graphics:'high', lang:'tr' },
     localeMigratedV11:true,
-    appVersion:22,
+    appVersion:23,
     stats:{
       totalTaps:0, sessionTaps:0, totalCrits:0, sessionCrits:0,
       lifetimeCoins:0, sessionCoinsEarned:0,
@@ -1136,7 +1156,8 @@ function defaultState(){
       faultsTriggered:0,faultsRepaired:0,marketEventsSeen:0,seasonRewardsClaimed:0,cardAbilitiesUsed:0,
       contractsStarted:0,contractsCompleted:0,contractCoinsSold:0,contractEarlyExits:0,bossesStarted:0,bossesCompleted:0,storyChapters:0,crewQuestsCompleted:0,rigPartsOwned:0,cosmeticsOwned:1,
       skillsUsed:0,sessionSkills:0,sessionCooling:0,sessionRepairs:0,sessionContracts:0,perfectTaps:0,sessionPerfectTaps:0,chestsOpened:0,keysEarned:10,
-      megaHashes:0,locationBosses:0,contractDecisions:0,offlineExpeditions:0,crewShiftSeconds:0
+      megaHashes:0,locationBosses:0,contractDecisions:0,offlineExpeditions:0,crewShiftSeconds:0,
+      perfectMilestones:0,thermalOptimalSeconds:0,limitOrdersFilled:0,crewShiftsCompleted:0,maintenanceBlocks:0,locationLinks:0,incidentsResolved:0
     },
     lastActive: Date.now(),
     createdAt: Date.now(),
@@ -1154,6 +1175,7 @@ function migrate(s){
   for(const k in d.rigLoadout){if(!(k in s.rigLoadout))s.rigLoadout[k]=null;}
   for(const k in d.coinWallet){if(!(k in s.coinWallet))s.coinWallet[k]=0;}
   for(const k in d.coinPrices){if(!(k in s.coinPrices))s.coinPrices[k]=1;}
+  for(const k in d.networkReputation){if(!(k in s.networkReputation))s.networkReputation[k]=0;}
   for(const k in d.coinPriceHistory){if(!s.coinPriceHistory||!Array.isArray(s.coinPriceHistory[k])){s.coinPriceHistory=s.coinPriceHistory||{};s.coinPriceHistory[k]=[s.coinPrices[k]||1];}}
   for(const id of Object.keys(d.buildMastery)){s.buildMastery=s.buildMastery||{};if(!s.buildMastery[id])s.buildMastery[id]={xp:0};}
   s.hashRouting=Object.assign({},d.hashRouting,s.hashRouting||{});
@@ -1161,7 +1183,7 @@ function migrate(s){
   if(!s.missions.weekly)s.missions.weekly={};
   if(!s.missions.event)s.missions.event={};
   s.equippedCards=(s.equippedCards||[]).filter(id=>s.cardCollection[id]).slice(0,3);
-  s.appVersion=22;
+  s.appVersion=23;
   return s;
 }
 
@@ -1215,6 +1237,8 @@ function crewSynergy(kind){let value=0;if(staffLevel('alex')>=5&&staffLevel('mia
 function locationCost(loc){return Math.floor(loc.unlockCost*ECONOMY_DIFFICULTY.location);}
 function researchCost(r){return Math.ceil(r.cost*(r.currency==='qc'?1.5:ECONOMY_DIFFICULTY.research)*crewShiftFactor('research'));}
 function boostCashCost(id){return Math.ceil((BOOST_CASH_COSTS[id]||3)*ECONOMY_DIFFICULTY.boost);}
+function premiumCost(amount){return amount+' '+PREMIUM_CURRENCY.icon;}
+function premiumReward(amount){return amount+' '+PREMIUM_CURRENCY.name;}
 function chestKeyCost(id){return CHEST_KEY_COSTS[id]||8;}
 function operationSkillActive(kind){return state.activeOperationSkills.some(s=>s.kind===kind&&s.endsAt>Date.now());}
 function operationSkillCooldown(id){return Math.max(0,(state.operationSkillCooldowns[id]||0)-Date.now());}
@@ -1268,18 +1292,19 @@ function coinPrice(network){return state.coinPrices[network.id]||1;}
 function updateCoinPrices(now=Date.now()){if(now<(state.nextCoinPriceAt||0))return;for(const n of COIN_NETWORKS){let move=(Math.random()*2-1)*n.volatility;if(routeLevel('hedge')&&move<0)move*=.55;if(routeLevel('insider'))move*=.8;state.coinPrices[n.id]=Math.max(.68,Math.min(1.42,coinPrice(n)+move));state.coinPriceHistory[n.id]=(state.coinPriceHistory[n.id]||[1]).concat(state.coinPrices[n.id]).slice(-18);}state.nextCoinPriceAt=now+60000;}
 function startCoinContract(id){const n=COIN_NETWORKS.find(x=>x.id===id);if(!n||!n.unlock()||state.coinContract)return false;const now=Date.now(),value=Math.max(100,totalPassiveIncome()*n.duration*n.allocation*(1+routeEffect('contract')+storyEffect('market'))*mutationFactor('contract'));state.coinContract={networkId:id,startedAt:now,endsAt:now+n.duration*1000,baseValue:value,decision:null,decisionAt:now+n.duration*350};state.stats.contractsStarted++;toast(n.icon+' '+n.name+' kontratı başladı');saveGame();return true;}
 function chooseContractDecision(id){const c=state.coinContract,now=Date.now();if(!c||c.decision||now<(c.decisionAt||c.startedAt))return false;if(id==='accelerate'){c.baseValue*=.95;c.endsAt=now+(c.endsAt-now)*.55;addHeat(12);}else if(id==='risky'){c.baseValue*=1.35;c.riskyFailed=Math.random()<.2;}else if(id==='secure'){if(state.cash<2)return false;state.cash-=2;c.baseValue*=1.08;c.secured=true;}else if(id!=='safe')return false;c.decision=id;state.stats.contractDecisions++;toast('📡 Kontrat kararı: '+({safe:'Güvenli rota',accelerate:'Hızlı teslim',risky:'Riskli sunucu',secure:'Güvenlik katmanı'}[id]));saveGame();return true;}
-function collectCoinContract(){const c=state.coinContract;if(!c||Date.now()<c.endsAt)return false;const n=COIN_NETWORKS.find(x=>x.id===c.networkId);if(c.riskyFailed&&!c.secured){state.coinContract=null;toast('⚠️ Riskli sunucu bağlantısı koptu; kontrat kaybedildi');saveGame();return false;}const units=c.baseValue;state.coinWallet[n.id]=(state.coinWallet[n.id]||0)+units;state.coinContract=null;state.stats.contractsCompleted++;state.stats.sessionContracts++;state.stats.weekContracts++;toast(n.icon+' '+fmt(units)+' ağ payı cüzdana eklendi');checkMissionsAndAch();saveGame();return true;}
+function collectCoinContract(){const c=state.coinContract;if(!c||Date.now()<c.endsAt)return false;const n=COIN_NETWORKS.find(x=>x.id===c.networkId);if(c.riskyFailed&&!c.secured){state.coinContract=null;toast('⚠️ Riskli sunucu bağlantısı koptu; kontrat kaybedildi');saveGame();return false;}const units=c.baseValue*networkReputationFactor(n.id);state.coinWallet[n.id]=(state.coinWallet[n.id]||0)+units;state.networkReputation[n.id]=(state.networkReputation[n.id]||0)+(c.decision==='risky'?2:1);state.coinContract=null;state.stats.contractsCompleted++;state.stats.sessionContracts++;state.stats.weekContracts++;toast(n.icon+' '+fmt(units)+' ağ payı · itibar arttı');checkMissionsAndAch();saveGame();return true;}
 function exitCoinContractEarly(){const c=state.coinContract;if(!c||Date.now()>=c.endsAt)return false;const n=COIN_NETWORKS.find(x=>x.id===c.networkId),elapsed=(Date.now()-c.startedAt)/(c.endsAt-c.startedAt),penalty=.65+routeEffect('earlyExit'),units=c.baseValue*Math.max(.1,elapsed)*Math.min(.8,penalty);state.coinWallet[n.id]=(state.coinWallet[n.id]||0)+units;state.coinContract=null;state.stats.contractEarlyExits++;toast('⚠️ Erken çıkış: '+fmt(units)+' ağ payı');saveGame();return true;}
 function sellCoinHolding(id){const n=COIN_NETWORKS.find(x=>x.id===id),units=state.coinWallet[id]||0;if(!n||units<=0)return false;const price=coinPrice(n),value=units*price;state.coinWallet[id]=0;state.stats.contractCoinsSold+=value;state.contractHistory.unshift({id,at:Date.now(),units,value,price});state.contractHistory=state.contractHistory.slice(0,20);addCoins(value);toast('💱 '+n.name+' satıldı: +'+fmt(value));saveGame();return true;}
-function chooseStory(chapterId,index){const ch=STORY_CHAPTERS.find(x=>x.id===chapterId);if(!ch||state.story.completed.includes(ch.id)||statValue(ch.stat)<ch.target)return false;const choice=ch.choices[index];if(!choice)return false;state.story.completed.push(ch.id);state.story.choices[ch.id]={label:choice[0],kind:choice[1],value:choice[2]};state.stats.storyChapters++;state.cash+=1;toast('📖 Kararın kaydedildi · +1 Kristal');playSfx('mission');saveGame();return true;}
+function chooseStory(chapterId,index){const ch=STORY_CHAPTERS.find(x=>x.id===chapterId);if(!ch||state.story.completed.includes(ch.id)||statValue(ch.stat)<ch.target)return false;const choice=ch.choices[index];if(!choice)return false;state.story.completed.push(ch.id);state.story.choices[ch.id]={label:choice[0],kind:choice[1],value:choice[2]};state.stats.storyChapters++;state.cash+=1;toast('📖 Kararın kaydedildi · +'+premiumReward(1));playSfx('mission');saveGame();return true;}
 function claimCrewQuest(id){const q=CREW_QUESTS.find(x=>x.id===id);if(!q||state.crewQuests.includes(id)||staffLevel(q.staff)<1||q.pre&&!state.crewQuests.includes(q.pre)||statValue(q.stat)<q.target)return false;state.crewQuests.push(id);state.stats.crewQuestsCompleted++;grantReward(q.reward);toast('👥 Ekip görevi tamamlandı');playSfx('mission');saveGame();return true;}
 function locationBossConfig(id){const idx=LOCATIONS.findIndex(l=>l.id===id);return {id:'loc_'+id,name:LOCATION_BOSS_NAMES[idx],icon:['🔥','👻','🦠','🌑','🐍','🕶️','🥶','☀️','🏴‍☠️','🌙','🛰️','🌀'][idx],phases:LOCATION_BOSS_ACTIONS[idx%LOCATION_BOSS_ACTIONS.length],target:Math.min(80,18+idx*5),reward:{keys:4+idx*2,dust:3+idx}};}
-function startLocationBoss(id){const idx=LOCATIONS.findIndex(l=>l.id===id),now=Date.now(),cfg=locationBossConfig(id);if(idx<0||!state.unlockedLocations.includes(id)||state.bossContract||now<(state.bossCooldowns[cfg.id]||0))return false;state.bossContract={id:cfg.id,locationBoss:true,locationId:id,startedAt:now,endsAt:now+(180+idx*12)*1000,phase:0,phaseProgress:0,target:cfg.target,failed:false};state.stats.bossesStarted++;toast(cfg.icon+' '+cfg.name+' başladı');saveGame();return true;}
-function advanceLocationBoss(action,amount=1){const b=state.bossContract;if(!b?.locationBoss)return false;const cfg=locationBossConfig(b.locationId);if(cfg.phases[b.phase]!==action)return false;const actionWeight=action==='cool'?12:action==='skill'?9:1;b.phaseProgress+=amount*actionWeight*(1+routeEffect('boss'));if(b.phaseProgress>=b.target){b.phase++;b.phaseProgress=0;if(b.phase>=3)finishBoss();else toast('⚔️ Boss fazı '+(b.phase+1)+': '+cfg.phases[b.phase]);}return true;}
+function selectBossProtocol(id){if(!BOSS_PROTOCOLS[id]||state.bossContract)return false;state.bossProtocol=id;toast(BOSS_PROTOCOLS[id].icon+' Boss protokolü hazır');saveGame();return true;}
+function startLocationBoss(id){const idx=LOCATIONS.findIndex(l=>l.id===id),now=Date.now(),cfg=locationBossConfig(id);if(idx<0||!state.unlockedLocations.includes(id)||state.bossContract||now<(state.bossCooldowns[cfg.id]||0))return false;state.bossContract={id:cfg.id,locationBoss:true,locationId:id,protocol:state.bossProtocol||'balanced',startedAt:now,endsAt:now+(180+idx*12)*1000,phase:0,phaseProgress:0,target:cfg.target,failed:false};state.stats.bossesStarted++;toast(cfg.icon+' '+cfg.name+' · '+BOSS_PROTOCOLS[state.bossContract.protocol].name+' protokolü');saveGame();return true;}
+function advanceLocationBoss(action,amount=1){const b=state.bossContract;if(!b?.locationBoss)return false;const cfg=locationBossConfig(b.locationId);if(cfg.phases[b.phase]!==action)return false;const protocol=BOSS_PROTOCOLS[b.protocol]||BOSS_PROTOCOLS.balanced,actionWeight=action==='cool'?12:action==='skill'?9:1;b.phaseProgress+=amount*actionWeight*(protocol[action]||1)*(1+routeEffect('boss'));if(b.phaseProgress>=b.target){b.phase++;b.phaseProgress=0;if(b.phase>=3)finishBoss();else toast('⚔️ Boss fazı '+(b.phase+1)+': '+cfg.phases[b.phase]);}return true;}
 function bossProgress(){const b=state.bossContract;if(!b)return 0;if(b.locationBoss)return b.phase*b.target+b.phaseProgress;const cfg=BOSS_CONTRACTS.find(x=>x.id===b.id);let value=0;if(cfg.kind==='taps')value=state.stats.totalTaps-b.startTaps;if(cfg.kind==='coins')value=state.stats.lifetimeCoins-b.startCoins;if(cfg.kind==='cool'||cfg.kind==='stable')value=Math.max(0,(Date.now()-b.startedAt)/1000);return value*(1+routeEffect('boss'));}
 function startBoss(id){const b=BOSS_CONTRACTS.find(x=>x.id===id),now=Date.now();if(!b||state.bossContract||!b.unlock()||now<(state.bossCooldowns[id]||0))return false;const target=b.kind==='coins'?Math.max(50000,totalPassiveIncome()*120):b.target;state.bossContract={id,startedAt:now,endsAt:now+b.duration*1000,target,startTaps:state.stats.totalTaps,startCoins:state.stats.lifetimeCoins,startFaults:state.stats.faultsTriggered,failed:false};state.stats.bossesStarted++;toast(b.icon+' Boss kontratı başladı');saveGame();return true;}
 function bossPhase(){const b=state.bossContract;if(!b)return 0;const pct=bossProgress()/Math.max(1,b.target);return pct>=.7?3:pct>=.35?2:1;}
-function finishBoss(){const active=state.bossContract;if(!active)return false;const cfg=active.locationBoss?locationBossConfig(active.locationId):BOSS_CONTRACTS.find(x=>x.id===active.id),success=!active.failed&&(active.locationBoss?active.phase>=3:bossProgress()>=active.target);if(!success&&Date.now()<active.endsAt)return false;state.bossCooldowns[cfg.id]=Date.now()+600000;state.bossContract=null;if(success){state.stats.bossesCompleted++;state.stats.weekBosses++;grantReward(cfg.reward);if(active.locationBoss){state.locationBossWins[active.locationId]=(state.locationBossWins[active.locationId]||0)+1;state.stats.locationBosses++;locationRecord(active.locationId).mastery.xp+=400;}ensureReturnLoop();if(!active.locationBoss&&state.returnLoop.weeklyBossId===cfg.id){state.vaultKeys+=2;state.stats.keysEarned+=2;}state.seasonXP+=35;toast('🏆 '+cfg.name+' tamamlandı');playSfx('achievement');}else toast('Boss kontratı başarısız oldu');saveGame();return success;}
+function finishBoss(){const active=state.bossContract;if(!active)return false;const cfg=active.locationBoss?locationBossConfig(active.locationId):BOSS_CONTRACTS.find(x=>x.id===active.id),success=!active.failed&&(active.locationBoss?active.phase>=3:bossProgress()>=active.target);if(!success&&Date.now()<active.endsAt)return false;state.bossCooldowns[cfg.id]=Date.now()+600000;state.bossContract=null;if(success){state.stats.bossesCompleted++;state.stats.weekBosses++;let reward={...cfg.reward};if(active.locationBoss){const protocol=BOSS_PROTOCOLS[active.protocol]||BOSS_PROTOCOLS.balanced,link=(state.locationLinks||[]).includes(active.locationId)?1.1:1;for(const k of ['keys','dust','coins'])if(reward[k])reward[k]=Math.max(1,Math.floor(reward[k]*protocol.reward*link));}grantReward(reward);if(active.locationBoss){state.locationBossWins[active.locationId]=(state.locationBossWins[active.locationId]||0)+1;state.stats.locationBosses++;locationRecord(active.locationId).mastery.xp+=400;}ensureReturnLoop();if(!active.locationBoss&&state.returnLoop.weeklyBossId===cfg.id){state.vaultKeys+=2;state.stats.keysEarned+=2;}state.seasonXP+=35;toast('🏆 '+cfg.name+' tamamlandı');playSfx('achievement');}else toast('Boss kontratı başarısız oldu');saveGame();return success;}
 function claimLiveEventStage(id){const s=LIVE_EVENT_STAGES.find(x=>x.id===id);if(!s||state.liveEventClaims.includes(id)||statValue(s.stat)<s.target)return false;state.liveEventClaims.push(id);grantReward(s.reward);state.seasonXP+=15;toast('⚡ Ağ katkısı ödülü alındı');saveGame();return true;}
 function cosmetic(id){return COSMETICS.find(c=>c.id===id);}
 function buyOrEquipCosmetic(id){const c=cosmetic(id);if(!c)return false;if(!state.cosmeticsOwned.includes(id)){if(state.cash<c.cost)return false;state.cash-=c.cost;state.cosmeticsOwned.push(id);state.stats.cosmeticsOwned=state.cosmeticsOwned.length;toast('🎨 Kozmetik açıldı: '+c.name);}state.equippedCosmetic=id;applyCosmetic();saveGame();return true;}
@@ -1287,7 +1312,7 @@ function applyCosmetic(){const art=document.querySelector('.scene-art');if(!art)
 function marketScenario(){return state.marketScenario&&state.marketScenario.endsAt>Date.now()?MARKET_SCENARIOS.find(x=>x.id===state.marketScenario.id):null;}
 function marketFactor(kind){const m=marketScenario();if(!m)return 1;let value=m[kind]||1;if(kind==='income'&&value>1)value=1+(value-1)*(1+qLevel('q_market')*.08);return value;}
 function conditionMultiplier(){if(state.rigFault)return .45;return .75+Math.max(0,state.rigCondition)*.0025;}
-function seasonRewardText(r){return r.coins?fmt(r.coins)+' coin':r.cash?r.cash+' Kristal':r.qc?r.qc+' Çip':r.keys?r.keys+' Anahtar':r.chest?r.chest+' kasa':r.card?'Özel kart':'Ödül';}
+function seasonRewardText(r){return r.coins?fmt(r.coins)+' coin':r.cash?premiumReward(r.cash):r.qc?r.qc+' Çip':r.keys?r.keys+' Anahtar':r.chest?r.chest+' kasa':r.card?'Özel kart':'Ödül';}
 function grantReward(r){if(r.coins)addCoins(r.coins);if(r.cash)state.cash+=r.cash;if(r.qc)state.quantumChips+=r.qc;if(r.keys){state.vaultKeys+=r.keys;state.stats.keysEarned+=r.keys;}if(r.dust)state.cardDust+=r.dust;if(r.chest)state.chests[r.chest]=(state.chests[r.chest]||0)+1;if(r.card){const rec=cardRecord(r.card);if(rec)rec.copies=(rec.copies||0)+1;else state.cardCollection[r.card]={level:1,copies:0,discoveredAt:Date.now()};}}
 function claimSeasonReward(track,index){const reward=SEASON_REWARDS[index];if(!reward||state.seasonXP<reward.xp)return false;if(track==='premium'&&!state.entitlements.seasonPass){toast('Premium sezon bileti gerekli');return false;}if(state.seasonClaims[track].includes(index))return false;state.seasonClaims[track].push(index);grantReward(reward[track]);state.stats.seasonRewardsClaimed++;toast('🎟️ Sezon ödülü alındı');playSfx('mission');saveGame();return true;}
 const PRODUCTION_SERVICES={analytics:'adapter',crashReporting:'adapter',remoteConfig:'adapter',cloudSave:'adapter',billing:Capacitor.isNativePlatform()?'native':'sandbox'};
@@ -1303,6 +1328,13 @@ function hashRouting(){return state.hashRouting||HASH_ROUTING_PRESETS.balanced;}
 function selectHashRouting(id){const p=HASH_ROUTING_PRESETS[id];if(!p)return false;state.hashRoutingPreset=id;state.hashRouting={coins:p.coins,keys:p.keys,prestige:p.prestige};toast('🧬 Hash gücü: '+p.name);saveGame();return true;}
 function routingCoinFactor(){return .7+hashRouting().coins*.005;}
 function hashTiming(now=Date.now()){const phase=((now-(state.hashTimingStartedAt||now))%1800)/1800,cursor=phase<.5?phase*2:(1-phase)*2,center=.48+.24*Math.sin(now/3900),distance=Math.abs(cursor-center);return {cursor,center,quality:distance<=.09?'perfect':distance<=.19?'good':'miss'};}
+function thermalEfficiency(){if(state.heat>=20&&state.heat<=45)return 1.08;if(state.heat<8)return .98;if(state.heat>65)return .96;return 1;}
+function claimPerfectMilestone(id){const m=PERFECT_HASH_MILESTONES.find(x=>x.id===id);if(!m||state.perfectMilestoneClaims.includes(id)||state.stats.perfectTaps<m.target)return false;state.perfectMilestoneClaims.push(id);state.stats.perfectMilestones++;grantReward(m.reward);toast('🎯 '+m.title+' ödülü alındı');playSfx('achievement');saveGame();return true;}
+function networkReputationLevel(id){return Math.min(20,Math.floor((state.networkReputation[id]||0)/5));}
+function networkReputationFactor(id){return 1+networkReputationLevel(id)*.02;}
+function setLimitOrder(id,mult){const n=COIN_NETWORKS.find(x=>x.id===id),holding=state.coinWallet[id]||0;if(!n||holding<=0)return false;state.limitOrders[id]={target:coinPrice(n)*Number(mult),createdAt:Date.now()};toast('📈 '+n.name+' limit emri kuruldu');saveGame();return true;}
+function cancelLimitOrder(id){if(!state.limitOrders[id])return false;delete state.limitOrders[id];toast('Limit emri iptal edildi');saveGame();return true;}
+function processLimitOrders(){for(const n of COIN_NETWORKS){const order=state.limitOrders[n.id];if(order&&(state.coinWallet[n.id]||0)>0&&coinPrice(n)>=order.target){delete state.limitOrders[n.id];state.stats.limitOrdersFilled++;sellCoinHolding(n.id);toast('✅ Limit satış emri gerçekleşti');}}}
 function mutation(){return PRESTIGE_MUTATIONS[state.prestigeMutation]||PRESTIGE_MUTATIONS.none;}
 function mutationFactor(kind){const id=mutation().id;if(id==='volatile'&&kind==='tap')return 1.25;if(id==='volatile'&&kind==='hardwareCost')return 1.15;if(id==='autonomous'&&kind==='offline')return 1.35;if(id==='autonomous'&&kind==='tap')return .8;if(id==='thermal'&&kind==='heat')return 1.35;if(id==='thermal'&&kind==='contract')return 1.25;if(id==='lean'&&kind==='staffCost')return 1.2;if(id==='lean'&&kind==='staffAbility')return 1.35;return 1;}
 function mutationMasteryBonus(){return Math.min(.08,Object.values(state.mutationMastery||{}).reduce((a,b)=>a+b,0)*.005);}
@@ -1311,11 +1343,16 @@ function currentLocationId(){return LOCATIONS[state.locationIndex].id;}
 function locationRecord(id=currentLocationId()){state.locationMastery[id]=state.locationMastery[id]||{xp:0,claimed:[]};state.locationStats[id]=state.locationStats[id]||{taps:0,coins:0,upgrades:0};return {mastery:state.locationMastery[id],stats:state.locationStats[id]};}
 function locationMasteryLevel(id=currentLocationId()){const xp=locationRecord(id).mastery.xp;let level=0;for(let i=1;i<LOCATION_MASTERY_THRESHOLDS.length;i++)if(xp>=LOCATION_MASTERY_THRESHOLDS[i])level=i;return level;}
 function locationMasteryBonus(){return 1+Object.keys(state.locationMastery||{}).reduce((n,id)=>n+locationMasteryLevel(id)*.005,0);}
+function locationLinkCost(id){const idx=LOCATIONS.findIndex(x=>x.id===id);return Math.max(3,3+idx*2);}
+function locationLinkBonus(){return 1+(state.locationLinks||[]).length*.006+((state.locationLinks||[]).includes(currentLocationId()) ? .02 : 0);}
+function linkLocation(id){if(!state.unlockedLocations.includes(id)||state.locationLinks.includes(id))return false;const cost=locationLinkCost(id);if(state.cash<cost){toast(premiumReward(cost)+' gerekli');return false;}state.cash-=cost;state.locationLinks.push(id);state.stats.locationLinks=state.locationLinks.length;toast('🔗 '+LOCATIONS.find(x=>x.id===id).name+' ana ağa bağlandı');playSfx('upgrade');saveGame();return true;}
 function locationGoals(id){const idx=LOCATIONS.findIndex(l=>l.id===id),rec=locationRecord(id);return [{id:'taps',name:'Yerel Hash',value:rec.stats.taps,target:250*(idx+1),xp:180},{id:'coins',name:'Bölge Cirosu',value:rec.stats.coins,target:Math.max(5000,LOCATIONS[idx].unlockCost*1.5),xp:320},{id:'boss',name:'Alan Muhafızı',value:state.locationBossWins[id]||0,target:1,xp:600}];}
 function claimLocationGoal(id,goalId){const rec=locationRecord(id),goal=locationGoals(id).find(g=>g.id===goalId);if(!goal||rec.mastery.claimed.includes(goalId)||goal.value<goal.target)return false;rec.mastery.claimed.push(goalId);rec.mastery.xp+=goal.xp;state.vaultKeys+=2;state.stats.keysEarned+=2;toast('🏙️ Mekân hedefi: +'+goal.xp+' ustalık TP, +2 anahtar');playSfx('mission');saveGame();return true;}
 function crewAssigned(){return Object.entries(state.crewAssignments||{}).filter(([id,role])=>role&&staffLevel(id)>0);}
-function crewRoleUnits(role){return crewAssigned().filter(([,r])=>r===role).reduce((n,[id])=>n+staffEffectUnits(id)*(1-Math.min(.75,(state.crewFatigue[id]||0)/130)),0);}
-function assignCrew(id,role){if(!staffLevel(id))return false;if(state.crewAssignments[id]===role){delete state.crewAssignments[id];toast('👥 '+STAFF.find(s=>s.id===id).name+' vardiyadan çıktı');saveGame();return true;}if(crewAssigned().length>=3&&!state.crewAssignments[id]){toast('Aynı anda en fazla 3 uzman vardiyada olabilir');return false;}state.crewAssignments[id]=role;state.crewShiftStartedAt=state.crewShiftStartedAt||Date.now();toast(CREW_SHIFT_ROLES[role].icon+' Vardiya görevi atandı');saveGame();return true;}
+function crewMorale(id){if(state.crewMorale[id]===undefined)state.crewMorale[id]=70;return state.crewMorale[id];}
+function crewRoleUnits(role){return crewAssigned().filter(([,r])=>r===role).reduce((n,[id])=>n+staffEffectUnits(id)*(1-Math.min(.75,(state.crewFatigue[id]||0)/130))*(.75+crewMorale(id)*.0025),0);}
+function assignCrew(id,role){if(!staffLevel(id))return false;if(state.crewAssignments[id]===role){delete state.crewAssignments[id];toast('👥 '+STAFF.find(s=>s.id===id).name+' vardiyadan çıktı');saveGame();return true;}if(crewAssigned().length>=3&&!state.crewAssignments[id]){toast('Aynı anda en fazla 3 uzman vardiyada olabilir');return false;}state.crewAssignments[id]=role;state.crewShiftStartedAt=state.crewShiftStartedAt||Date.now();state.nextCrewShiftRewardAt=Math.max(Date.now()+600000,state.nextCrewShiftRewardAt||0);toast(CREW_SHIFT_ROLES[role].icon+' Vardiya görevi atandı');saveGame();return true;}
+function completeCrewShift(now){const crew=crewAssigned();if(!crew.length||now<(state.nextCrewShiftRewardAt||0))return false;for(const [id] of crew){state.crewXP[id]=(state.crewXP[id]||0)+90;state.crewMorale[id]=Math.min(100,crewMorale(id)+8);}state.vaultKeys+=2;state.stats.keysEarned+=2;state.stats.crewShiftsCompleted++;state.nextCrewShiftRewardAt=now+600000;toast('👥 Vardiya tamamlandı · +2 anahtar, +90 ekip XP');playSfx('mission');saveGame();return true;}
 function crewShiftFactor(kind){const units=crewRoleUnits(kind);if(kind==='mining')return 1+units*.008;if(kind==='cooling')return Math.max(.7,1-units*.006);if(kind==='security')return Math.max(.55,1-units*.01);if(kind==='research')return Math.max(.75,1-units*.006);return 1;}
 function selectOfflineExpedition(id){if(!OFFLINE_EXPEDITIONS[id])return false;state.offlineExpedition=id;state.offlineExpeditionStartedAt=Date.now();toast(OFFLINE_EXPEDITIONS[id].icon+' Offline planı hazır');saveGame();return true;}
 function locationEffect(kind){
@@ -1398,7 +1435,8 @@ function globalMultiplier(){
   mult *= 1+rigEffects().global+storyEffect('global')+(state.routeCoreUnlocked ? .08 : 0);
   mult *= 1+cardEffect('global');
   mult *= 1+crewSynergy('global');
-  mult *= locationMasteryBonus()*(1+mutationMasteryBonus());
+  mult *= locationMasteryBonus()*locationLinkBonus()*(1+mutationMasteryBonus());
+  mult *= thermalEfficiency();
   for(const b of state.activeBoosts){
     if(b.id==='overclock') mult*=2;
     if(b.id==='surge') mult*=5;
@@ -1409,8 +1447,8 @@ function globalMultiplier(){
   mult *= cardAbilityMultiplier('income');
   if(state.riskOverclock)mult*=1.75;
   if(operationSkillActive('income'))mult*=OPERATION_SKILLS.find(s=>s.kind==='income').mult;
+  if(state.activeOperationSkills.some(s=>s.kind==='incidentIncome'&&s.endsAt>Date.now()))mult*=1.35;
   const heatLevel=getHeatLevel();
-  if(heatLevel==='Warm') mult*=.97;
   if(heatLevel==='Hot') mult*=.88;
   if(heatLevel==='Critical') mult*=.7;
   return mult;
@@ -1737,7 +1775,7 @@ function activateBoost(id, free){
 }
 function buyBoost(id){
   const cost=boostCashCost(id);
-  if(state.cash<cost){toast('Not enough cash');return false;}
+  if(state.cash<cost){toast('Yeterli '+PREMIUM_CURRENCY.name+' yok');return false;}
   state.cash-=cost;activateBoost(id,false);return true;
 }
 function activateOperationSkill(id){
@@ -1995,7 +2033,7 @@ function claimMission(m, group='progress'){
   state.stats.missionsCompleted++;
   grantReward(m.reward);
   state.seasonXP+=group==='weekly'?120:group==='event'?180:group==='daily'?20:35;
-  toast('✅ Görev tamamlandı!'+(m.reward.cash?' +'+m.reward.cash+' Kristal':'')+(m.reward.coins?' +'+fmt(m.reward.coins)+' coin':''));
+  toast('✅ Görev tamamlandı!'+(m.reward.cash?' +'+premiumReward(m.reward.cash):'')+(m.reward.coins?' +'+fmt(m.reward.coins)+' coin':''));
   playSfx('mission');
   vibrate(15);
   checkMissionsAndAch();
@@ -2010,7 +2048,7 @@ function openChest(type){
   let cash=0,qc=0;if(Math.random()<c.cashChance){cash=type==='epic'?5:2;state.cash+=cash;}if(Math.random()<c.qcChance){qc=type==='epic'?2:1;state.quantumChips+=qc;}
   const drop=rollCard(type),rarity=CARD_RARITIES[drop.card.rarity];
   checkMissionsAndAch();
-  openModal(`<div class="chestreveal"><span class="bigchest">${c.icon}</span><div class="modaltitle">${c.name} Açıldı!</div><div class="chestreward">+${fmt(coins)} coin</div><div class="modalsub">${cash?'+'+cash+' nakit ':''}${qc?'+'+qc+' Kuantum Çipi':''}</div><div class="carddrop" style="--rarity-color:${rarity.color}"><div class="dropicon">${drop.card.icon}</div><b>${drop.card.name}</b><small>${rarity.name}${drop.isNew?' · YENİ KART':' · +1 KOPYA'}</small></div><button class="modalbtn primary" data-close>ÖDÜLÜ AL</button></div>`);playSfx('achievement');vibrate([10,25,10]);saveGame();return true;
+  openModal(`<div class="chestreveal"><span class="bigchest">${c.icon}</span><div class="modaltitle">${c.name} Açıldı!</div><div class="chestreward">+${fmt(coins)} coin</div><div class="modalsub">${cash?'+'+premiumReward(cash)+' ':''}${qc?'+'+qc+' Kuantum Çipi':''}</div><div class="carddrop" style="--rarity-color:${rarity.color}"><div class="dropicon">${drop.card.icon}</div><b>${drop.card.name}</b><small>${rarity.name}${drop.isNew?' · YENİ KART':' · +1 KOPYA'}</small></div><button class="modalbtn primary" data-close>ÖDÜLÜ AL</button></div>`);playSfx('achievement');vibrate([10,25,10]);saveGame();return true;
 }
 function buyQuantumSkill(id){
   const skill=QUANTUM_SKILLS.find(x=>x.id===id),lvl=qLevel(id);if(!skill||lvl>=skill.max||!quantumSkillUnlocked(skill))return false;
@@ -2069,13 +2107,17 @@ function startMarketScenario(){
 function toggleRiskOverclock(){if(state.rigFault){toast('Önce rig arızasını onar');return false;}state.riskOverclock=!state.riskOverclock;toast(state.riskOverclock?'🔥 Riskli overclock açıldı':'🛡️ Güvenli moda dönüldü');saveGame();return true;}
 function repairCost(){return Math.max(1000,totalPassiveIncome()*75*(1+(100-state.rigCondition)/100));}
 function repairRig(){if(!state.rigFault&&state.rigCondition>=95)return false;const cost=repairCost();if(state.coins<cost){toast('Onarım için yeterli coin yok');return false;}state.coins-=cost;state.rigFault=null;state.rigCondition=100;state.riskOverclock=false;state.stats.faultsRepaired++;state.stats.sessionRepairs++;toast('🔧 Rig tamamen onarıldı');playSfx('upgrade');checkMissionsAndAch();saveGame();return true;}
+function preventiveMaintenanceCost(){return Math.max(2500,Math.ceil(totalPassiveIncome()*120));}
+function buyMaintenanceShield(){if(state.maintenanceShield)return false;const cost=preventiveMaintenanceCost();if(state.coins<cost){toast('Koruyucu bakım için yeterli coin yok');return false;}state.coins-=cost;state.maintenanceShield=true;state.rigCondition=Math.min(100,state.rigCondition+8);toast('🛡️ Koruyucu bakım: sıradaki arıza engellenecek');playSfx('upgrade');saveGame();return true;}
 function hedgeMarket(){const m=marketScenario();if(!m||m.income>=1&&m.electricity<=1)return false;if(state.cash<3){toast('Koruma için 3 Data Kristali gerekli');return false;}state.cash-=3;state.marketScenario=null;state.marketEventEndsAt=0;state.nextMarketEventAt=Date.now()+120000;toast('🛡️ Piyasa riski korumaya alındı');saveGame();return true;}
+function maybeStartOperationIncident(now){if(state.operationIncident||now<(state.nextOperationIncidentAt||0))return false;const incident=OPERATION_INCIDENTS[Math.floor(Math.random()*OPERATION_INCIDENTS.length)];state.operationIncident={id:incident.id,startedAt:now};state.nextOperationIncidentAt=now+240000+Math.random()*120000;toast(incident.icon+' Operasyon olayı: '+incident.title);addActivity(incident.title);saveGame();return true;}
+function resolveOperationIncident(choice){const active=state.operationIncident,incident=OPERATION_INCIDENTS.find(x=>x.id===active?.id);if(!incident)return false;const now=Date.now();if(choice==='isolate'){const cost=Math.max(1000,totalPassiveIncome()*45);if(state.coins<cost)return false;state.coins-=cost;state.rigCondition=Math.min(100,state.rigCondition+12);}else if(choice==='push'){state.activeOperationSkills.push({id:'incident_push',kind:'incidentIncome',endsAt:now+35000});addHeat(18);}else if(choice==='filter'){const cost=Math.max(1500,totalPassiveIncome()*60);if(state.coins<cost)return false;state.coins-=cost;for(const n of COIN_NETWORKS)state.networkReputation[n.id]=(state.networkReputation[n.id]||0)+2;}else if(choice==='trace'){if(Math.random()<.65){state.vaultKeys+=3;state.stats.keysEarned+=3;toast('🔑 İz sürme başarılı: +3 anahtar');}else{state.rigCondition=Math.max(0,state.rigCondition-6);toast('⚠️ İz kayboldu; kondisyon -6');}}else if(choice==='crystal'){if(state.cash<2){toast(premiumReward(2)+' gerekli');return false;}state.cash-=2;state.maintenanceShield=true;}else if(choice==='salvage'){state.cardDust+=7;state.rigCondition=Math.max(0,state.rigCondition-8);}else return false;state.operationIncident=null;state.stats.incidentsResolved++;toast('✅ Operasyon kararı uygulandı');playSfx('mission');saveGame();return true;}
 function maybeTriggerFault(now){
   if(state.rigFault||now<(state.nextFaultCheckAt||0))return;state.nextFaultCheckAt=now+60000;
   let chance=.01+(state.heat>65?.04:0)+(state.riskOverclock?.075:0)+(state.rigCondition<40?.045:0);
   chance*=Math.max(.25,1-qLevel('q_repair')*.12);
   chance*=crewShiftFactor('security');
-  if(Math.random()<chance){const faults=[['fan','Fan Arızası','Soğutma düştü'],['psu','PSU Dalgalanması','Üretim gücü azaldı'],['network','Ağ Kesintisi','Rig ağı kararsız']];const f=faults[Math.floor(Math.random()*faults.length)];state.rigFault={id:f[0],name:f[1],desc:f[2],at:now};state.riskOverclock=false;state.stats.faultsTriggered++;toast('⚠️ '+f[1]);playSfx('warning');vibrate([20,30,20]);recordTelemetry('fault');}
+  if(Math.random()<chance){if(state.maintenanceShield){state.maintenanceShield=false;state.rigCondition=Math.min(100,state.rigCondition+10);state.stats.maintenanceBlocks++;toast('🛡️ Koruyucu bakım arızayı engelledi');playSfx('upgrade');return;}const faults=[['fan','Fan Arızası','Soğutma düştü'],['psu','PSU Dalgalanması','Üretim gücü azaldı'],['network','Ağ Kesintisi','Rig ağı kararsız']];const f=faults[Math.floor(Math.random()*faults.length)];state.rigFault={id:f[0],name:f[1],desc:f[2],at:now};state.riskOverclock=false;state.stats.faultsTriggered++;toast('⚠️ '+f[1]);playSfx('warning');vibrate([20,30,20]);recordTelemetry('fault');}
 }
 function checkFeatureUnlocks(){if(!state.tutorialDone)return;const tips=[['rig',state.stats.totalTaps>=40,'Rig Kur ekranı açıldı: parçalarını seçerek kendi sistemini oluştur.'],['contract',state.level>=3,'Coin Kontratları açıldı: üretim payını farklı ağlarda değerlendir.'],['story',state.stats.totalTaps>=80,'İlk hikâye kararı hazır. Seçimlerin küçük kalıcı bonuslar verir.'],['boss',state.level>=4,'Boss kontratları açıldı: süreli hedeflerde özel ödüller kazan.'],['route',state.stats.prestigeCount>=1,'Prestij rotaları açıldı: bu döngüde uzmanlaşacağın yolu seç.']];for(const [id,ready,text] of tips){if(ready&&!state.featureTipsSeen.includes(id)){state.featureTipsSeen.push(id);toast('🔓 '+text);addActivity(text);saveGame();break;}}}
 
@@ -2097,14 +2139,18 @@ function gameTick(dtSec){
   // expire boosts
   const now = Date.now();
   updateCoinPrices(now);
+  processLimitOrders();
   state.activeBoosts = state.activeBoosts.filter(b=>b.endsAt>now);
   state.activeStaffAbilities=state.activeStaffAbilities.filter(a=>a.endsAt>now);
   state.activeCardAbilities=state.activeCardAbilities.filter(a=>a.endsAt>now);
   state.activeOperationSkills=state.activeOperationSkills.filter(a=>a.endsAt>now);
-  const assigned=new Set(crewAssigned().map(([id])=>id));for(const s of STAFF){const id=s.id;if(assigned.has(id)){state.crewFatigue[id]=Math.min(100,(state.crewFatigue[id]||0)+dtSec*.035);state.crewXP[id]=(state.crewXP[id]||0)+dtSec*.08;state.stats.crewShiftSeconds+=dtSec;}else state.crewFatigue[id]=Math.max(0,(state.crewFatigue[id]||0)-dtSec*.09);}
+  const assigned=new Set(crewAssigned().map(([id])=>id));for(const s of STAFF){const id=s.id;if(assigned.has(id)){state.crewFatigue[id]=Math.min(100,(state.crewFatigue[id]||0)+dtSec*.035);state.crewXP[id]=(state.crewXP[id]||0)+dtSec*.08;state.crewMorale[id]=Math.max(35,Math.min(100,crewMorale(id)+dtSec*((state.crewFatigue[id]||0)<60?.008:-.012)));state.stats.crewShiftSeconds+=dtSec;}else{state.crewFatigue[id]=Math.max(0,(state.crewFatigue[id]||0)-dtSec*.09);state.crewMorale[id]=Math.min(100,crewMorale(id)+dtSec*.015);}}
+  completeCrewShift(now);
+  if(state.heat>=20&&state.heat<=45)state.stats.thermalOptimalSeconds+=dtSec;
   if(grossPassiveIncome()>0)state.rigCondition=Math.max(0,state.rigCondition-dtSec*(state.riskOverclock?.018:.002)*(1-routeEffect('condition')));
   if(state.riskOverclock)addHeat(.18*dtSec);
   maybeTriggerFault(now);
+  maybeStartOperationIncident(now);
   if(now>state.nextMarketEventAt && now>=state.marketEventEndsAt){
     startMarketScenario();
   }
@@ -2173,7 +2219,7 @@ function refreshHUD(){
   const goal=currentEarlyGoal(),goalPanel=document.getElementById('nextGoalPanel');
   if(goal){
     const value=statValue(goal.stat),pct=Math.min(100,value/goal.target*100),rewardParts=[];
-    if(goal.reward.coins)rewardParts.push(fmt(goal.reward.coins)+' coin');if(goal.reward.cash)rewardParts.push(goal.reward.cash+' nakit');if(goal.reward.qc)rewardParts.push(goal.reward.qc+' QC');if(goal.reward.chest)rewardParts.push('1 kasa');
+    if(goal.reward.coins)rewardParts.push(fmt(goal.reward.coins)+' coin');if(goal.reward.cash)rewardParts.push(premiumReward(goal.reward.cash));if(goal.reward.qc)rewardParts.push(goal.reward.qc+' QC');if(goal.reward.chest)rewardParts.push('1 kasa');
     goalPanel.style.display='block';document.getElementById('goalTitle').textContent=goal.title;document.getElementById('goalCopy').textContent=goal.desc;document.getElementById('goalReward').textContent=rewardParts.join(' + ');document.getElementById('goalFill').style.width=pct+'%';document.getElementById('goalProgress').textContent=fmt(Math.min(value,goal.target))+' / '+fmt(goal.target);document.getElementById('goalClaim').disabled=value<goal.target;
   }else{const rec=recommendedAction();goalPanel.style.display='block';document.getElementById('goalTitle').textContent=rec.title;document.getElementById('goalCopy').textContent=rec.copy;document.getElementById('goalReward').textContent=rec.tag;document.getElementById('goalFill').style.width=rec.pct+'%';document.getElementById('goalProgress').textContent='CEO ÖNERİSİ';document.getElementById('goalClaim').disabled=true;}
 
@@ -2498,14 +2544,15 @@ function renderUpgrades(){
 function renderStaff(){
   const list = document.getElementById('staffList');
   const synergyCount=[crewSynergy('global'),crewSynergy('passive'),crewSynergy('crit')].filter(Boolean).length;
-  list.innerHTML=`<div class="researchsummary"><div class="summaryrow"><span>VARDİYA MERKEZİ</span><strong>${crewAssigned().length}/3 AKTİF</strong></div><div class="screensub" style="margin-top:7px">Uzmanları görevlere ata. Yorgunluk yükseldikçe vardiya katkısı düşer; dinlenen ekip otomatik toparlanır.</div><div class="system-pills">${Object.values(CREW_SHIFT_ROLES).map(r=>`<span class="system-pill">${r.icon} ${r.name}: ${crewRoleUnits(r.id).toFixed(1)}</span>`).join('')}</div></div>`;
+  const shiftLeft=Math.max(0,(state.nextCrewShiftRewardAt||Date.now()+600000)-Date.now());
+  list.innerHTML=`<div class="researchsummary"><div class="summaryrow"><span>VARDİYA MERKEZİ</span><strong>${crewAssigned().length}/3 AKTİF</strong></div><div class="screensub" style="margin-top:7px">Moral katkıyı, yorgunluk ise verimi belirler. Aktif ekip her 10 dakikalık vardiyada XP ve Şifre Anahtarı kazanır.</div><div class="system-pills">${Object.values(CREW_SHIFT_ROLES).map(r=>`<span class="system-pill">${r.icon} ${r.name}: ${crewRoleUnits(r.id).toFixed(1)}</span>`).join('')}<span class="system-pill">⏱️ ${crewAssigned().length?shortTime(shiftLeft):'Ekip bekleniyor'}</span></div></div>`;
   STAFF.forEach(s=>{
     const unlocked = s.unlockAt();
     const lvl = staffLevel(s.id);
     const cost = staffCost(s,lvl);
     const affordable = unlocked && state.coins >= cost;
     const ability=STAFF_ABILITIES[s.id],cooldown=Math.max(0,(state.staffAbilityCooldowns[s.id]||0)-Date.now()),abilityActive=staffAbilityActive(s.id);
-    const nextStaffMilestone=STAFF_MILESTONES.find(x=>x>lvl),effective=staffEffectUnits(s.id),assignment=state.crewAssignments[s.id],fatigue=Math.round(state.crewFatigue[s.id]||0),crewLevel=Math.floor((state.crewXP[s.id]||0)/500);
+    const nextStaffMilestone=STAFF_MILESTONES.find(x=>x>lvl),effective=staffEffectUnits(s.id),assignment=state.crewAssignments[s.id],fatigue=Math.round(state.crewFatigue[s.id]||0),morale=Math.round(crewMorale(s.id)),crewLevel=Math.floor((state.crewXP[s.id]||0)/500);
     const card = document.createElement('div');
     card.className='card'+(unlocked?'':' locked');
     card.innerHTML = `
@@ -2516,7 +2563,7 @@ function renderStaff(){
           <div class="hwsub">${s.role}</div>
           ${unlocked?`<div class="staffbonus">${s.bonusLabel} ${(s.bonusPer*100).toFixed(1)}%/lvl · Etkin Lv.${effective}</div>`:'<div class="staffbonus" style="color:var(--sub)">Locked — keep progressing</div>'}
           <div class="staffbio">${s.bio}</div>
-          ${lvl>0?`<div class="shift-badge">Vardiya Lv.${crewLevel} · Yorgunluk %${fatigue}</div>`:''}
+          ${lvl>0?`<div class="shift-badge">Vardiya Lv.${crewLevel} · Moral %${morale} · Yorgunluk %${fatigue}</div>`:''}
         </div>
       </div>
       <button class="buybtn ${affordable?'can':'cant'}" style="width:100%;margin-top:9px" data-hire="${s.id}" ${unlocked?'':'disabled'}>
@@ -2611,7 +2658,7 @@ function renderEmpire(){
   if(empireTab==='stats') return renderStats(el);
   if(empireTab==='balance') return renderBalanceLab(el);
 }
-function renderBuildStrategy(el){const active=activeBuild(),cool=Math.max(0,600000-(Date.now()-(state.buildPathChangedAt||0))),route=hashRouting();el.innerHTML=`<div class="researchsummary"><div class="summaryrow"><span>MADENCİLİK STRATEJİSİ</span><span>${active.icon} ${active.name}</span></div><div class="screensub" style="margin-top:7px">Oynayış biçimini ve hash gücünün nereye aktığını seç.${cool?' Yeni build seçimi: '+shortTime(cool):''}</div></div><div class="hwname" style="margin:12px 0 7px">HASH GÜCÜ DAĞITIMI</div><div class="choice-grid">${Object.values(HASH_ROUTING_PRESETS).map(p=>`<button class="choicebtn ${state.hashRoutingPreset===p.id?'selected':''}" data-hash-route="${p.id}"><b>${p.name}</b><small style="display:block">Coin %${p.coins} · Anahtar %${p.keys} · Prestij %${p.prestige}</small></button>`).join('')}</div><div class="system-pills"><span class="system-pill">🔑 ${Math.floor(state.keyResearch)}/1200 araştırma</span><span class="system-pill">💠 %${Math.floor(state.prestigeEnergy/10)} prestij enerjisi</span><span class="system-pill">🪙 x${routingCoinFactor().toFixed(2)} coin rotası</span></div><div class="hwname" style="margin:14px 0 7px">BUILD USTALIĞI</div><div class="strategy-grid">${Object.values(BUILD_PATHS).map(b=>{const lvl=buildMasteryLevel(b.id),xp=state.buildMastery[b.id]?.xp||0,next=BUILD_MASTERY_THRESHOLDS[Math.min(BUILD_MASTERY_THRESHOLDS.length-1,lvl+1)];return `<div class="strategy-card ${state.buildPath===b.id?'active':''}"><div class="strategy-head"><div class="hwname">${b.icon} ${b.name}</div><span class="lvltag">USTALIK ${lvl}</span></div><div class="strategy-bonuses">${b.desc}<br>Aktif x${b.tap} · Pasif x${b.passive} · Isı x${b.heat} · Offline x${b.offline}</div><div class="pbar"><div style="width:${lvl>=5?100:Math.min(100,xp/next*100)}%"></div></div><div class="screensub">${Math.floor(xp)} / ${lvl>=5?'MAX':next} TP</div><button class="buybtn ${state.buildPath===b.id?'cant':'can'}" data-build-path="${b.id}" ${state.buildPath===b.id||cool?'disabled':''}>${state.buildPath===b.id?'AKTİF':'STRATEJİYİ SEÇ'}</button></div>`}).join('')}</div>`;}
+function renderBuildStrategy(el){const active=activeBuild(),cool=Math.max(0,600000-(Date.now()-(state.buildPathChangedAt||0))),route=hashRouting(),thermal=thermalEfficiency();el.innerHTML=`<div class="researchsummary"><div class="summaryrow"><span>MADENCİLİK STRATEJİSİ</span><span>${active.icon} ${active.name}</span></div><div class="screensub" style="margin-top:7px">Oynayış biçimini ve hash gücünün nereye aktığını seç.${cool?' Yeni build seçimi: '+shortTime(cool):''}</div></div><div class="operation-grid"><div class="operation-card"><h4>🌡️ Termal Verim</h4><p>%20–45 ısı aralığında tüm gelir +%8. Mevcut ısı: %${Math.round(state.heat)}</p><div class="staffbonus">Şu an x${thermal.toFixed(2)} · ${Math.floor(state.stats.thermalOptimalSeconds/60)} dk optimum</div></div><div class="operation-card"><h4>🎯 Perfect Hash</h4><p>Toplam ${fmtInt(state.stats.perfectTaps)} kusursuz zamanlama.</p><div class="staffbonus">${state.perfectMilestoneClaims.length}/${PERFECT_HASH_MILESTONES.length} ödül alındı</div></div></div><div class="hwname" style="margin:12px 0 7px">PERFECT HASH ÖDÜLLERİ</div><div class="strategy-grid">${PERFECT_HASH_MILESTONES.map(m=>{const claimed=state.perfectMilestoneClaims.includes(m.id),ready=state.stats.perfectTaps>=m.target;return `<div class="strategy-card ${claimed?'active':''}"><div class="strategy-head"><div class="hwname">🎯 ${m.title}</div><span class="lvltag">${m.target}</span></div><div class="pbar"><div style="width:${Math.min(100,state.stats.perfectTaps/m.target*100)}%"></div></div><button class="buybtn ${ready&&!claimed?'can':'cant'}" data-perfect-milestone="${m.id}" ${!ready||claimed?'disabled':''}>${claimed?'✓ ALINDI':ready?'ÖDÜLÜ AL':fmtInt(state.stats.perfectTaps)+' / '+m.target}</button></div>`}).join('')}</div><div class="hwname" style="margin:12px 0 7px">HASH GÜCÜ DAĞITIMI</div><div class="choice-grid">${Object.values(HASH_ROUTING_PRESETS).map(p=>`<button class="choicebtn ${state.hashRoutingPreset===p.id?'selected':''}" data-hash-route="${p.id}"><b>${p.name}</b><small style="display:block">Coin %${p.coins} · Anahtar %${p.keys} · Prestij %${p.prestige}</small></button>`).join('')}</div><div class="system-pills"><span class="system-pill">🔑 ${Math.floor(state.keyResearch)}/1200 araştırma</span><span class="system-pill">💠 %${Math.floor(state.prestigeEnergy/10)} prestij enerjisi</span><span class="system-pill">🪙 x${routingCoinFactor().toFixed(2)} coin rotası</span></div><div class="hwname" style="margin:14px 0 7px">BUILD USTALIĞI</div><div class="strategy-grid">${Object.values(BUILD_PATHS).map(b=>{const lvl=buildMasteryLevel(b.id),xp=state.buildMastery[b.id]?.xp||0,next=BUILD_MASTERY_THRESHOLDS[Math.min(BUILD_MASTERY_THRESHOLDS.length-1,lvl+1)];return `<div class="strategy-card ${state.buildPath===b.id?'active':''}"><div class="strategy-head"><div class="hwname">${b.icon} ${b.name}</div><span class="lvltag">USTALIK ${lvl}</span></div><div class="strategy-bonuses">${b.desc}<br>Aktif x${b.tap} · Pasif x${b.passive} · Isı x${b.heat} · Offline x${b.offline}</div><div class="pbar"><div style="width:${lvl>=5?100:Math.min(100,xp/next*100)}%"></div></div><div class="screensub">${Math.floor(xp)} / ${lvl>=5?'MAX':next} TP</div><button class="buybtn ${state.buildPath===b.id?'cant':'can'}" data-build-path="${b.id}" ${state.buildPath===b.id||cool?'disabled':''}>${state.buildPath===b.id?'AKTİF':'STRATEJİYİ SEÇ'}</button></div>`}).join('')}</div>`;}
 function renderRigBuilder(el){
   if(state.stats.totalTaps<20){el.innerHTML='<div class="emptyhint">🔒 Rig Builder, İlk Hash Serisi tamamlandıktan sonra açılır.<br><b>'+state.stats.totalTaps+' / 20 kazım</b></div>';return;}
   const fx=rigEffects(),filled=RIG_SLOTS.filter(s=>state.rigLoadout[s.id]).length,c=rigCompatibility();
@@ -2625,12 +2672,14 @@ function marketNews(n){const p=coinPrice(n);return p>1.18?'Alıcı talebi güçl
 function renderCoinContracts(el){
   if(state.stats.lifetimeCoins<5000){el.innerHTML='<div class="emptyhint">🔒 Coin Kontratları, İlk Sermaye hedefiyle açılır.<br><b>'+fmt(state.stats.lifetimeCoins)+' / 5K coin</b></div>';return;}
   const active=state.coinContract,now=Date.now();
-  const activeCard=active?(()=>{const n=COIN_NETWORKS.find(x=>x.id===active.networkId),ready=now>=active.endsAt,pct=Math.min(100,(now-active.startedAt)/(active.endsAt-active.startedAt)*100),decisionReady=now>=(active.decisionAt||active.startedAt),labels={safe:'Güvenli',accelerate:'Hızlı',risky:'Riskli',secure:'Korumalı'};return `<div class="card"><div class="summaryrow"><div class="hwname">${n.icon} ${n.name} Kontratı</div><span class="riskbadge">${active.decision?labels[active.decision]:'KARAR BEKLİYOR'}</span></div><div class="hwsub">Tahmini ağ payı: ${fmt(active.baseValue)}</div><div class="contract-progress"><div class="pbar"><div style="width:${pct}%"></div></div></div>${!active.decision?`<div class="hwsub" style="margin-top:8px">${decisionReady?'Sunucu olayı başladı. Teslim rotasını seç.':'Karar penceresi '+shortTime((active.decisionAt||now)-now)+' sonra açılır.'}</div><div class="choice-grid"><button class="choicebtn" data-contract-decision="safe" ${decisionReady?'':'disabled'}>🛡️ Güvenli</button><button class="choicebtn" data-contract-decision="accelerate" ${decisionReady?'':'disabled'}>⚡ Hızlandır</button><button class="choicebtn" data-contract-decision="risky" ${decisionReady?'':'disabled'}>🎲 Risk +%35</button><button class="choicebtn" data-contract-decision="secure" ${decisionReady&&state.cash>=2?'':'disabled'}>🔒 2 Kristal</button></div>`:''}<div class="decision-row"><button class="buybtn ${ready?'can':'cant'}" data-contract-collect ${ready?'':'disabled'}>${ready?'PAYI AL':shortTime(active.endsAt-now)}</button><button class="buybtn can" data-contract-exit>ERKEN ÇIK</button></div></div>`})():'';
-  el.innerHTML=`<div class="researchsummary"><div class="summaryrow"><span>COIN AĞLARI</span><span>${active?'1 AKTİF':'HAZIR'}</span></div><div class="screensub" style="margin-top:7px">Her kontratın ortasında güvenlik, süre ve verim arasında bir karar ver.</div><div class="network-wallet">${COIN_NETWORKS.map(n=>`<div class="wallet-chip">${n.icon} ${n.name}<br><b>${fmt(state.coinWallet[n.id]||0)}</b> · x${coinPrice(n).toFixed(2)}</div>`).join('')}</div></div>${activeCard}<div class="contract-grid">${COIN_NETWORKS.map(n=>{const unlocked=n.unlock(),holding=state.coinWallet[n.id]||0,risk=n.volatility<.1?'DÜŞÜK':n.volatility<.2?'ORTA':'YÜKSEK';return `<div class="contract-card ${!unlocked?'locked':''}"><div class="summaryrow"><span class="part-icon">${n.icon}</span><span class="riskbadge">${risk} RİSK</span></div><h4>${n.name}</h4><p>${n.desc} · ${shortTime(n.duration*1000)} · x${coinPrice(n).toFixed(2)}</p><svg class="price-chart" viewBox="0 0 100 42" preserveAspectRatio="none"><polyline points="${priceChartPoints(n.id)}"/></svg><div class="market-news">${marketNews(n)}</div><div class="decision-row"><button class="choicebtn" data-contract-start="${n.id}" ${!unlocked||active?'disabled':''}>KONTRAT</button><button class="choicebtn alt" data-coin-sell="${n.id}" ${holding<=0?'disabled':''}>SAT · ${fmt(holding*coinPrice(n))}</button></div></div>`}).join('')}</div>`;
+  const activeCard=active?(()=>{const n=COIN_NETWORKS.find(x=>x.id===active.networkId),ready=now>=active.endsAt,pct=Math.min(100,(now-active.startedAt)/(active.endsAt-active.startedAt)*100),decisionReady=now>=(active.decisionAt||active.startedAt),labels={safe:'Güvenli',accelerate:'Hızlı',risky:'Riskli',secure:'Korumalı'};return `<div class="card"><div class="summaryrow"><div class="hwname">${n.icon} ${n.name} Kontratı</div><span class="riskbadge">${active.decision?labels[active.decision]:'KARAR BEKLİYOR'}</span></div><div class="hwsub">Tahmini ağ payı: ${fmt(active.baseValue*networkReputationFactor(n.id))} · İtibar x${networkReputationFactor(n.id).toFixed(2)}</div><div class="contract-progress"><div class="pbar"><div style="width:${pct}%"></div></div></div>${!active.decision?`<div class="hwsub" style="margin-top:8px">${decisionReady?'Sunucu olayı başladı. Teslim rotasını seç.':'Karar penceresi '+shortTime((active.decisionAt||now)-now)+' sonra açılır.'}</div><div class="choice-grid"><button class="choicebtn" data-contract-decision="safe" ${decisionReady?'':'disabled'}>🛡️ Güvenli</button><button class="choicebtn" data-contract-decision="accelerate" ${decisionReady?'':'disabled'}>⚡ Hızlandır</button><button class="choicebtn" data-contract-decision="risky" ${decisionReady?'':'disabled'}>🎲 Risk +%35</button><button class="choicebtn" data-contract-decision="secure" ${decisionReady&&state.cash>=2?'':'disabled'}>🔒 ${premiumCost(2)}</button></div>`:''}<div class="decision-row"><button class="buybtn ${ready?'can':'cant'}" data-contract-collect ${ready?'':'disabled'}>${ready?'PAYI AL':shortTime(active.endsAt-now)}</button><button class="buybtn can" data-contract-exit>ERKEN ÇIK</button></div></div>`})():'';
+  el.innerHTML=`<div class="researchsummary"><div class="summaryrow"><span>COIN AĞLARI</span><span>${active?'1 AKTİF':'HAZIR'}</span></div><div class="screensub" style="margin-top:7px">Kontratlarla itibar kazan; cüzdan payına otomatik limit satış emri kur.</div><div class="network-wallet">${COIN_NETWORKS.map(n=>`<div class="wallet-chip">${n.icon} ${n.name}<br><b>${fmt(state.coinWallet[n.id]||0)}</b> · x${coinPrice(n).toFixed(2)}<br><small>İtibar Lv.${networkReputationLevel(n.id)}</small></div>`).join('')}</div></div>${activeCard}<div class="contract-grid">${COIN_NETWORKS.map(n=>{const unlocked=n.unlock(),holding=state.coinWallet[n.id]||0,risk=n.volatility<.1?'DÜŞÜK':n.volatility<.2?'ORTA':'YÜKSEK',order=state.limitOrders[n.id];return `<div class="contract-card ${!unlocked?'locked':''}"><div class="summaryrow"><span class="part-icon">${n.icon}</span><span class="riskbadge">${risk} · İTİBAR ${networkReputationLevel(n.id)}</span></div><h4>${n.name}</h4><p>${n.desc} · ${shortTime(n.duration*1000)} · x${coinPrice(n).toFixed(2)} · verim x${networkReputationFactor(n.id).toFixed(2)}</p><svg class="price-chart" viewBox="0 0 100 42" preserveAspectRatio="none"><polyline points="${priceChartPoints(n.id)}"/></svg><div class="market-news">${order?'Limit hedefi x'+order.target.toFixed(2):marketNews(n)}</div><div class="decision-row"><button class="choicebtn" data-contract-start="${n.id}" ${!unlocked||active?'disabled':''}>KONTRAT</button><button class="choicebtn alt" data-coin-sell="${n.id}" ${holding<=0?'disabled':''}>SAT · ${fmt(holding*coinPrice(n))}</button></div>${holding>0?`<div class="choice-grid" style="margin-top:7px">${order?`<button class="choicebtn alt" data-limit-cancel="${n.id}">LİMİTİ İPTAL ET</button>`:[1.05,1.15,1.30].map(x=>`<button class="choicebtn alt" data-limit-order="${n.id}:${x}">x${x.toFixed(2)}</button>`).join('')}</div>`:''}</div>`}).join('')}</div>`;
 }
 function renderOperations(el){
   const m=marketScenario(),fault=state.rigFault,cost=repairCost(),condition=Math.round(state.rigCondition);
   el.innerHTML=`<div class="researchsummary"><div class="summaryrow"><span>OPERASYON MERKEZİ</span><span>${fault?'⚠️ ARIZA':'● ÇEVRİMİÇİ'}</span></div><div class="pbar"><div style="width:${condition}%;background:${condition<35?'var(--red)':condition<65?'var(--gold)':'var(--green)'}"></div></div><div class="screensub" style="margin-top:7px">Rig kondisyonu %${condition} · yüksek ısı ve riskli overclock arıza ihtimalini artırır.</div></div><div class="operation-grid"><div class="operation-card"><h4><span class="statusdot ${state.riskOverclock?'danger':''}"></span>Riskli Overclock</h4><p>Gelir x1.75; ısı ve kondisyon kaybı artar.</p><button class="buybtn ${state.riskOverclock?'cant':'can'}" data-risk-overclock>${state.riskOverclock?'GÜVENLİ MODA DÖN':'RİSKİ AL'}</button></div><div class="operation-card"><h4>${fault?'⚠️ '+fault.name:'🔧 Bakım Sistemi'}</h4><p>${fault?fault.desc:'Rig şu anda stabil çalışıyor.'}</p><button class="buybtn ${fault||condition<95?'can':'cant'}" data-repair-rig ${fault||condition<95?'':'disabled'}>${fmt(cost)} COIN · ONAR</button></div><div class="operation-card wide"><h4>${m?m.icon+' '+m.name:'📊 Piyasa Takibi'}</h4><p>${m?m.desc+' · '+Math.ceil((state.marketScenario.endsAt-Date.now())/1000)+'sn':'Yeni piyasa hareketi bekleniyor.'}</p>${m&&(m.income<1||m.electricity>1)?'<button class="buybtn can" data-hedge-market>3 🔷 · RİSKİ KORU</button>':'<div class="staffbonus">Olumlu olaylarda üretime devam et.</div>'}</div></div><div class="hwname" style="margin:14px 0 7px">AKTİF OPERASYON BECERİLERİ</div><div class="operation-grid">${OPERATION_SKILLS.map(s=>{const cd=operationSkillCooldown(s.id),active=state.activeOperationSkills.find(a=>a.id===s.id&&a.endsAt>Date.now());return `<div class="operation-card"><h4>${s.icon} ${s.name}</h4><p>${s.desc}</p><button class="buybtn ${!cd&&!active?'can':'cant'}" data-operation-skill="${s.id}" ${cd||active?'disabled':''}>${active?'AKTİF · '+shortTime(active.endsAt-Date.now()):cd?'BEKLE · '+shortTime(cd):'ETKİNLEŞTİR'}</button></div>`}).join('')}</div>`;
+  const incident=OPERATION_INCIDENTS.find(x=>x.id===state.operationIncident?.id),shieldCost=preventiveMaintenanceCost();
+  el.innerHTML+=`<div class="hwname" style="margin:14px 0 7px">AKILLI BAKIM & OLAYLAR</div><div class="operation-grid"><div class="operation-card"><h4>🛡️ Koruyucu Bakım</h4><p>Sıradaki donanım arızasını engeller ve kondisyonu destekler.</p><button class="buybtn ${state.maintenanceShield?'cant':state.coins>=shieldCost?'can':'cant'}" data-maintenance-shield ${state.maintenanceShield?'disabled':''}>${state.maintenanceShield?'KALKAN HAZIR':fmt(shieldCost)+' COIN'}</button></div>${incident?`<div class="operation-card wide"><h4>${incident.icon} ${incident.title}</h4><p>${incident.desc}</p><div class="choice-grid">${incident.choices.map(c=>`<button class="choicebtn" data-incident-choice="${c[0]}"><b>${c[1]}</b><small style="display:block">${c[2]}</small></button>`).join('')}</div></div>`:`<div class="operation-card"><h4>📡 Operasyon Radarı</h4><p>Yeni olay yaklaşık ${shortTime(Math.max(0,state.nextOperationIncidentAt-Date.now()))} sonra bekleniyor.</p><div class="staffbonus">${state.stats.incidentsResolved} karar çözüldü</div></div>`}</div>`;
   el.innerHTML+=`<div class="hwname" style="margin:14px 0 7px">OFFLINE SEFER PLANI</div><div class="screensub">Oyundan çıkmadan önce bir vardiya planı seç. Bir sonraki offline dönüşünde uygulanır.</div><div class="strategy-grid" style="margin-top:8px">${Object.values(OFFLINE_EXPEDITIONS).map(x=>`<div class="strategy-card ${state.offlineExpedition===x.id?'active':''}"><div class="strategy-head"><div class="hwname">${x.icon} ${x.name}</div><span class="lvltag">Gelir x${x.income}</span></div><div class="strategy-bonuses">${x.desc}</div><button class="buybtn ${state.offlineExpedition===x.id?'cant':'can'}" data-expedition="${x.id}" ${state.offlineExpedition===x.id?'disabled':''}>${state.offlineExpedition===x.id?'HAZIR':'PLANI SEÇ'}</button></div>`).join('')}</div>`;
 }
 function renderBalanceLab(el){
@@ -2640,7 +2689,7 @@ function renderBalanceLab(el){
   const f=t.funnels||{},since=at=>at?((at-state.createdAt)/60000).toFixed(1)+' dk':'—';el.innerHTML=`<div class="researchsummary"><div class="summaryrow"><span>GELİŞTİRİCİ DENGE LABORATUVARI</span><span>v2.1</span></div><div class="screensub">Telemetri önce cihazda tutulur; yayın adaptörleri kimlik verildiğinde devreye girer.</div></div><div class="telemetry-grid"><div class="telemetry-box"><strong>${elapsed.toFixed(1)} dk</strong><small>Mevcut koşu</small></div><div class="telemetry-box"><strong>${projected?projected.toFixed(1):'—'} dk</strong><small>Tahmini prestij</small></div><div class="telemetry-box"><strong>${fmt(avgCps)}</strong><small>Ortalama coin/sn</small></div><div class="telemetry-box"><strong>${sinceUpgrade.toFixed(1)} dk</strong><small>Son yükseltmeden beri</small></div><div class="telemetry-box"><strong>${avgPrestige?avgPrestige.toFixed(1):'—'} dk</strong><small>Gerçek prestij ort.</small></div><div class="telemetry-box"><strong>${samples.length}</strong><small>Telemetri örneği</small></div></div><div class="card"><div class="hwname">İLK OTURUM HUNİSİ</div><div class="telemetry-grid" style="margin-top:8px"><div class="telemetry-box"><strong>${since(f.firstUpgradeAt)}</strong><small>İlk yükseltme</small></div><div class="telemetry-box"><strong>${since(f.firstLocationAt)}</strong><small>İlk mekân</small></div><div class="telemetry-box"><strong>${since(f.firstPrestigeAt)}</strong><small>İlk prestij</small></div></div></div><div class="card"><div class="hwname">AKTİF OYUNCU SENARYOLARI</div><div class="screensub">Mevcut güç korunursa kalan hedef için tahmini süre. %72 sürdürülebilir dokunuş verimi kullanılır.</div><div class="telemetry-grid" style="margin-top:8px">${scenarios.map(s=>`<div class="telemetry-box"><strong>${s.min>999?'999+':s.min.toFixed(1)} dk</strong><small>${s.tps} dokunuş/sn</small></div>`).join('')}</div></div>${notes.map(n=>`<div class="balance-note">${n}</div>`).join('')}<button class="buybtn can" style="width:100%;margin-top:10px" data-export-balance>DENGE RAPORUNU DIŞA AKTAR</button>`;
 }
 function exportBalanceReport(){
-  const report={exportedAt:new Date().toISOString(),version:'2.2.0',services:PRODUCTION_SERVICES,economy:{coins:state.coins,lifetimeCoins:state.stats.lifetimeCoins,cps:totalPassiveIncome(),tapPower:tapPower(),heat:state.heat,rigCondition:state.rigCondition,prestigeCount:state.stats.prestigeCount,vaultKeys:state.vaultKeys,build:state.buildPath},hardware:state.hardware,location:LOCATIONS[state.locationIndex].id,contracts:{prices:state.coinPrices,history:state.contractHistory},telemetry:state.telemetry};
+  const report={exportedAt:new Date().toISOString(),version:'2.3.0',services:PRODUCTION_SERVICES,economy:{coins:state.coins,lifetimeCoins:state.stats.lifetimeCoins,cps:totalPassiveIncome(),tapPower:tapPower(),heat:state.heat,rigCondition:state.rigCondition,prestigeCount:state.stats.prestigeCount,vaultKeys:state.vaultKeys,build:state.buildPath},hardware:state.hardware,location:LOCATIONS[state.locationIndex].id,contracts:{prices:state.coinPrices,history:state.contractHistory},telemetry:state.telemetry};
   const blob=new Blob([JSON.stringify(report,null,2)],{type:'application/json'}),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download='idle-crypto-balance-'+Date.now()+'.json';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);toast('📊 Denge raporu hazırlandı');
 }
 function renderCards(el){
@@ -2657,11 +2706,11 @@ function renderChests(el){
 }
 function renderBoostMarket(el){
   const now=Date.now();
-  const intro=document.createElement('div');intro.className='screensub';intro.textContent='Boostları nakitle etkinleştir veya reklam izle. Bugünkü reklam hakkı: '+rewardedAdRemaining('boost')+'/2';el.appendChild(intro);
+  const intro=document.createElement('div');intro.className='screensub';intro.textContent='Boostları '+PREMIUM_CURRENCY.name+' ile etkinleştir veya reklam izle. Bugünkü reklam hakkı: '+rewardedAdRemaining('boost')+'/2';el.appendChild(intro);
   BOOSTS.forEach(b=>{
     const active=state.activeBoosts.some(x=>x.id===b.id&&x.endsAt>now),cost=boostCashCost(b.id),adsLeft=rewardedAdRemaining('boost');
     const card=document.createElement('div');card.className='card';
-    card.innerHTML=`<div class="hwrow"><div class="hwicon" style="color:${b.color}">${b.icon}</div><div class="hwinfo"><div class="hwname">${b.name}${active?'<span class="lvltag">AKTİF</span>':''}</div><div class="hwsub">${b.desc} · ${b.duration}sn</div><div class="staffbonus">Isı ${b.heat>0?'+':''}${b.heat}</div></div></div><div class="purchase-actions"><button class="buybtn ${state.cash>=cost?'can':'cant'}" data-boost-buy="${b.id}">${cost} 💵<br><small>${active?'YENİLE':'AKTİF ET'}</small></button><button class="buybtn adbtn" data-boost-ad="${b.id}" ${adsLeft<=0?'disabled':''}>📺<br><small>${adsLeft>0?'REKLAM İZLE':'GÜNLÜK LİMİT'}</small></button></div>`;
+    card.innerHTML=`<div class="hwrow"><div class="hwicon" style="color:${b.color}">${b.icon}</div><div class="hwinfo"><div class="hwname">${b.name}${active?'<span class="lvltag">AKTİF</span>':''}</div><div class="hwsub">${b.desc} · ${b.duration}sn</div><div class="staffbonus">Isı ${b.heat>0?'+':''}${b.heat}</div></div></div><div class="purchase-actions"><button class="buybtn ${state.cash>=cost?'can':'cant'}" data-boost-buy="${b.id}">${premiumCost(cost)}<br><small>${active?'YENİLE':'AKTİF ET'}</small></button><button class="buybtn adbtn" data-boost-ad="${b.id}" ${adsLeft<=0?'disabled':''}>📺<br><small>${adsLeft>0?'REKLAM İZLE':'GÜNLÜK LİMİT'}</small></button></div>`;
     el.appendChild(card);
   });
 }
@@ -2682,7 +2731,7 @@ function renderLocations(el){
         <div class="hwsub">${loc.desc}</div>
         <div class="locmult">Income Multiplier x${loc.mult}</div>
         <div class="staffbonus">⚡ ${locationBonusLabel(loc.id)}</div>
-        ${unlocked?`<div class="summaryrow" style="margin-top:8px"><span>Ustalık Lv.${masteryLevel}</span><b>${Math.floor(mastery.xp)} / ${masteryLevel>=4?'MAX':nextMastery}</b></div><div class="pbar"><div style="width:${masteryLevel>=4?100:Math.min(100,mastery.xp/nextMastery*100)}%"></div></div>${locationGoals(loc.id).map(g=>`<div class="mastery-row"><div class="mastery-level">${g.id==='taps'?'⛏️':g.id==='coins'?'🪙':'⚔️'}</div><div><b>${g.name}</b><div class="hwsub">${fmt(Math.min(g.value,g.target))} / ${fmt(g.target)}</div></div><button class="buybtn ${g.value>=g.target&&!mastery.claimed.includes(g.id)?'can':'cant'}" data-location-goal="${loc.id}:${g.id}" ${g.value<g.target||mastery.claimed.includes(g.id)?'disabled':''}>${mastery.claimed.includes(g.id)?'✓':g.xp+' TP'}</button></div>`).join('')}<div class="system-card" style="margin-top:8px"><h4>${boss.icon} ${boss.name}</h4><p>3 faz: ${boss.phases.map(a=>({tap:'Kazım',cool:'Soğutma',skill:'Beceri',upgrade:'Yükseltme'}[a])).join(' → ')}</p><button class="buybtn ${!state.bossContract||bossActive?'can':'cant'}" style="width:100%;margin-top:7px" data-location-boss="${loc.id}" ${state.bossContract?'disabled':''}>${bossActive?'DEVAM EDİYOR':'BOSS BAŞLAT'}</button></div>`:''}
+        ${unlocked?`<div class="summaryrow" style="margin-top:8px"><span>Ustalık Lv.${masteryLevel}</span><b>${Math.floor(mastery.xp)} / ${masteryLevel>=4?'MAX':nextMastery}</b></div><div class="pbar"><div style="width:${masteryLevel>=4?100:Math.min(100,mastery.xp/nextMastery*100)}%"></div></div>${locationGoals(loc.id).map(g=>`<div class="mastery-row"><div class="mastery-level">${g.id==='taps'?'⛏️':g.id==='coins'?'🪙':'⚔️'}</div><div><b>${g.name}</b><div class="hwsub">${fmt(Math.min(g.value,g.target))} / ${fmt(g.target)}</div></div><button class="buybtn ${g.value>=g.target&&!mastery.claimed.includes(g.id)?'can':'cant'}" data-location-goal="${loc.id}:${g.id}" ${g.value<g.target||mastery.claimed.includes(g.id)?'disabled':''}>${mastery.claimed.includes(g.id)?'✓':g.xp+' TP'}</button></div>`).join('')}<div class="system-card" style="margin-top:8px"><h4>${boss.icon} ${boss.name}</h4><p>3 faz: ${boss.phases.map(a=>({tap:'Kazım',cool:'Soğutma',skill:'Beceri',upgrade:'Yükseltme'}[a])).join(' → ')}</p>${isCurrent&&!state.bossContract?`<div class="choice-grid">${Object.values(BOSS_PROTOCOLS).map(p=>`<button class="choicebtn ${state.bossProtocol===p.id?'selected':''}" data-boss-protocol="${p.id}">${p.icon} ${p.name}</button>`).join('')}</div>`:''}<button class="buybtn ${!state.bossContract||bossActive?'can':'cant'}" style="width:100%;margin-top:7px" data-location-boss="${loc.id}" ${state.bossContract?'disabled':''}>${bossActive?'DEVAM EDİYOR':'BOSS BAŞLAT · '+BOSS_PROTOCOLS[state.bossProtocol].name}</button></div><button class="buybtn ${(state.locationLinks||[]).includes(loc.id)?'cant':state.cash>=locationLinkCost(loc.id)?'can':'cant'}" style="width:100%;margin-top:8px" data-location-link="${loc.id}" ${(state.locationLinks||[]).includes(loc.id)?'disabled':''}>${(state.locationLinks||[]).includes(loc.id)?'🔗 ANA AĞA BAĞLI':'🔗 BAĞLA · '+premiumCost(locationLinkCost(loc.id))}</button>`:''}
         ${!loc.soon?`<button class="buybtn ${unlocked?(isCurrent?'cant':'can'):(affordable?'can':'cant')}" style="width:100%;margin-top:8px" ${loc.soon?'disabled':''} data-loc="${idx}">
           ${unlocked?(isCurrent?'CURRENT LOCATION':'TRAVEL HERE'):('UNLOCK — '+fmt(cost))}
         </button>`:''}
@@ -2810,6 +2859,13 @@ function renderStats(el){
     ['Story Chapters', st.storyChapters+' / '+STORY_CHAPTERS.length],
     ['Crew Quests', st.crewQuestsCompleted+' / '+CREW_QUESTS.length],
     ['Prestige Route', PRESTIGE_ROUTES.find(r=>r.id===state.prestigeRoute)?.name||'-'],
+    ['Termal optimum süre', Math.floor(st.thermalOptimalSeconds/60)+' dk'],
+    ['Perfect kilometre taşları', st.perfectMilestones+' / '+PERFECT_HASH_MILESTONES.length],
+    ['Limit emirleri', st.limitOrdersFilled],
+    ['Tamamlanan vardiya', st.crewShiftsCompleted],
+    ['Engellenen arıza', st.maintenanceBlocks],
+    ['Bağlı mekân', (state.locationLinks||[]).length+' / '+LOCATIONS.length],
+    ['Operasyon kararları', st.incidentsResolved],
   ];
   const grid = document.createElement('div');
   grid.className='statgrid';
@@ -2896,7 +2952,7 @@ function settingsModal(){
     ${toggle('music','Müzik')}${toggle('sfx','Ses Efektleri')}${toggle('vibration','Titreşim')}${toggle('notifications','Bildirimler')}${toggle('smartGuide','Akıllı Rehber')}
     <div class="settingrow"><span>Grafik Kalitesi</span><b id="gfxVal" style="text-transform:capitalize">${s.graphics}</b></div>
     <div class="settingrow"><span>Dil</span><button class="buybtn can" data-lang-toggle>${s.lang==='tr'?'Türkçe':'English'}</button></div>
-    <div class="settingrow"><span>Sürüm</span><b>2.2.0</b></div>
+    <div class="settingrow"><span>Sürüm</span><b>2.3.0</b></div>
     <button class="modalbtn secondary" data-privacy>GİZLİLİK VE VERİ GÜVENLİĞİ</button>
     <button class="modalbtn secondary" data-production>YAYIN ENTEGRASYON DURUMU</button>
     <button class="modalbtn secondary" id="exportSave">KAYIT YEDEĞİNİ İNDİR</button>
@@ -2907,7 +2963,7 @@ function settingsModal(){
 }
 function privacyModal(){return `<button class="modalclose" data-close>✕</button><div class="modaltitle">🛡️ Gizlilik ve Veri Güvenliği</div><div class="modalsub">Oyun ilerlemesi ve denge telemetrisi cihazında tutulur. Oyun gerçek kripto üretmez ve finansal veri istemez.</div><div class="modalrow"><span>Yerel kayıt</span><b>AKTİF</b></div><div class="modalrow"><span>Kişisel veri toplama</span><b>YOK</b></div><div class="modalrow"><span>Ödüllü reklam</span><b>İSTEĞE BAĞLI</b></div><div class="modalrow"><span>Bulut kayıt</span><b>YAYIN KİMLİĞİ GEREKLİ</b></div><button class="modalbtn primary" data-close>ANLADIM</button>`;}
 function productionModal(){const native=Capacitor.isNativePlatform();return `<button class="modalclose" data-close>✕</button><div class="modaltitle">🚀 Yayın Hazırlığı</div><div class="modalsub">Kod tarafındaki adaptörler hazırdır. Gerçek servisler için Play Console, Firebase ve imzalama kimlikleri gereklidir.</div><div class="modalrow"><span>Android çalışma ortamı</span><b>${native?'HAZIR':'WEB ÖN İZLEME'}</b></div><div class="modalrow"><span>Ödüllü reklam köprüsü</span><b>HAZIR</b></div><div class="modalrow"><span>Analytics / Crash</span><b>ADAPTÖR HAZIR</b></div><div class="modalrow"><span>Remote Config / Cloud Save</span><b>ADAPTÖR HAZIR</b></div><div class="modalrow"><span>Satın alma arayüzü</span><b>${PRODUCTION_SERVICES.billing==='native'?'NATIVE KÖPRÜ':'TEST MODU'}</b></div><button class="modalbtn primary" data-close>KAPAT</button>`;}
-function exportSaveBackup(){saveGame();const payload={game:'Idle Crypto Miner',version:21,exportedAt:new Date().toISOString(),state},blob=new Blob([JSON.stringify(payload)],{type:'application/json'}),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download='idle-crypto-miner-save.json';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);toast('💾 Kayıt yedeği indirildi');}
+function exportSaveBackup(){saveGame();const payload={game:'Idle Crypto Miner',version:23,exportedAt:new Date().toISOString(),state},blob=new Blob([JSON.stringify(payload)],{type:'application/json'}),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download='idle-crypto-miner-save.json';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);toast('💾 Kayıt yedeği indirildi');}
 function importSaveModal(){return `<button class="modalclose" data-close>✕</button><div class="modaltitle">💾 Kayıttan Geri Yükle</div><div class="modalsub">Yedek dosyasındaki JSON metnini aşağıya yapıştır.</div><textarea id="saveImportText" style="width:100%;height:130px;border-radius:12px;background:var(--bg);color:var(--text);border:1px solid rgba(255,255,255,.1);padding:10px;font-size:10px"></textarea><button class="modalbtn primary" id="importSave">YEDEĞİ DOĞRULA VE YÜKLE</button>`;}
 function importSaveBackup(){try{const raw=document.getElementById('saveImportText').value,parsed=JSON.parse(raw),incoming=parsed.state||parsed;if(!incoming||typeof incoming!=='object'||!('coins' in incoming))throw new Error('invalid');const paid={...state.entitlements,...incoming.entitlements},purchases=[...new Set([...(state.purchases||[]),...(incoming.purchases||[])])];state=migrate(incoming);state.entitlements=paid;state.purchases=purchases;saveGame();closeModal();buildScene();renderAll();toast('✅ Kayıt başarıyla geri yüklendi');}catch(e){toast('Geçersiz veya bozuk yedek');}}
 function applyLanguage(){
@@ -3117,6 +3173,7 @@ function wireEvents(){
   document.getElementById('empireContent').addEventListener('click', (e)=>{
     let strategy=e.target.closest('[data-build-path]');if(strategy){if(selectBuildPath(strategy.dataset.buildPath)){renderEmpire();refreshHUD();}return;}
     strategy=e.target.closest('[data-hash-route]');if(strategy){if(selectHashRouting(strategy.dataset.hashRoute)){renderEmpire();refreshHUD();}return;}
+    strategy=e.target.closest('[data-perfect-milestone]');if(strategy){if(claimPerfectMilestone(strategy.dataset.perfectMilestone)){renderEmpire();refreshHUD();}return;}
     let action=e.target.closest('[data-rig-buy]');if(action){if(buyRigPart(action.dataset.rigBuy)){renderEmpire();refreshHUD();}return;}
     action=e.target.closest('[data-rig-equip]');if(action){if(equipRigPart(action.dataset.rigEquip)){renderEmpire();refreshHUD();}return;}
     action=e.target.closest('[data-contract-start]');if(action){if(startCoinContract(action.dataset.contractStart)){renderEmpire();refreshHUD();}return;}
@@ -3124,6 +3181,8 @@ function wireEvents(){
     action=e.target.closest('[data-contract-exit]');if(action){if(exitCoinContractEarly()){renderEmpire();refreshHUD();}return;}
     action=e.target.closest('[data-contract-decision]');if(action){if(chooseContractDecision(action.dataset.contractDecision)){renderEmpire();refreshHUD();}return;}
     action=e.target.closest('[data-coin-sell]');if(action){if(sellCoinHolding(action.dataset.coinSell)){renderEmpire();refreshHUD();}return;}
+    action=e.target.closest('[data-limit-order]');if(action){const [id,mult]=action.dataset.limitOrder.split(':');if(setLimitOrder(id,mult)){renderEmpire();refreshHUD();}return;}
+    action=e.target.closest('[data-limit-cancel]');if(action){if(cancelLimitOrder(action.dataset.limitCancel)){renderEmpire();refreshHUD();}return;}
     action=e.target.closest('[data-cosmetic]');if(action){if(buyOrEquipCosmetic(action.dataset.cosmetic)){renderEmpire();refreshHUD();}return;}
     action=e.target.closest('[data-route-select]');if(action){if(selectPrestigeRoute(action.dataset.routeSelect)){renderEmpire();refreshHUD();}return;}
     action=e.target.closest('[data-route-node]');if(action){const [route,id,cost]=action.dataset.routeNode.split(':');if(buyRouteNode(route,id,Number(cost))){renderEmpire();refreshHUD();}return;}
@@ -3132,6 +3191,8 @@ function wireEvents(){
     if(btn){ unlockLocation(parseInt(btn.dataset.loc,10)); renderEmpire(); refreshHUD(); return; }
     btn=e.target.closest('[data-location-goal]');if(btn){const [id,goal]=btn.dataset.locationGoal.split(':');if(claimLocationGoal(id,goal)){renderEmpire();refreshHUD();}return;}
     btn=e.target.closest('[data-location-boss]');if(btn){if(startLocationBoss(btn.dataset.locationBoss)){renderEmpire();refreshHUD();}return;}
+    btn=e.target.closest('[data-boss-protocol]');if(btn){if(selectBossProtocol(btn.dataset.bossProtocol)){renderEmpire();refreshHUD();}return;}
+    btn=e.target.closest('[data-location-link]');if(btn){if(linkLocation(btn.dataset.locationLink)){renderEmpire();refreshHUD();}return;}
     btn=e.target.closest('[data-expedition]');if(btn){if(selectOfflineExpedition(btn.dataset.expedition)){renderEmpire();refreshHUD();}return;}
     btn = e.target.closest('[data-boost-buy]');
     if(btn){if(buyBoost(btn.dataset.boostBuy)){renderEmpire();refreshHUD();}return;}
@@ -3171,6 +3232,10 @@ function wireEvents(){
     if(btn){if(activateOperationSkill(btn.dataset.operationSkill)){renderEmpire();refreshHUD();}return;}
     btn=e.target.closest('[data-repair-rig]');
     if(btn){if(repairRig()){renderEmpire();refreshHUD();}return;}
+    btn=e.target.closest('[data-maintenance-shield]');
+    if(btn){if(buyMaintenanceShield()){renderEmpire();refreshHUD();}return;}
+    btn=e.target.closest('[data-incident-choice]');
+    if(btn){if(resolveOperationIncident(btn.dataset.incidentChoice)){renderEmpire();refreshHUD();}return;}
     btn=e.target.closest('[data-hedge-market]');
     if(btn){if(hedgeMarket()){renderEmpire();refreshHUD();}return;}
     btn=e.target.closest('[data-export-balance]');

@@ -1,5 +1,14 @@
 # Idle Crypto Miner
 
+## v2.3 gameplay systems
+
+- Unified every premium purchase under Data Kristali (`🔷`)
+- Thermal efficiency window and Perfect Hash milestone rewards
+- Coin-network reputation plus automatic limit sell orders
+- Crew morale, ten-minute shifts, and repeatable shift rewards
+- Preventive maintenance shields and choice-driven operation incidents
+- Data-linked locations and selectable three-phase boss protocols
+
 ## v2.2 gameplay systems
 
 - Moving Perfect Hash timing zone, streaks, and Mega Hash
