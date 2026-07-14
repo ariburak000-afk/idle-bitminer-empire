@@ -84,7 +84,7 @@ npm run build
 - Kritik ısıda etkileşimli soğutma acil olayı
 - Donanım seviyesine göre odada açılan monitör, LED ve sunucu detayları
 - WebAudio madencilik efektleri, ortam uğultusu ve titreşim geri bildirimi
-- Yoğun aktif oyuncu için yaklaşık 33 dakikalık ilk prestij hedefi (`2B lifetime coin`)
+- Yoğun aktif oyuncu için yaklaşık 40 dakikalık ilk prestij hedefi (`6B toplam coin`)
 - Ön koşullu 20 düğümlü Kuantum yetenek ağacı ve beş prestij uzmanlığı
 - Boğa/ayı piyasası, enerji krizi ve volatilite olayları
 - Riskli overclock, rig kondisyonu, arıza ve onarım kararları
@@ -112,11 +112,11 @@ npm run build
 npm run balance:simulate
 ```
 
-Simülasyon 20 aktif dokunuş/saniye, 21 donanım seçeneği, Perfect Tap katkısı ve otomatik ROI odaklı yükseltme alımıyla ilk prestiji yaklaşık `33.3 dakika` olarak ölçer.
+Simülasyon 20 aktif dokunuş/saniye, 21 donanım seçeneği, Perfect Tap katkısı ve otomatik ROI odaklı yükseltme alımıyla ilk prestiji yaklaşık `40.0 dakika` olarak ölçer.
 
 v1.8 yan sistemleri ana üretimi sınırsız biçimde çarpmaz: kontratlar pasif üretimin yalnızca `%7-%10` bölümünü değerlendirir, hikâye ve rig bonusları küçük kademeler halinde açılır, boss ödülleri ise ağırlıklı olarak kristal, Veri Tozu ve kasa verir. Böylece yeni içerik karar çeşitliliği sağlar; temel prestij eğrisini geçersiz kılmaz.
 
-v1.9 ile kontrat erken çıkışı cezalıdır, kozmetikler hiçbir ekonomik bonus sağlamaz ve yeni prestij rota düğümleri `20-32` Kuantum Çipi maliyetli uzun vadeli hedeflerdir. Temel simülasyon yine `37.2 dakika` sonucunu verir.
+v1.9 ile kontrat erken çıkışı cezalıdır, kozmetikler hiçbir ekonomik bonus sağlamaz ve yeni prestij rota düğümleri `20-32` Kuantum Çipi maliyetli uzun vadeli hedeflerdir. Güncel ilk prestij simülasyonu `40.0 dakika` sonucunu verir.
 
 v2.0 ile dört cooldown'lı operasyon becerisi, Perfect Tap ritmi, 21 yükseltme, 30 araştırma, genişletilmiş görev/başarım zincirleri, sekiz boss, yedi rig yuvası ve Şifre Anahtarı ekonomisi eklendi. Kasa fiyatları `8/24/60` anahtar olarak ayarlandı; her 500 kazım doğrudan kasa yerine 4 anahtar verir.
 

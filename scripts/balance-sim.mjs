@@ -1,4 +1,4 @@
-const target = Number(process.env.PRESTIGE_TARGET || 2_000_000_000);
+const target = Number(process.env.PRESTIGE_TARGET || 6_000_000_000);
 const hardwareCostMultiplier = 4.2;
 const locationCostMultiplier = 1.8;
 const hardware = [

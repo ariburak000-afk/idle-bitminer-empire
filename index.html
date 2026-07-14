@@ -109,10 +109,11 @@ button{font-family:inherit;border:none;background:none;color:inherit;cursor:poin
 
 /* ---------- ACTION AREA ---------- */
 #actionarea{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;padding:6px 16px 4px;min-height:0;}
-#minebtn{width:100%;max-width:280px;height:58px;border-radius:20px;background:linear-gradient(145deg,var(--cyan),var(--blue));box-shadow:0 6px 0 #1866c9, 0 10px 20px rgba(34,211,238,.35);display:flex;flex-direction:column;align-items:center;justify-content:center;font-weight:900;font-size:14px;letter-spacing:.6px;color:#04121f;position:relative;overflow:hidden;transition:transform .08s;}
+#minebtn{width:100%;max-width:280px;height:64px;border-radius:20px;background:linear-gradient(145deg,var(--cyan),var(--blue));box-shadow:0 6px 0 #1866c9, 0 10px 20px rgba(34,211,238,.35);display:flex;flex-direction:column;align-items:center;justify-content:center;font-weight:900;font-size:14px;letter-spacing:.6px;color:#04121f;position:relative;overflow:hidden;transition:transform .08s;}
 #minebtn:active{transform:translateY(4px);box-shadow:0 2px 0 #1866c9, 0 4px 10px rgba(34,211,238,.35);}
-#minebtn .sub{font-size:10px;font-weight:700;opacity:.75;letter-spacing:.5px;margin-top:1px;}
-.hash-timing{width:100%;max-width:280px;margin-top:8px}.hash-timing-head{display:flex;justify-content:space-between;font-size:8px;color:var(--sub);font-weight:800;letter-spacing:.5px}.hash-timing-head b{color:var(--cyan)}.hash-track{height:9px;margin-top:4px;border-radius:8px;background:#07111f;border:1px solid rgba(255,255,255,.08);position:relative;overflow:hidden}.hash-zone{position:absolute;top:1px;height:5px;width:18%;border-radius:6px;background:linear-gradient(90deg,#22c55e,#fbbf24);box-shadow:0 0 10px rgba(34,197,94,.65)}.hash-cursor{position:absolute;top:-2px;width:3px;height:13px;border-radius:3px;background:#fff;box-shadow:0 0 7px #22d3ee;transform:translateX(-50%)}.mega-hash .hash-track{box-shadow:0 0 15px rgba(251,191,36,.75)}.mega-hash #hashTimingStatus{color:var(--gold)}
+#minebtn .minebtn-main{display:flex;align-items:center;justify-content:center;gap:7px;font-size:16px;line-height:1}.minebtn-icon{font-size:18px;filter:drop-shadow(0 2px 1px rgba(0,0,0,.2))}
+#minebtn .sub{font-size:9px;font-weight:800;opacity:.78;letter-spacing:.35px;margin-top:5px;text-transform:uppercase;}
+.hash-timing{width:100%;max-width:280px;margin-top:8px}.hash-timing-head{display:flex;justify-content:space-between;gap:8px;font-size:8px;color:var(--sub);font-weight:800;letter-spacing:.35px}.hash-timing-head span{white-space:nowrap}.hash-timing-head b{color:var(--cyan);text-align:right}.hash-timing[data-quality="perfect"] #hashTimingStatus{color:var(--green);text-shadow:0 0 8px rgba(34,197,94,.45)}.hash-timing[data-quality="good"] #hashTimingStatus{color:var(--gold)}.hash-track{height:9px;margin-top:4px;border-radius:8px;background:#07111f;border:1px solid rgba(255,255,255,.08);position:relative;overflow:hidden}.hash-zone{position:absolute;top:1px;height:5px;width:18%;border-radius:6px;background:linear-gradient(90deg,#22c55e,#fbbf24);box-shadow:0 0 10px rgba(34,197,94,.65)}.hash-cursor{position:absolute;top:-2px;width:3px;height:13px;border-radius:3px;background:#fff;box-shadow:0 0 7px #22d3ee;transform:translateX(-50%)}.mega-hash .hash-track{box-shadow:0 0 15px rgba(251,191,36,.75)}.mega-hash #hashTimingStatus{color:var(--gold)}
 .combowrap{width:100%;max-width:280px;margin-top:8px;}
 .combolbl{display:flex;justify-content:space-between;font-size:10px;color:var(--sub);margin-bottom:3px;}
 .combolbl b{color:var(--purple);}
@@ -349,8 +350,8 @@ button{font-family:inherit;border:none;background:none;color:inherit;cursor:poin
   </div>
 
   <div id="actionarea">
-    <button id="minebtn"><span id="minebtnlabel">HIZLI KAZ</span><span class="sub" id="minebtnsub">+10 coin</span></button>
-    <div class="hash-timing" id="hashTiming"><div class="hash-timing-head"><span>İDEAL HASH ARALIĞI</span><b id="hashTimingStatus">RİTMİ YAKALA</b></div><div class="hash-track"><i class="hash-zone" id="hashZone"></i><i class="hash-cursor" id="hashCursor"></i></div></div>
+    <button id="minebtn" aria-label="Hızlı kaz"><span class="minebtn-main"><span class="minebtn-icon" aria-hidden="true">⛏️</span><span id="minebtnlabel">HIZLI KAZ</span></span><span class="sub" id="minebtnsub">HER DOKUNUŞ +10 COIN</span></button>
+    <div class="hash-timing" id="hashTiming" data-quality="miss"><div class="hash-timing-head"><span>İBRE YEŞİLDEYKEN DOKUN</span><b id="hashTimingStatus">YAKLAŞIYOR</b></div><div class="hash-track"><i class="hash-zone" id="hashZone"></i><i class="hash-cursor" id="hashCursor"></i></div></div>
     <div class="combowrap">
       <div class="combolbl"><span>Combo</span><b id="comboVal">x1.0</b></div>
       <div class="combobar"><div id="comboFill"></div></div>
@@ -1627,7 +1628,7 @@ function heatGainMult(){
 }
 function xpForLevel(lvl){ return Math.floor(100*Math.pow(1.25, lvl-1)); }
 
-const PRESTIGE_TARGET=2000000000;
+const PRESTIGE_TARGET=6000000000;
 function prestigeReady(){ return state.stats.lifetimeCoins >= PRESTIGE_TARGET; }
 function quantumChipsOnReset(){
   const ratio=state.stats.lifetimeCoins/PRESTIGE_TARGET;
@@ -2259,9 +2260,11 @@ function refreshHUD(){
   if(sceneArt.dataset.location!==activeLocation.id){sceneArt.style.opacity='.15';sceneArt.dataset.location=activeLocation.id;sceneArt.onload=()=>{sceneArt.style.opacity='1';applyRoomAnimationLayout();};sceneArt.src=activeLocation.image;}
   const sceneWrap=document.getElementById('scene-wrap'),sceneTheme=LOCATION_EFFECT_THEMES[state.locationIndex]||LOCATION_EFFECT_THEMES[0];
   sceneWrap.dataset.location=LOCATIONS[state.locationIndex].id;sceneWrap.style.setProperty('--scene-accent',sceneTheme.accent);sceneWrap.style.setProperty('--scene-accent-rgb',sceneTheme.rgb);sceneWrap.style.setProperty('--scene-secondary',sceneTheme.secondary);sceneWrap.style.setProperty('--scene-secondary-rgb',sceneTheme.secondaryRgb);
-  document.getElementById('minebtnsub').textContent = '+'+fmt(tapPower())+' coins';
+  const isTurkish=state.settings.lang!=='en',tapLabel=fmt(tapPower());
+  document.getElementById('minebtnsub').textContent = isTurkish?'HER DOKUNUŞ +'+tapLabel+' COIN':'EACH TAP +'+tapLabel+' COINS';
+  document.getElementById('minebtn').setAttribute('aria-label',isTurkish?'Hızlı kaz, her dokunuş '+tapLabel+' coin':'Fast mine, '+tapLabel+' coins per tap');
   document.getElementById('actionarea').classList.toggle('turbo-ready',(state.turboCharge||0)>=80&&!turboMiningActive());
-  const timing=hashTiming(),zone=document.getElementById('hashZone'),cursor=document.getElementById('hashCursor'),timingBox=document.getElementById('hashTiming');zone.style.left=Math.max(0,Math.min(82,(timing.center-.09)*100))+'%';cursor.style.left=(timing.cursor*100)+'%';document.getElementById('hashTimingStatus').textContent=Date.now()<(state.megaHashEndsAt||0)?'MEGA HASH':Date.now()<(state.hashChainBurstEndsAt||0)?'ZİNCİR BONUSU':timing.quality==='perfect'?'PERFECT · '+(state.hashChain||0):timing.quality==='good'?'ZİNCİR '+(state.hashChain||0)+'/50':'RİTMİ YAKALA';timingBox.classList.toggle('mega-hash',Date.now()<(state.megaHashEndsAt||0)||Date.now()<(state.hashChainBurstEndsAt||0));
+  const timing=hashTiming(),zone=document.getElementById('hashZone'),cursor=document.getElementById('hashCursor'),timingBox=document.getElementById('hashTiming');zone.style.left=Math.max(0,Math.min(82,(timing.center-.09)*100))+'%';cursor.style.left=(timing.cursor*100)+'%';timingBox.dataset.quality=timing.quality;document.getElementById('hashTimingStatus').textContent=Date.now()<(state.megaHashEndsAt||0)?'MEGA HASH · x2':Date.now()<(state.hashChainBurstEndsAt||0)?'ZİNCİR BONUSU · +%25':timing.quality==='perfect'?(isTurkish?'ŞİMDİ DOKUN · x1.5':'TAP NOW · x1.5'):timing.quality==='good'?(isTurkish?'YAKLAŞIYOR':'GET READY'):(isTurkish?'YEŞİL ALANI BEKLE':'WAIT FOR GREEN');timingBox.classList.toggle('mega-hash',Date.now()<(state.megaHashEndsAt||0)||Date.now()<(state.hashChainBurstEndsAt||0));
   const rareBtn=document.getElementById('rareBlockBtn');rareBtn.style.display=state.rareBlock?'block':'none';if(state.rareBlock)rareBtn.textContent='🧊 NADİR BLOK '+state.rareBlock.hp+'/'+state.rareBlock.maxHp+' · '+Math.ceil((state.rareBlock.endsAt-Date.now())/1000)+'sn';
   sceneWrap.classList.toggle('combo-hot',state.combo>=10);sceneWrap.classList.toggle('combo-max',state.combo>=20);applyCosmetic();
 
@@ -2852,7 +2855,7 @@ function renderPrestige(el){
     <div style="font-weight:800;font-size:16px;margin-top:6px">Ağı Yeniden Başlat</div>
     <div class="hwsub" style="margin:6px 0 0">Madencilik ağını sıfırla, kalıcı Kuantum Çipleri kazan.</div>
     <div class="big">+${gained} 💎</div>
-    <div class="hwsub">İlk hedef: 2B lifetime coin · simülasyonda yaklaşık 37 dakika aktif oyun</div>
+    <div class="hwsub">İlk hedef: 6B toplam coin · 20 dokunuş/sn simülasyonunda yaklaşık 40 dakika aktif oyun</div>
     <div class="system-grid"><div class="system-card"><h4>🧬 Aktif Mutasyon</h4><p>${mutation().icon} ${mutation().name}<br>${mutation().desc}</p></div><div class="system-card"><h4>💠 Prestij Enerjisi</h4><p>%${Math.floor(state.prestigeEnergy/10)} şarj · çip kazancına en fazla +%25 katkı</p></div><div class="system-card wide"><h4>Kalıcı Mutasyon Rozetleri</h4><div class="system-pills">${state.mutationBadges.length?state.mutationBadges.map(id=>`<span class="system-pill">${PRESTIGE_MUTATIONS[id].icon} ${PRESTIGE_MUTATIONS[id].name} x${state.mutationMastery[id]||0}</span>`).join(''):'Henüz rozet yok'}</div></div></div>
     <div style="text-align:left;margin-top:14px">
       <div class="modalrow"><span>Mevcut Kuantum Çipi</span><b>${fmt(state.quantumChips)}</b></div>
@@ -3073,7 +3076,7 @@ function resetConfirmModal(){
 ========================================================= */
 const TUTORIAL_STEPS = [
  {text:'Hoş geldin madenci! Önce küçük ağımızı çalıştıralım.',target:null},
- {text:'HIZLI KAZ düğmesine dokunarak ilk sermayeni oluştur.',target:'#minebtn'},
+ {text:'HIZLI KAZ düğmesine dokunarak coin üret. İbre yeşil alandayken basarsan x1.5 zamanlama bonusu kazanırsın.',target:'#minebtn'},
  {text:'Yükselt ekranından ilk işlemcini geliştir. Pasif üretim sen dokunmasan da çalışır.',target:'[data-screen="upgrades"]'},
  {text:'Üstte coin, kristal, Kuantum Çipi, gelir ve ısı durumunu takip edebilirsin.',target:'#incomebar'},
  {text:'Şimdilik bu kadar. Yeni sistemler hedefleri tamamladıkça tek tek tanıtılacak.',target:'#nextGoalPanel'}
